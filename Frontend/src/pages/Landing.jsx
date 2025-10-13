@@ -1,4 +1,4 @@
-import './Landing.scss';
+import '../scss/landing.scss';
 import { useState } from 'react';  
 
 const Landing = () => {
