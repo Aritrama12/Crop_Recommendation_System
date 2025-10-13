@@ -1,7 +1,7 @@
 
 import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import Landing from './pages/LandingPage/Landing'
+import Landing from './pages/Landing'
 import Dashboard from './pages/Dashboard'
 import Recommendation from './pages/Recommendation'
 import Weather from './pages/Weather'
