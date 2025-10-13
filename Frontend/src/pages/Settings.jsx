@@ -1,5 +1,5 @@
 import React from 'react'
-import Sidebar from './Sidebar'
+import Sidebar from '../components/Sidebar'
 import "../scss/settings.scss"
 export default function Settings() {
   return (

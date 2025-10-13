@@ -2,13 +2,13 @@
 import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Landing from './pages/LandingPage/Landing'
-import Dashboard from './components/Dashboard'
-import Recommendation from './components/Recommendation'
-import Weather from './components/Weather'
-import Soilanalysis from './components/Soilanalysis'
-import Analytics from './components/Analytics'
-import Profile from './components/Profile'
-import Settings from './components/Settings'
+import Dashboard from './pages/Dashboard'
+import Recommendation from './pages/Recommendation'
+import Weather from './pages/Weather'
+import Soilanalysis from './pages/Soilanalysis'
+import Analytics from './pages/Analytics'
+import Profile from './pages/Profile'
+import Settings from './pages/Settings'
 
 
 
