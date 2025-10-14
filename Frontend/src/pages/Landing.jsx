@@ -9,8 +9,9 @@ const Landing = () => {
       <header className="tagline">Powered by AI & Machine Learning</header>
 
       {/* Hero Section */}
+
       <section className="hero">
-        <h1>Smart Farming Made Simple</h1>
+        <h1>Smart Farming <br/>Made Simple</h1>
         <p>
           Get AI-powered crop recommendations, weather insights, and analytics 
           to maximize your harvest and profits.

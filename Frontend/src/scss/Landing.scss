@@ -2,22 +2,35 @@
   font-family: 'Poppins', sans-serif;
   color: #1a1a1a;
   text-align: center;
+  justify-content: center;
   background: linear-gradient(to bottom right, #f7f8fc, #eef1f8);
   min-height: 100vh;
+  padding: 2rem;
 
   .tagline {
+    justify-content: center;
     font-size: 0.9rem;
     letter-spacing: 1px;
     color: #4a4a4a;
-    margin-top: 1rem;
+    margin-top: 2rem;
+    background-color: #ccecfd8c;
+    width: fit-content;
+    padding: 0.3rem 0.8rem;
+    text-align: center;
+    margin:0 auto;
   }
 
   .hero {
-    margin-top: 4rem;
+    margin-top: 3rem;
+    text-align: center;
+
     h1 {
-      font-size: 3rem;
+      font-size: 5rem;
       font-weight: 700;
-      color: #2a2a72;
+      background: linear-gradient(to right, #034f2b, #0c97af, #064873);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text; /* for future-proofing */
     }
     p {
       margin: 1rem auto;
@@ -60,16 +73,18 @@
       }
     }
   }
+   
 
   .stats {
-    margin: 4rem auto;
+    margin: 10rem auto;
     display: flex;
     justify-content: center;
-    gap: 3rem;
+    gap: 10rem;
     flex-wrap: wrap;
 
     .stat {
       background: white;
+      width: 200px;
       padding: 1.5rem 2rem;
       border-radius: 15px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
@@ -82,11 +97,11 @@
       h2 {
         color: #2a2a72;
         margin: 0;
-        font-size: 2rem;
+        font-size: 3rem;
       }
       span {
-        font-size: 0.95rem;
-        color: #555;
+        font-size: 1rem;
+        color: #181616;
       }
     }
   }
@@ -97,7 +112,7 @@
 
     h1 {
       color: #2a2a72;
-      font-size: 2rem;
+      font-size: 3.5rem;
     }
 
     p {
@@ -108,13 +123,13 @@
 
     .feature-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
       gap: 1.5rem;
-      padding: 0 1rem;
+      padding: 0 5rem;
 
       .feature-card {
         background: white;
-        padding: 1.5rem;
+        padding: 3rem;
         border-radius: 15px;
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
         transition: 0.3s ease;
@@ -126,136 +141,194 @@
 
         h2 {
           color: #2a2a72;
-          font-size: 1.2rem;
+          font-size: 2rem;
           margin-bottom: 0.5rem;
         }
         p {
           color: #555;
-          font-size: 0.95rem;
+          font-size: 1.2rem;
         }
       }
     }
   }
 
-  .testimonials {
-    padding: 4rem 2rem;
-    background: linear-gradient(135deg, #2a2a72, #009ffd);
-    color: white;
 
-    h1 {
-      margin-bottom: 2rem;
-      font-size: 2rem;
-    }
+.testimonials {
+  padding: 6rem 2rem;
+  background: #f0f4ff; /* softer background instead of dark gradient */
+  color: #1a1a1a;
+  text-align: center;
 
-    .testimonial-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
-
-      .testimonial-card {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 1.5rem;
-        border-radius: 15px;
-        backdrop-filter: blur(8px);
-        p {
-          font-size: 1rem;
-          font-style: italic;
-        }
-        h3 {
-          margin-top: 1rem;
-          font-weight: 600;
-        }
-      }
-    }
+  h1 {
+    margin-bottom: 3rem;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #2a2a72;
   }
 
-  .landing-auth {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 4rem 1rem;
-    background: #f4f6fa;
+  .testimonial-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    justify-items: center;
 
-    .auth-card {
-      width: 100%;
-      max-width: 400px;
-      background: white;
+    .testimonial-card {
+      position: relative;
+      background-color: #f0f4ff;
       padding: 2rem;
       border-radius: 20px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      color: #06235d;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      max-width: 350px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      p {
+        font-size: 1.3rem;
+        font-style: italic;
+        line-height: 1.6;
+        margin: 1rem 0 1.5rem;
+        position: relative;
+
+        &::before {
+          content: "“";
+          font-size: 2.5rem;
+          position: absolute;
+          left: -0.8rem;
+          top: -0.5rem;
+          opacity: 0.2;
+        }
+        &::after {
+          content: "”";
+          font-size: 2.5rem;
+          position: absolute;
+          right: -0.8rem;
+          bottom: -0.5rem;
+          opacity: 0.2;
+        }
+      }
+
+      h3 {
+        margin-top: auto;
+        font-weight: 700;
+        font-size: 1.3rem;
+        text-align: right;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .testimonial-cards {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.landing-auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 1rem;
+  background: #f4f6fa;
+
+  .auth-card {
+    width: 100%;
+    max-width: 800px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 2.5rem 2rem;
+    text-align: center;
+
+    h2 {
+      font-size: 3rem;
+      color: #2a2a72;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 1.3rem;
+      color: #777;
+      margin-bottom: 2rem;
+    }
+
+    .auth-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+
+      button {
+        flex: 1;
+        background: #f0f0f5;
+        border: none;
+        padding: 0.7rem 1rem;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 600;
+        color: #555;
+        transition: all 0.3s;
+
+        &.active {
+          background: #2a2a72;
+          color: #fff;
+        }
+      }
+    }
+
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
       text-align: left;
 
-      h2 {
-        text-align: center;
-        color: #2a2a72;
-      }
-      p {
-        text-align: center;
+      label {
+        font-size: 1rem;
         color: #555;
-        margin-bottom: 1.5rem;
       }
 
-      .auth-tabs {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
+      input {
+        width: 100%;
+        padding: 0.8rem;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        outline: none;
+        font-size: 1rem;
+        transition: all 0.3s;
 
-        button {
-          background: transparent;
-          border: none;
-          font-weight: 600;
-          color: #888;
-          cursor: pointer;
-          padding: 0.5rem 1rem;
-          border-bottom: 2px solid transparent;
-          transition: 0.3s;
-
-          &.active {
-            color: #2a2a72;
-            border-color: #2a2a72;
-          }
+        &:focus {
+          border-color: #2a2a72;
+          box-shadow: 0 0 0 2px rgba(42, 42, 114, 0.15);
         }
       }
 
-      .auth-form {
-        display: flex;
-        flex-direction: column;
-        gap: 0.8rem;
+      .btn {
+        width: 100%;
+        padding: 0.85rem;
+        margin-top: 1rem;
+        border-radius: 10px;
+        border: none;
+        background: #2a2a72;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s;
 
-        label {
-          font-size: 0.9rem;
-          color: #555;
-        }
-
-        input {
-          padding: 0.7rem;
-          border: 1px solid #ccc;
-          border-radius: 8px;
-          outline: none;
-          &:focus {
-            border-color: #2a2a72;
-          }
-        }
-
-        .btn {
-          margin-top: 1rem;
-          padding: 0.8rem;
-          border: none;
-          border-radius: 8px;
-          background: #2a2a72;
-          color: white;
-          font-weight: 600;
-          cursor: pointer;
-          transition: 0.3s;
-
-          &:hover {
-            background: #1c1c50;
-          }
+        &:hover {
+          background: #1c1c50;
         }
       }
     }
   }
+}
+
 }
 
 /* Responsiveness */
