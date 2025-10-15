@@ -1,11 +1,19 @@
 import '../scss/landing.scss';
 import { useState } from 'react';  
+import Soil from '../assets/Soil.png';
+import weather from '../assets/weather.png';
+import Ai from '../assets/Ai.png';
+import market from '../assets/market.png';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 const Landing = () => {
   const [activeTab, setActiveTab] = useState('signin');
 
   return (
+    <>
     <div className="landing-page">
+      <Navbar />
       <header className="tagline">Powered by AI & Machine Learning</header>
 
       {/* Hero Section */}
@@ -40,23 +48,28 @@ const Landing = () => {
         <div className="feature-cards">
           {[
             {
+              Image: Ai,
               title: 'AI-Powered Recommendations',
               desc: 'Get personalized crop suggestions based on your soil, weather, and market data.'
             },
             {
+              Image: weather,
               title: 'Weather Insights',
               desc: 'Access real-time weather forecasts and alerts to plan your farming activities.'
             },
             {
+              Image: Soil,
               title: 'Soil Analysis',
               desc: 'Understand your soil health with detailed analysis and improvement tips.'
             },
             {
+              Image: market,
               title: 'Market Trends',
               desc: 'Stay updated with the latest market prices and demand trends for various crops.'
             }
           ].map((feature, i) => (
             <div className="feature-card" key={i}>
+              <img src={feature.Image} alt={feature.title} />
               <h2>{feature.title}</h2>
               <p>{feature.desc}</p>
             </div>
@@ -66,7 +79,7 @@ const Landing = () => {
 
       {/* Testimonials */}
       <section className="testimonials" id="testimonials">
-        <h1>What Our Users Say</h1>
+        <h1>What Our Users Say ?</h1>
         <div className="testimonial-cards">
           {[
             {
@@ -91,7 +104,7 @@ const Landing = () => {
       </section>
 
       {/* Auth Section */}
-      <section className="landing-auth">
+      <section className="landing-auth" id='contact'>
         <div className="auth-card">
           <h2>Welcome</h2>
           <p>Sign in to your account or create a new one to get started</p>
@@ -135,6 +148,8 @@ const Landing = () => {
         </div>
       </section>
     </div>
+    <Footer/>
+    </>
   );
 };
 
