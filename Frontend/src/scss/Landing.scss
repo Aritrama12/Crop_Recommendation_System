@@ -5,7 +5,7 @@
   justify-content: center;
   background: linear-gradient(to bottom right, #f7f8fc, #eef1f8);
   min-height: 100vh;
-  padding: 2rem;
+  padding: 140px 2rem 0 2rem;
 
   .tagline {
     justify-content: center;
@@ -27,7 +27,7 @@
     h1 {
       font-size: 5rem;
       font-weight: 700;
-      background: linear-gradient(to right, #034f2b, #0c97af, #064873);
+      background: linear-gradient(to right, #068d4e, #0c97af, #064873);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text; /* for future-proofing */
@@ -137,6 +137,13 @@
         &:hover {
           transform: translateY(-5px);
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        img {
+          width: 80px;
+          height: 80px;
+          object-fit: contain;
+          margin-bottom: 1.5rem;
         }
 
         h2 {

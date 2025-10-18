@@ -1,0 +1,109 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+
+  .navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.8rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbar-logo {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    align-items: center;
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #09a939, #0072ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text; /* for future-proofing */
+      letter-spacing: 1px;
+      margin: 0;
+    }
+
+    p {
+        justify-content: center;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+        color: #4a4a4a;
+        margin-top: 2rem;
+        background-color: #ccecfd8c;
+        width: fit-content;
+        padding: 0.2rem 0.5rem;
+        text-align: center;
+        margin:0 auto;
+    }
+  }
+
+  .navbar-menu {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+
+    li {
+      a {
+        text-decoration: none;
+        font-weight: 600;
+        color: #333;
+        transition: color 0.3s ease, transform 0.2s ease;
+        position: relative;
+
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: -5px;
+          width: 0%;
+          height: 2px;
+          background: linear-gradient(135deg, #00c6ff, #0072ff);
+          transition: width 0.3s ease;
+          border-radius: 2px;
+        }
+
+        &:hover {
+          color: #0072ff;
+          transform: translateY(-2px);
+
+          &::after {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  // Responsive Design
+  @media (max-width: 768px) {
+    .navbar-container {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1rem 1.5rem;
+    }
+
+    .navbar-menu {
+      flex-direction: column;
+      width: 100%;
+      gap: 1rem;
+      margin-top: 0.5rem;
+
+      li a {
+        font-size: 1rem;
+      }
+    }
+  }
+}
