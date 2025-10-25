@@ -1,8 +1,6 @@
 import React from "react";
 import "../scss/dashboard.scss";
 import Sidebar from "../components/Sidebar";
-
-
 const Dashboard = () => {
   return (
      <>
