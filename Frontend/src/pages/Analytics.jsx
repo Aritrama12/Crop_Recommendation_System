@@ -1,8 +1,7 @@
 import React from 'react'
-import Sidebar from '../components/Sidebar'
 import "../scss/analytics.scss"
-export default function 
-() {
+import Sidebar from '../components/Sidebar'
+function Analytics() {
   return (
     <>
     <Sidebar/>
@@ -12,3 +11,5 @@ export default function
     </>
   )
 }
+
+export default Analytics
