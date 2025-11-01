@@ -1,4 +1,78 @@
-.recommend{
-   
+.heading{
    text-align: center;
+   margin-top: 2rem;
+}
+.crop-form-container {
+  width: 880px;
+  margin: 3rem auto;
+  margin-left: 400px;
+  padding: 4rem;
+  background: rgb(248, 249, 250);
+  border-radius: 10px;
+  box-shadow: 1px 2px 8px rgba(11, 11, 11, 0.1);
+  text-align: center;
+
+  h2 {
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    input {
+      padding: 0.6rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      outline: none;
+      font-size: 1.4rem;
+      transition: 0.2s;
+
+      &:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+      }
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 0.5rem;
+
+      button {
+        border: none;
+        padding: 0.6rem 1.5rem;
+        border-radius: 6px;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .predict-btn {
+        background: #0d8a58;
+
+        &:hover {
+          background: #0b6f46;
+        }
+      }
+
+      .clear-btn {
+        background: #007bff;
+
+        &:hover {
+          background: #005ecb;
+        }
+      }
+    }
+  }
+
+  p {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: #333;
+  }
 }
