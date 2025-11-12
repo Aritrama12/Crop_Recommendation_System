@@ -1,126 +1,159 @@
 import React, { useState } from "react";
 import "../scss/Soilanalysis.scss";
-
-function SoilAnalysis() {
+const SoilAnalysisDashboard = () => {
   const [activeTab, setActiveTab] = useState("current");
 
   return (
-    <div className="container">
-      <header className="header">
-        <h1>🌱 Smart Soil Analysis</h1>
-        <p>Overview of soil health, tests & smart recommendations</p>
-      </header>
+    <div className="dashboard">
+      {/* Top Banner Section */}
+      <div className="top-banner">
+        <img
+          src="https://images.unsplash.com/photo-1613145993481-b3e9a05ad63e"
+          alt="Professional Soil Testing"
+          className="banner-image"
+        />
+        <div className="banner-overlay">
+          <h1>🧪 Professional Soil Testing</h1>
+          <p>Accurate analysis for better farming decisions 🌾</p>
+        </div>
+      </div>
 
+      <h2 className="main-title">Soil Analysis Dashboard</h2>
+      <p className="subtitle">
+        Monitor soil health and get recommendations for optimal crop growth.
+      </p>
+
+      {/* Tab Buttons */}
       <div className="tabs">
         <button
-          className={activeTab === "current" ? "active" : ""}
           onClick={() => setActiveTab("current")}
+          className={activeTab === "current" ? "active" : ""}
         >
-          Current
+          🌾 Current Analysis
         </button>
         <button
-          className={activeTab === "history" ? "active" : ""}
           onClick={() => setActiveTab("history")}
+          className={activeTab === "history" ? "active" : ""}
         >
-          History
+          📊 Historical Data
         </button>
         <button
-          className={activeTab === "recommendations" ? "active" : ""}
           onClick={() => setActiveTab("recommendations")}
+          className={activeTab === "recommendations" ? "active" : ""}
         >
-          Recommendations
+          💡 Recommendations
+        </button>
+        <button
+          onClick={() => setActiveTab("newtest")}
+          className={activeTab === "newtest" ? "active" : ""}
+        >
+          🧾 New Test
         </button>
       </div>
 
+      {/* Current Analysis */}
       {activeTab === "current" && (
-        <section className="panel current">
-          <div className="summary">
-            <div>
-              <h3>Soil Score</h3>
-              <p className="score">78 / 100</p>
-              <div className="bar">
-                <span style={{ width: "78%" }}></span>
-              </div>
-            </div>
-            <div>
-              <h3>pH</h3>
-              <p>6.8</p>
-              <small>Near optimal for wheat</small>
-            </div>
-            <div>
-              <h3>Moisture</h3>
-              <p>18%</p>
-              <small>Good</small>
-            </div>
-            <div>
-              <p><b>Last test:</b> 15 March, 2024</p>
-              <p><b>Next check:</b> in 30 days</p>
-            </div>
+        <div className="analysis-vertical">
+          <div className="card good">
+            <h3>🌿 Nitrogen</h3>
+            <p>Maintain current levels with organic compost.</p>
+            <p className="value">Current: <b>45 kg/ha</b></p>
+            <span className="priority">Low Priority</span>
           </div>
 
-          <div className="nutrients">
-            <div className="card">
-              <h4>Nitrogen</h4>
-              <p>45 kg/ha</p>
-              <div className="bar"><span style={{ width: "70%" }}></span></div>
-              <small>Add slow-release N fertilizer before tillering.</small>
-            </div>
-            <div className="card">
-              <h4>Phosphorus</h4>
-              <p>25 kg/ha</p>
-              <div className="bar"><span style={{ width: "60%" }}></span></div>
-              <small>Apply P-band placement in planting rows.</small>
-            </div>
-            <div className="card">
-              <h4>Potassium</h4>
-              <p>35 kg/ha</p>
-              <div className="bar"><span style={{ width: "80%" }}></span></div>
-              <small>Potassium levels are healthy for yield.</small>
-            </div>
-            <div className="card">
-              <h4>Organic Matter</h4>
-              <p>2.1%</p>
-              <div className="bar"><span style={{ width: "50%" }}></span></div>
-              <small>Add compost to improve OM over time.</small>
-            </div>
+          <div className="card medium">
+            <h3>🧪 Phosphorus</h3>
+            <p>Apply DAP fertilizer – 50kg per hectare.</p>
+            <p className="value">Current: <b>25 kg/ha</b></p>
+            <span className="priority medium">Medium Priority</span>
           </div>
 
-          <div className="actions">
-            <button className="btn-green">+ Add Note</button>
-            <button className="btn-white">Export report</button>
-            <button className="btn-white">Set Reminder</button>
+          <div className="card low">
+            <h3>🍂 Potassium</h3>
+            <p>Consider potash application before next season.</p>
+            <p className="value">Current: <b>35 kg/ha</b></p>
+            <span className="priority">Low Priority</span>
           </div>
-        </section>
+
+          <div className="card good">
+            <h3>💧 pH Level</h3>
+            <p>Perfect for most crops. No adjustment needed.</p>
+            <p className="value">Current: <b>6.8</b></p>
+            <span className="priority">Low Priority</span>
+          </div>
+        </div>
       )}
 
+      {/* Historical Data */}
       {activeTab === "history" && (
-        <section className="panel history">
-          <div className="card">15 Mar 2024 - pH 6.8 | N:45 | P:25 | K:35 | OM:2.1%</div>
-          <div className="card">15 Feb 2024 - pH 6.6 | N:42 | P:23 | K:33 | OM:2.0%</div>
-          <div className="card">15 Jan 2024 - pH 6.5 | N:40 | P:22 | K:32 | OM:1.9%</div>
-        </section>
+        <div className="history">
+          <h2>📆 Soil Analysis History</h2>
+          <div className="history-item">
+            <p><b>Date:</b> 15/01/2024</p>
+            <p>pH: 6.5 | N: 40 | P: 22 | K: 32 | OM: 1.9%</p>
+          </div>
+          <div className="history-item">
+            <p><b>Date:</b> 15/02/2024</p>
+            <p>pH: 6.6 | N: 42 | P: 23 | K: 33 | OM: 2.0%</p>
+          </div>
+          <div className="history-item">
+            <p><b>Date:</b> 15/03/2024</p>
+            <p>pH: 6.8 | N: 45 | P: 25 | K: 35 | OM: 2.1%</p>
+          </div>
+        </div>
       )}
 
+      {/* Recommendations */}
       {activeTab === "recommendations" && (
-        <section className="panel recommend">
-          <div className="card">
-            <h3>🌾 Recommended Crops</h3>
-            <ul>
-              <li>Wheat 🌾</li>
-              <li>Maize 🌽</li>
-              <li>Pulses 🌱</li>
-            </ul>
+        <div className="recommendations">
+          <h2>💡 Smart Soil Recommendations</h2>
+          <div className="recommendation-card">
+            <h3>🌾 Fertilizer Plan</h3>
+            <p>
+              Apply **organic compost** for nitrogen balance and **DAP fertilizer**
+              for phosphorus. Ensure proper mixing with soil.
+            </p>
           </div>
-          <div className="card">
-            <h3>🧪 Fertilizer Suggestion</h3>
-            <p>Use balanced NPK 10-26-26 and add compost for organic improvement.</p>
+          <div className="recommendation-card">
+            <h3>💧 Irrigation Tip</h3>
+            <p>
+              Maintain consistent moisture. Overwatering can lead to nutrient
+              leaching — use drip irrigation if possible.
+            </p>
           </div>
-        </section>
+          <div className="recommendation-card">
+            <h3>🌞 Seasonal Advice</h3>
+            <p>
+              Before next season, test soil again to monitor potassium improvement
+              and maintain pH around 6.8.
+            </p>
+          </div>
+        </div>
       )}
 
-      <footer>CropWise Smart Agriculture © 2025</footer>
+      {/* New Test Section */}
+      {activeTab === "newtest" && (
+        <div className="new-test">
+          <h2>🧾 Schedule New Soil Test</h2>
+          <form>
+            <input type="text" placeholder="Enter farm location" />
+            <input type="number" placeholder="Area to test (hectares)" />
+            <select>
+              <option>Select test type</option>
+              <option>Basic Nutrient Analysis</option>
+              <option>Detailed Organic Matter Analysis</option>
+            </select>
+            <input type="date" />
+            <div className="upload">
+              <p>📸 Upload Soil Sample Photos</p>
+              <input type="file" multiple />
+            </div>
+            <button type="submit">📤 Schedule Test – ₹2,500</button>
+          </form>
+        </div>
+      )}
     </div>
   );
-}
+};
 
-export default SoilAnalysis;
+export default SoilAnalysisDashboard;
