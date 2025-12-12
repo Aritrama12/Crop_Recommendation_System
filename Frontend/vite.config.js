@@ -3,5 +3,5 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/Crop_Recommendation_System/",
+  base: "/",   // IMPORTANT (remove your folder name)
 });
