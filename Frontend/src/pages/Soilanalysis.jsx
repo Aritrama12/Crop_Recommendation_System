@@ -1,107 +1,121 @@
-// frontend/src/pages/SoilAnalysis.jsx
 import React, { useState, useRef } from "react";
 import "../scss/soilanalysis.scss";
-import topImage from "../assets/soil-top.jpg"; // make sure this exists
-import Sidebar from "../components/Sidebar"; // adjust if your Sidebar path differs
+import topImage from "../assets/soil-top.jpg";
+import Sidebar from "../components/Sidebar";
 
 export default function SoilAnalysis() {
   const [activeTab, setActiveTab] = useState("current");
 
-  // New Test state
   const [sampleImageFile, setSampleImageFile] = useState(null);
   const [sampleImageURL, setSampleImageURL] = useState(null);
   const [dataFile, setDataFile] = useState(null);
   const [notes, setNotes] = useState("");
   const [uploadMessage, setUploadMessage] = useState(null);
   const [uploading, setUploading] = useState(false);
+
   const imageInputRef = useRef(null);
   const dataInputRef = useRef(null);
 
   const handleImageChange = (e) => {
-    const f = e.target.files && e.target.files[0];
-    if (!f) return;
-    const validTypes = ["image/jpeg", "image/png", "image/webp"];
-    if (!validTypes.includes(f.type)) {
-      setUploadMessage({ type: "error", text: "Image must be JPG/PNG/WEBP." });
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      setUploadMessage({ type: "error", text: "Image must be JPG, PNG, or WEBP." });
       return;
     }
-    if (f.size > 5 * 1024 * 1024) {
-      setUploadMessage({ type: "error", text: "Image must be smaller than 5 MB." });
+
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadMessage({ type: "error", text: "Image must be under 5MB." });
       return;
     }
-    setSampleImageFile(f);
-    setSampleImageURL(URL.createObjectURL(f));
+
+    setSampleImageFile(file);
+    setSampleImageURL(URL.createObjectURL(file));
     setUploadMessage(null);
   };
 
   const handleDataFileChange = (e) => {
-    const f = e.target.files && e.target.files[0];
-    if (!f) return;
-    const ext = (f.name || "").split(".").pop().toLowerCase();
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const ext = file.name.split(".").pop().toLowerCase();
     if (!["csv", "txt"].includes(ext)) {
-      setUploadMessage({ type: "error", text: "Data file must be CSV or TXT." });
+      setUploadMessage({ type: "error", text: "Only CSV or TXT allowed." });
       return;
     }
-    if (f.size > 2 * 1024 * 1024) {
-      setUploadMessage({ type: "error", text: "Data file must be smaller than 2 MB." });
+
+    if (file.size > 2 * 1024 * 1024) {
+      setUploadMessage({ type: "error", text: "File must be under 2MB." });
       return;
     }
-    setDataFile(f);
+
+    setDataFile(file);
     setUploadMessage(null);
   };
 
-  const handleSubmitTest = async (e) => {
+  const handleSubmitTest = (e) => {
     e.preventDefault();
+
     if (!sampleImageFile && !dataFile) {
-      setUploadMessage({ type: "error", text: "Please attach an image or data file." });
+      setUploadMessage({ type: "error", text: "Attach an image or data file." });
       return;
     }
+
     setUploading(true);
     setUploadMessage({ type: "info", text: "Uploading (simulated)..." });
 
-    // Simulate upload; replace with real API if available
     setTimeout(() => {
       setUploading(false);
-      setUploadMessage({ type: "success", text: "Test submitted (simulated)." });
+      setUploadMessage({ type: "success", text: "Test submitted successfully." });
+
       setSampleImageFile(null);
-      if (sampleImageURL) { URL.revokeObjectURL(sampleImageURL); setSampleImageURL(null); }
+      if (sampleImageURL) URL.revokeObjectURL(sampleImageURL);
+      setSampleImageURL(null);
       setDataFile(null);
       setNotes("");
+
       if (imageInputRef.current) imageInputRef.current.value = "";
       if (dataInputRef.current) dataInputRef.current.value = "";
     }, 900);
   };
 
   return (
-    <div className="dashboard-root">
-      {/* Sidebar column (always visible) */}
-      <aside className="dashboard-sidebar">
-        <Sidebar />
-      </aside>
+    <>
+      {/* ✅ SAME AS WEATHER */}
+      <Sidebar />
 
-      {/* Main content column */}
-      <div className="dashboard-main">
-        {/* Top hero banner */}
+      {/* ✅ CONTENT STARTS AFTER SIDEBAR */}
+      <div className="soil-dashboard">
+        {/* HERO */}
         <div className="soil-top-banner">
-          <img className="banner-img" src={topImage} alt="Soil Testing" />
+          <img src={topImage} alt="Soil Testing" className="banner-img" />
           <div className="soil-banner-heading">
             <h1>Professional Soil Testing</h1>
             <p>Accurate analysis for better farming decisions</p>
           </div>
         </div>
 
-        {/* Tabs */}
+        {/* TABS */}
         <div className="soil-tabs-container">
           <div className="soil-tabs">
-            <button className={activeTab === "current" ? "active" : ""} onClick={() => setActiveTab("current")}>Current Analysis</button>
-            <button className={activeTab === "history" ? "active" : ""} onClick={() => setActiveTab("history")}>History</button>
-            <button className={activeTab === "recommendations" ? "active" : ""} onClick={() => setActiveTab("recommendations")}>Recommendations</button>
-            <button className={activeTab === "new" ? "active" : ""} onClick={() => setActiveTab("new")}>New Test</button>
+            {["current", "history", "recommendations", "new"].map((tab) => (
+              <button
+                key={tab}
+                className={activeTab === tab ? "active" : ""}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab === "current" && "Current Analysis"}
+                {tab === "history" && "History"}
+                {tab === "recommendations" && "Recommendations"}
+                {tab === "new" && "New Test"}
+              </button>
+            ))}
           </div>
         </div>
 
+        {/* CONTENT */}
         <main className="soil-main">
-          {/* Current */}
           {activeTab === "current" && (
             <section className="panel">
               <h2>Current Soil Health</h2>
@@ -110,7 +124,9 @@ export default function SoilAnalysis() {
                 <div className="score-block">
                   <h3>Soil Score</h3>
                   <p className="score">78 / 100</p>
-                  <div className="progress"><span style={{ width: "78%" }} /></div>
+                  <div className="progress">
+                    <span style={{ width: "78%" }} />
+                  </div>
                 </div>
 
                 <div className="small-stat">
@@ -134,47 +150,44 @@ export default function SoilAnalysis() {
               <div className="nutrients">
                 <article className="card border-left green">
                   <h4>Nitrogen</h4>
-                  <p className="muted">Maintain levels with compost.</p>
-                  <p><b>45 kg/ha</b></p>
+                  <p>Maintain levels with compost.</p>
+                  <b>45 kg/ha</b>
                 </article>
 
                 <article className="card border-left orange">
                   <h4>Phosphorus</h4>
-                  <p className="muted">Apply DAP.</p>
-                  <p><b>25 kg/ha</b></p>
+                  <p>Apply DAP.</p>
+                  <b>25 kg/ha</b>
                 </article>
 
                 <article className="card border-left blue">
                   <h4>Potassium</h4>
-                  <p className="muted">Healthy level.</p>
-                  <p><b>35 kg/ha</b></p>
+                  <p>Healthy level.</p>
+                  <b>35 kg/ha</b>
                 </article>
 
                 <article className="card border-left brown">
                   <h4>Organic Matter</h4>
-                  <p className="muted">Add compost.</p>
-                  <p><b>2.1%</b></p>
+                  <p>Add compost.</p>
+                  <b>2.1%</b>
                 </article>
               </div>
             </section>
           )}
 
-          {/* History */}
           {activeTab === "history" && (
             <section className="panel">
               <h2>History</h2>
-              <div className="card">15 Mar 2024 – pH 6.8 | N:45 | P:25 | K:35</div>
-              <div className="card">15 Feb 2024 – pH 6.6 | N:42 | P:23 | K:33</div>
-              <div className="card">15 Jan 2024 – pH 6.5 | N:40 | P:22 | K:32</div>
+              <div className="card">15 Mar 2024 – pH 6.8 | N 45 | P 25 | K 35</div>
+              <div className="card">15 Feb 2024 – pH 6.6 | N 42 | P 23 | K 33</div>
+              <div className="card">15 Jan 2024 – pH 6.5 | N 40 | P 22 | K 32</div>
             </section>
           )}
 
-          {/* Recommendations */}
           {activeTab === "recommendations" && (
             <section className="panel">
               <h2>Recommendations</h2>
               <div className="card">
-                <h4>Suitable Crops</h4>
                 <ul>
                   <li>Wheat</li>
                   <li>Maize</li>
@@ -184,55 +197,48 @@ export default function SoilAnalysis() {
             </section>
           )}
 
-          {/* New Test */}
           {activeTab === "new" && (
             <section className="panel new-test-panel">
               <h2>Submit New Soil Test</h2>
 
               <form className="new-test-form" onSubmit={handleSubmitTest}>
                 <div className="form-row">
-                  <label>Sample Image (JPG/PNG, &lt;5MB)</label>
-                  <input ref={imageInputRef} type="file" accept="image/*" onChange={handleImageChange} />
+                  <label>Sample Image</label>
+                  <input ref={imageInputRef} type="file" onChange={handleImageChange} />
                 </div>
 
                 {sampleImageURL && (
                   <div className="image-preview">
-                    <img src={sampleImageURL} alt="Sample preview" />
-                    <div className="preview-hint">Preview of selected sample image</div>
+                    <img src={sampleImageURL} alt="Preview" />
                   </div>
                 )}
 
                 <div className="form-row">
-                  <label>Lab Data (CSV/TXT, &lt;2MB)</label>
-                  <input ref={dataInputRef} type="file" accept=".csv,text/csv,text/plain" onChange={handleDataFileChange} />
-                  {dataFile && <div className="file-name">Selected: {dataFile.name}</div>}
+                  <label>Lab Data</label>
+                  <input ref={dataInputRef} type="file" onChange={handleDataFileChange} />
                 </div>
 
                 <div className="form-row">
                   <label>Notes</label>
-                  <textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Add observations or sample ID..." />
+                  <textarea value={notes} onChange={(e) => setNotes(e.target.value)} />
                 </div>
 
                 <div className="form-actions">
-                  <button type="submit" className="btn-primary" disabled={uploading}>{uploading ? "Uploading..." : "Submit Test"}</button>
-                  <button type="button" className="btn-secondary" onClick={() => {
-                    setSampleImageFile(null);
-                    if (sampleImageURL) URL.revokeObjectURL(sampleImageURL);
-                    setSampleImageURL(null);
-                    setDataFile(null);
-                    setNotes("");
-                    if (imageInputRef.current) imageInputRef.current.value = "";
-                    if (dataInputRef.current) dataInputRef.current.value = "";
-                    setUploadMessage(null);
-                  }}>Reset</button>
+                  <button className="btn-primary" disabled={uploading}>
+                    {uploading ? "Uploading..." : "Submit Test"}
+                  </button>
                 </div>
 
-                {uploadMessage && <div className={`upload-msg ${uploadMessage.type}`}>{uploadMessage.text}</div>}
+                {uploadMessage && (
+                  <div className={`upload-msg ${uploadMessage.type}`}>
+                    {uploadMessage.text}
+                  </div>
+                )}
               </form>
             </section>
           )}
         </main>
       </div>
-    </div>
+    </>
   );
 }
