@@ -20,6 +20,8 @@
   h1 {
     font-size: 2.2rem;
     color: #1a3b1f;
+    margin-left: 12rem;
+    margin-top: 2rem;
 
     span {
       color: #007f3f;
@@ -27,15 +29,17 @@
   }
 
   p {
-    color: #555;
+    color: #000000;
     margin: 0.8rem auto 1.5rem;
     max-width: 700px;
+    margin-left: 43rem;
   }
 
   .header-buttons {
     display: flex;
     justify-content: center;
     gap: 1rem;
+    margin-left: 8rem;
 
     .primary-btn,
     .secondary-btn {
@@ -71,10 +75,11 @@
 .dashboard-banner {
   img {
     width: 100%;
-    height: 230px;
+    height: 500px;
     object-fit: cover;
     border-radius: 12px;
     margin-bottom: 2rem;
+    margin-left: 17.2rem;
   }
 }
 
@@ -89,8 +94,9 @@
 
   .overview-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 1.5rem;
+    margin-left: 18rem;
 
     .overview-card {
       background: #fff;
@@ -125,6 +131,7 @@
       padding: 2.5rem;
       border-radius: 10px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      
 
       h4 {
         margin-bottom: 0.8rem;
@@ -136,6 +143,7 @@
         padding: 0;
         li {
           margin-bottom: 0.3rem;
+          
         }
       }
 
@@ -146,6 +154,7 @@
         font-weight: 600;
         cursor: pointer;
         margin-top: 0.5rem;
+        margin-left: 9rem;
       }
     }
   }
@@ -158,11 +167,13 @@
 
   h2 {
     color: #1a3b1f;
+    margin-left: 11rem;
   }
 
   .section-desc {
     color: #555;
     margin-bottom: 2rem;
+    margin-left: 12rem;
   }
 
   .tools-grid {
@@ -170,6 +181,7 @@
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1.5rem;
     margin-left: 320px;
+    margin-right: 2rem;
 
     .tool-card {
       background: #fff;
@@ -212,19 +224,20 @@
 
 /* Quick Actions */
 .quick-actions {
-  background: #e9f8ef;
+  background: #05b905;
   border-radius: 12px;
   padding: 2rem;
   text-align: center;
   margin-bottom: 2rem;
+  margin-left: 17.5rem;
 
   h2 {
-    color: #1a3b1f;
+    color: #021f06;
     margin-bottom: 0.5rem;
   }
 
   p {
-    color: #555;
+    color: #000000;
     margin-bottom: 1.5rem;
   }
 
@@ -248,16 +261,21 @@
   }
 }
 
-.secondary-btn{
-   background-color: rgb(86, 201, 86);
+.secondary-btn {
+  background-color: rgb(171, 208, 61);
+  padding: 6px 33px;
+  border-radius: 1rem ;
 }
 
-.primary-btn{
-   background-color: rgb(86, 201, 86);
+.primary-btn {
+  background-color: rgb(171, 208, 61);
+  padding: 6px 33px;
+  border-radius: 1rem;
 }
 
-.tertiary-btn{
-   background-color: rgb(86, 201, 86);
+.tertiary-btn {
+  background-color: rgb(171, 208, 61);
+  padding: 6px 33px;
+  border-radius: 1rem;
+  
 }
-
-
