@@ -94,7 +94,7 @@ const Dashboard = () => {
             <p>Real-time weather data and forecasts to optimize your farming decisions.</p>
             <button className="learn-btn">Learn More</button>
           </div>
-
+          
           <div className="tool-card">
             <div className="icon orange">🧪</div>
             <h4>Soil Analysis</h4>
