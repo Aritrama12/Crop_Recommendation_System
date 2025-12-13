@@ -56,7 +56,7 @@ const res = await fetch("http://127.0.0.1:8000/api/predict", {
       <h1 className='heading'>Crop Recommendation</h1>
       <div className="crop-form-container">
       
-      <form>
+      <form onSubmit={handleSubmit}>
         {Object.keys(formData).map((field) => (
           <input
             key={field}
@@ -69,7 +69,7 @@ const res = await fetch("http://127.0.0.1:8000/api/predict", {
           />
         ))}
         <div className="button-group">
-          <button type="submit" className="predict-btn"  onClick={handleSubmit}>
+          <button type="submit" className="predict-btn" >
             Predict
           </button>
           <button type="button" className="clear-btn" onClick={handleClear}>
