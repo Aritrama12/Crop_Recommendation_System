@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.0.0",
   "homepage": "https://Aritrama12.github.io/Crop_Recommendation_System/",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
