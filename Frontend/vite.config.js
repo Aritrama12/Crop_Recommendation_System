@@ -3,5 +3,6 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/",   // IMPORTANT (remove your folder name)
+  base: "/",   // correct for local + GitHub Pages (with proper repo config)
 });
+

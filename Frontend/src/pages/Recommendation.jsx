@@ -3,7 +3,6 @@ import Sidebar from '../components/Sidebar'
 import "../scss/recommendation.scss"
 
 export default function Recommendation() {
-
      const [formData, setFormData]=useState({
         N: "",
         P: "",
@@ -30,10 +29,26 @@ export default function Recommendation() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-   
-    // alert("Prediction submitted with values: " + JSON.stringify(formData, null, 2));
+    try {
+      //fetch the data from ml model-> api: http://127.0.0.1:8000/api/predict
+      // using fetch api
+const res = await fetch("http://127.0.0.1:8000/api/predict", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+    alert("Recommended Crop: " + data.crop);
+    }catch (error) {
+      alert("Error: " + error.message);
+    }
+    
+    
   };
   return (
     <>
@@ -41,7 +56,7 @@ export default function Recommendation() {
       <h1 className='heading'>Crop Recommendation</h1>
       <div className="crop-form-container">
       
-      <form >
+      <form onSubmit={handleSubmit}>
         {Object.keys(formData).map((field) => (
           <input
             key={field}
@@ -49,12 +64,12 @@ export default function Recommendation() {
             name={field}
             value={formData[field]}
             onChange={handleChange}
-            placeholder={field}
+            placeholder={"Enter The amount of "+field}
             required
           />
         ))}
         <div className="button-group">
-          <button type="submit" className="predict-btn">
+          <button type="submit" className="predict-btn" >
             Predict
           </button>
           <button type="button" className="clear-btn" onClick={handleClear}>
