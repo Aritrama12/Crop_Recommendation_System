@@ -10,8 +10,42 @@ import {
   Settings,
   LogOut,
 } from "lucide-react"; 
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
+
+
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+  try {
+    await axios.post(
+      'http://127.0.0.1:8000/api/auth/logout',
+      {
+        refresh: localStorage.getItem("refresh"),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
+        },
+      }
+    );
+  } catch (error) {
+    console.error("Logout failed:", error);
+  } finally {
+    // Always clear local state
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+
+    navigate("/",{ replace: true });
+  }
+};
+
+
+
+
+
   return (
     <aside className="sidebar">
       {/* Logo Section */}
@@ -66,10 +100,10 @@ export default function Sidebar() {
           <Settings size={18} />
           Settings
         </NavLink>
-        <NavLink to="/">
+         <div className="logout" onClick={handleLogout}>
           <LogOut size={18} />
-          Logout
-        </NavLink>
+           Logout
+        </div>
       </nav>
     </aside>
   );
