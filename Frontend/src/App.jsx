@@ -8,7 +8,7 @@ import Soilanalysis from './pages/Soilanalysis'
 import Analytics from './pages/Analytics'
 import Profile from './pages/Profile'
 import Settings from './pages/Settings'
-
+import ProtectedRoute from './authMiddleware/protected'
 
 
 function App() {
@@ -18,6 +18,8 @@ function App() {
     <Router>
       <Routes>
         <Route path='/' element={<Landing/>} />
+        
+        <Route element={<ProtectedRoute />}>
         <Route path='/dashboard' element={<Dashboard/>} />
         <Route path='/recommendations' element={<Recommendation/>} />
         <Route path='/weather' element={<Weather/>}/>
@@ -25,6 +27,7 @@ function App() {
         <Route path='/analytics' element={<Analytics/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/settings' element={<Settings/>}/>
+        </Route>
         
       </Routes>
     </Router>

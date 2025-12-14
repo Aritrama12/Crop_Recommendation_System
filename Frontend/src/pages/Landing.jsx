@@ -6,9 +6,76 @@ import Ai from '../assets/Ai.png';
 import market from '../assets/market.png';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Landing = () => {
+  const navigate = useNavigate();
+
   const [activeTab, setActiveTab] = useState('signin');
+  const [error, setError] = useState(null);
+
+  const [loginData, setLoginData] = useState({
+  username: '',
+  password: ''
+});
+
+const [signupData, setSignupData] = useState({
+  username: '',
+  email: '',
+  password: '',
+  password2: ''
+});
+
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await axios.post(
+        'http://127.0.0.1:8000/api/auth/register',
+        signupData
+      );
+       console.log(res.data);
+
+    setActiveTab('signin');
+    setError(null);
+
+
+    } catch (err) {
+        if (err.response?.data) {
+          const messages = Object.values(err.response.data).flat().join(' ');
+          setError(messages);
+        } else {
+          setError('Something went wrong');
+        }
+      }
+  };
+
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        'http://127.0.0.1:8000/api/auth/login',
+        loginData
+      );
+
+      // store tokens
+      localStorage.setItem('access', res.data.access);
+      localStorage.setItem('refresh', res.data.refresh);
+      navigate('/dashboard');
+    }catch (err) {
+      if (err.response?.data) {
+        const messages = Object.values(err.response.data).flat().join(' ');
+        setError(messages);
+      } else {
+        setError('Something went wrong');
+      }
+    }
+  };
+
+
 
   return (
     <>
@@ -113,13 +180,19 @@ const Landing = () => {
           <div className="auth-tabs">
             <button
               className={activeTab === 'signin' ? 'active' : ''}
-              onClick={() => setActiveTab('signin')}
+              onClick={() => {
+                setActiveTab('signin');
+                setError(null);
+              }}
             >
               Sign In
             </button>
             <button
               className={activeTab === 'signup' ? 'active' : ''}
-              onClick={() => setActiveTab('signup')}
+              onClick={() => {
+                setActiveTab('signup')
+                setError(null);
+              }}
             >
               Sign Up
             </button>
@@ -127,21 +200,72 @@ const Landing = () => {
 
           {/* Forms */}
           {activeTab === 'signin' ? (
-            <form className="auth-form">
-              <label>Email</label>
-              <input type="email" placeholder="name@example.com" required />
+            <form className="auth-form" onSubmit={handleLogin}>
+              <label>username</label>
+              <input 
+              type="text" 
+              placeholder="name_lastname@" 
+              value={loginData.username}
+              onChange={(e) =>
+                setLoginData({ ...loginData, username: e.target.value })
+              }
+              required />
+
               <label>Password</label>
-              <input type="password" placeholder="password" required />
+              <input 
+              type="password" 
+              placeholder="password" 
+              value={loginData.password}
+              onChange={(e) =>
+                setLoginData({ ...loginData, password: e.target.value })
+              }
+              required />
+              {error && <p className="error" style={{ color: "red" }}>{error}</p>}
               <button type="submit" className="btn primary">Sign In</button>
+
             </form>
           ) : (
-            <form className="auth-form">
-              <label>Full Name</label>
-              <input type="text" placeholder="John Doe" required />
+            <form className="auth-form" onSubmit={handleSignup}>
+              <label>Username</label>
+              <input 
+              type="text" 
+              placeholder="John_Doe12" 
+              value={signupData.username}
+              onChange={(e) =>
+                setSignupData({ ...signupData, username: e.target.value })
+              }
+              required />
+
               <label>Email</label>
-              <input type="email" placeholder="name@example.com" required />
+              <input 
+              type="email" 
+              placeholder="name@example.com" 
+              value={signupData.email}
+              onChange={(e) =>
+                setSignupData({ ...signupData, email: e.target.value })
+              }
+              required />
+
               <label>Password</label>
-              <input type="password" placeholder="password" required />
+              <input 
+              type="password" 
+              placeholder="password" 
+              value={signupData.password}
+              onChange={(e) =>
+                setSignupData({ ...signupData, password: e.target.value })
+              }
+              required />
+
+              <label>Confirm Password</label>
+              <input 
+              type="password" 
+              placeholder="password" 
+              value={signupData.password2}
+              onChange={(e) =>
+                setSignupData({ ...signupData, password2: e.target.value })
+              }
+              required />
+              {error && <p className="error" style={{ color: "red" }}>{error}</p>}
               <button type="submit" className="btn primary">Sign Up</button>
             </form>
           )}
