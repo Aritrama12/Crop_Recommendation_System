@@ -372,10 +372,10 @@ const [popupMessage, setPopupMessage] = useState("");
                 />
               </div>
 
-              <div className="field">
+              {/* <div className="field">
                 <strong>Email Address</strong>
                 <input type="email" value={profileData.email} disabled />
-              </div>
+              </div> */}
 
               <div className="field">
                 <strong>Phone Number</strong>
