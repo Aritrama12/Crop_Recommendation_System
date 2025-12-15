@@ -21,7 +21,7 @@ class Profile(models.Model):
         null=True,
         blank=True
     )
-
+    member_since = models.DateField(auto_now_add=True)
     experience = models.CharField(max_length=50, blank=True)
     farm_size = models.CharField(max_length=50, blank=True)
     achievements = models.PositiveIntegerField(default=0)

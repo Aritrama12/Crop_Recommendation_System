@@ -12,6 +12,7 @@ class ProfileAdmin(admin.ModelAdmin):
         'specialization',
         'bio',
         'profile_image',
+        'member_since',
         'experience',
         'farm_size',
         'achievements',
