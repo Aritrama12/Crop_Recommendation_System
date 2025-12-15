@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../scss/dashboard.scss";
 import Sidebar from "../components/Sidebar";
 const Dashboard = () => {
@@ -14,7 +15,10 @@ const Dashboard = () => {
           track your progress with comprehensive analytics and insights.
         </p>
         <div className="header-buttons">
+          <Link to="/recommendations">
           <button className="primary-btn">Get Smart Recommendations</button>
+          </Link>
+          
           <button className="secondary-btn">View Farm Analytics</button>
         </div>
       </header>

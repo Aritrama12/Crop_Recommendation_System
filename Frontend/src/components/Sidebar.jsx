@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import "../scss/sidebar.scss";
 import {
+  
   Home,
   Lightbulb,
   CloudSun,
@@ -19,9 +20,6 @@ export default function Sidebar() {
         <h2 className="logo">🌱 CropWise</h2>
         <p className="subtitle">Smart Agriculture</p>
       </div>
-      
-    
-
 
       {/* User Info */}
       <div className="user">
