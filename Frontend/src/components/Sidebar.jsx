@@ -82,10 +82,10 @@ export default function Sidebar() {
           <FlaskConical size={18} />
           Soil Analysis
         </NavLink>
-        <NavLink to="/analytics">
+        {/* <NavLink to="/analytics">
           <BarChart2 size={18} />
           Analytics
-        </NavLink>
+        </NavLink> */} 
       </nav>
 
       {/* Bottom Section */}
