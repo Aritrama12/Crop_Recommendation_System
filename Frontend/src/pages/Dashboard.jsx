@@ -6,6 +6,7 @@ const Dashboard = () => {
   return (
      <>
       <Sidebar />
+      <div className="dashboard-container">
       <div className="dashboard">
       {/* Header Section */}
       <header className="dashboard-header">
@@ -125,6 +126,7 @@ const Dashboard = () => {
           <button className="tertiary-btn">Soil Testing</button>
         </div>
       </section>
+    </div>
     </div>
 
     </>

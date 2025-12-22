@@ -1,283 +1,632 @@
-.dashboard-container {
-  display: flex;
-  background: #f8f9fb;
-  min-height: 100vh;
-  overflow-x: hidden;
+//this is shreya's original version of dashboard with fixes
 
-  .dashboard {
-    flex: 1;
-    padding: 2rem 3rem;
-    margin-left: 240px; // adjust to sidebar width
-    box-sizing: border-box;
-  }
+// /* MAIN CONTAINER*/
+
+// .dashboard-container {
+//   display: flex;              
+//   background: #f8f9fb;
+//   overflow-x: hidden;       
+
+//   .dashboard {
+//     flex: 1;                  
+//     padding: 1rem 1rem;
+//     margin-left: 17rem;       // sidebar space (kept, controlled) always keep 17 rem
+//     box-sizing: border-box;   
+//   }
+// }
+
+
+// /* HEADER SECTION */
+
+// .dashboard-header {
+//   text-align: center;
+//   margin-bottom: 2.5rem;
+
+//   h1 {
+//     font-size: 2.2rem;
+//     color: #1a3b1f;
+//     margin-top: 2rem;
+
+//     span {
+//       color: #007f3f;
+//     }
+//   }
+
+//   p {
+//     font-size: 18px;
+//     color: #000;
+//     max-width: 700px;
+//     margin: 0.8rem auto 1.5rem;
+
+//     /* FIXED:
+//        removed margin-left: 43rem
+//        WHY: forced text outside viewport → horizontal overflow
+//     */
+//   }
+
+//   .header-buttons {
+//     display: flex;
+//     justify-content: center;
+//     gap: 1rem;
+//     flex-wrap: wrap;          // FIX: buttons wrap on smaller screens
+
+//     .primary-btn,
+//     .secondary-btn {
+//       font-size: 18px;
+//       padding: 0.75rem 1.5rem;
+//       border-radius: 8px;
+//       font-weight: 600;
+//       cursor: pointer;
+//       transition: all 0.3s ease;
+//       border: none;
+//     }
+
+//     .primary-btn {
+//       background: #28a745;
+//       color: white;
+
+//       &:hover {
+//         background: #1e8a3c;
+//       }
+//     }
+
+//     .secondary-btn {
+//       background: white;
+//       color: #28a745;
+//       border: 2px solid #28a745;
+
+//       &:hover {
+//         background: #28a745;
+//         color: white;
+//       }
+//     }
+//   }
+// }
+
+
+// /*BANNER IMAGE */
+
+// .dashboard-banner {
+//   img {
+//     width: 100%;              // FIX: responsive width
+//     max-width: 100%;          // FIX: prevents overflow on large screens
+//     height: 420px;
+//     object-fit: cover;
+//     border-radius: 12px;
+//     margin-bottom: 2rem;
+
+//     /* FIXED:
+//        removed width: 1626px
+//        removed margin-left
+//        WHY: fixed width pushed content outside viewport
+//     */
+//   }
+// }
+
+
+// /*FARM OVERVIEW */
+
+// .farm-overview {
+//   margin-bottom: 2.5rem;
+
+//   h2 {
+//     margin-bottom: 1.2rem;
+//     color: #1a3b1f;
+//     text-align: center;
+//   }
+
+//   .overview-grid {
+//     display: grid;
+//     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+//     gap: 1.5rem;
+
+//     /* FIXED:
+//        removed margin-left: 18rem
+//        WHY: grid already responsive, margin caused overflow , no need for extra spacing, already provided 17rem in dashboard
+//     */
+
+//     .overview-card {
+//       background: #fff;
+//       border-radius: 10px;
+//       padding: 1.5rem;
+//       text-align: center;
+//       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+//       h3 {
+//         color: #28a745;
+//         font-size: 1.5rem;
+//       }
+
+//       p {
+//         color: #666;
+//       }
+//     }
+//   }
+// }
+
+
+// /*RECENT ACTIVITY */
+
+// .recent-activity {
+//   margin-bottom: 3rem;
+
+//   h2 {
+//     text-align: center;
+//     color: #1a3b1f;
+//     margin-bottom: 1.2rem;
+//   }
+
+//   .activity-grid {
+//     display: grid;
+//     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+//     gap: 1.5rem;
+
+//     /*FIXED:
+//        removed margin-left: 350px
+//        WHY: grid auto-centers → margin caused overflow, again no need for extra spacing, already provided 17rem in dashboard
+//     */
+
+//     .activity-card {
+//       background: #fff;
+//       padding: 2rem;
+//       border-radius: 10px;
+//       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+//       ul {
+//         list-style: none;
+//         padding: 0;
+//       }
+
+//       .link-btn {
+//         background: none;
+//         color: #28a745;
+//         border: none;
+//         font-weight: 600;
+//         cursor: pointer;
+//         margin-top: 0.8rem;
+
+//         /* FIXED:
+//            removed margin-left: 9rem
+//            WHY: unnecessary positioning → overflow risk, same reason as above
+//         */
+//       }
+//     }
+//   }
+// }
+
+
+// /* SMART FARMING */
+
+// .smart-farming {
+//   text-align: center;
+//   margin-bottom: 3rem;
+
+//   h2 {
+//     color: #1a3b1f;
+//   }
+
+//   .section-desc {
+//     color: #555;
+//     max-width: 700px;
+//     margin: 0 auto 2rem;
+
+//     /* FIXED:
+//        removed margin-left: 12rem
+//        WHY: center using auto margins instead, same reason as above
+//     */
+//   }
+
+//   .tools-grid {
+//     display: grid;
+//     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+//     gap: 1.5rem;
+
+//     /*FIXED:
+//        removed margin-left & margin-right
+//        WHY: grid handles alignment responsively
+//     */
+
+//     .tool-card {
+//       background: #fff;
+//       border-radius: 10px;
+//       padding: 1.5rem;
+//       text-align: left;
+//       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+//       transition: transform 0.2s ease;
+
+//       &:hover {
+//         transform: translateY(-4px);
+//       }
+//     }
+//   }
+// }
+
+
+// /*QUICK ACTIONS */
+
+// .quick-actions {
+//   background: #05b905;
+//   border-radius: 12px;
+//   padding: 2rem;
+//   text-align: center;
+//   //margin-bottom: 1rem;
+
+//   /* FIXED:
+//      removed margin-left: 17.5rem
+//      WHY: block should stay inside dashboard container, same reason as above
+//   */
+
+//   h2 {
+//     color: #021f06;
+//   }
+
+//   p {
+//     color: #000;
+//   }
+
+//   .action-buttons {
+//     display: flex;
+//     justify-content: center;
+//     gap: 1rem;
+//     flex-wrap: wrap;
+//   }
+// }
+
+
+// /* BUTTON STYLES (UNIFIED) keep every button class style same by unified style*/ 
+
+// .primary-btn,
+// .secondary-btn,
+// .tertiary-btn {
+//   background-color: rgb(171, 208, 61);
+//   padding: 6px 33px;
+//   border-radius: 1rem;
+//   border: none;
+//   cursor: pointer;
+// }
+
+
+// /*RESPONSIVE FIX */
+
+// @media (max-width: 768px) {
+//   .dashboard-container {
+//     flex-direction: column;
+
+//     .dashboard {
+//       margin-left: 0;        // FIX: sidebar stacks, can improve later with a toggle
+//       padding: 1.5rem;
+//     }
+//   }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//this is my modified version of dashboard, with slight changes and improvements
+.dashboard-container {
+  margin-left: 17rem; // space for sidebar
+  padding: 1rem 2rem;
+  background: #f5f7fa;
+  min-height: 100vh;
 }
 
-/* Header */
+.dashboard {
+  //max-width: 1200px;
+  margin: 0 auto;
+}
+
+/*  HEADER  */
 .dashboard-header {
-  text-align: center;
-  margin-bottom: 2.5rem;
+  background: linear-gradient(135deg, #2e7d32, #66bb6a);
+  color: #fff;
+  padding: 32px;
+  border-radius: 16px;
+  margin-bottom: 32px;
 
   h1 {
-    font-size: 2.2rem;
-    color: #1a3b1f;
-    margin-left: 12rem;
-    margin-top: 2rem;
+    font-size: 32px;
+    margin-bottom: 12px;
 
     span {
-      color: #007f3f;
+      color: #e8f5e9;
+      font-weight: 700;
     }
   }
 
   p {
-    font-size: 18px;
-    color: #000000;
-    margin: 0.8rem auto 1.5rem;
     max-width: 700px;
-    margin-left: 43rem;
+    font-size: 16px;
+    line-height: 1.6;
+    opacity: 0.95;
   }
 
   .header-buttons {
+    margin-top: 24px;
     display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-left: 8rem;
-
-    .primary-btn,
-    .secondary-btn {
-      font-size: 18px;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .primary-btn {
-      background: #28a745;
-      color: white;
-      &:hover {
-        background: #1e8a3c;
-      }
-    }
-
-    .secondary-btn {
-      background: white;
-      color: #28a745;
-      border: 2px solid #28a745;
-      &:hover {
-        background: #28a745;
-        color: white;
-      }
-    }
+    gap: 16px;
+    flex-wrap: wrap;
   }
 }
 
-/* Banner */
+/*  BUTTONS  */
+.primary-btn {
+  background: #1b5e20;
+  color: #fff;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #104417;
+    transform: translateY(-2px);
+  }
+}
+
+.secondary-btn {
+  background: #ffffff;
+  color: #2e7d32;
+  padding: 12px 22px;
+  border: 2px solid #2e7d32;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #e8f5e9;
+  }
+}
+
+.tertiary-btn {
+  background: #eeeeee;
+  color: #424242;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background: #e0e0e0;
+  }
+}
+
+/*  BANNER  */
 .dashboard-banner {
+  margin: 32px 0;
+
   img {
-    width: 1626px;
-    height: 500px;
+    width: 100%;
+    height: 280px;
     object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 2rem;
-    margin-left: 17.2rem;
+    border-radius: 16px;
   }
 }
 
-/* Overview Cards */
+/*  FARM OVERVIEW  */
 .farm-overview {
-  margin-bottom: 2.5rem;
+  margin-bottom: 40px;
 
   h2 {
-    margin-bottom: 1.2rem;
-    color: #1a3b1f;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #2e7d32;
   }
 
   .overview-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1.5rem;
-    margin-left: 18rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
 
-    .overview-card {
-      background: #fff;
-      border-radius: 10px;
-      padding: 1.5rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      text-align: center;
+  .overview-card {
+    background: #fff;
+    padding: 24px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
 
-      h3 {
-        color: #28a745;
-        font-size: 1.5rem;
-      }
-      p {
-        color: #666;
-      }
+    h3 {
+      font-size: 28px;
+      color: #1b5e20;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #616161;
+      font-weight: 500;
     }
   }
 }
 
-/* Recent Activity */
+/* RECENT ACTIVITY */
 .recent-activity {
-  margin-bottom: 3rem;
+  margin-bottom: 40px;
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #2e7d32;
+  }
 
   .activity-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-left: 350px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+  }
 
-    .activity-card {
-      background: #fff;
-      padding: 2.5rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      
+  .activity-card {
+    background: #fff;
+    padding: 24px;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
 
-      h4 {
-        margin-bottom: 0.8rem;
+    h4 {
+      margin-bottom: 12px;
+      font-size: 18px;
+      color: #1b5e20;
+    }
+
+    ul {
+      padding-left: 18px;
+      margin-bottom: 16px;
+
+      li {
+        margin-bottom: 6px;
+        color: #424242;
       }
+    }
 
-      ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        li {
-          margin-bottom: 0.3rem;
-          
-        }
-      }
+    p {
+      margin-bottom: 8px;
+      color: #424242;
+    }
 
-      .link-btn {
-        background: none;
-        color: #28a745;
-        border: none;
-        font-weight: 600;
-        cursor: pointer;
-        margin-top: 0.5rem;
-        margin-left: 9rem;
+    .link-btn {
+      background: transparent;
+      color: #2e7d32;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+
+      &:hover {
+        text-decoration: underline;
       }
     }
   }
 }
 
-/* Smart Farming */
+/*  SMART FARMING  */
 .smart-farming {
+  margin-bottom: 40px;
   text-align: center;
-  margin-bottom: 3rem;
 
   h2 {
-    color: #1a3b1f;
-    margin-left: 11rem;
+    font-size: 26px;
+    color: #2e7d32;
+    margin-bottom: 10px;
   }
 
   .section-desc {
-    color: #555;
-    margin-bottom: 2rem;
-    margin-left: 12rem;
+    max-width: 700px;
+    margin: 0 auto 32px;
+    color: #616161;
   }
 
   .tools-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
-    margin-left: 320px;
-    margin-right: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
 
-    .tool-card {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      padding: 1.5rem;
-      text-align: left;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+  .tool-card {
+    background: #fff;
+    padding: 28px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-6px);
+    }
+
+    .icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+
+    .green { color: #2e7d32; }
+    .blue { color: #1976d2; }
+    .orange { color: #ef6c00; }
+    .purple { color: #6a1b9a; }
+
+    h4 {
+      margin-bottom: 10px;
+      font-size: 18px;
+      color: #212121;
+    }
+
+    p {
+      font-size: 14px;
+      color: #616161;
+      margin-bottom: 16px;
+    }
+
+    .learn-btn {
+      background: #e8f5e9;
+      border: none;
+      color: #2e7d32;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
 
       &:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      .icon {
-        font-size: 2rem;
-        margin-bottom: 0.6rem;
-      }
-
-      h4 {
-        margin-bottom: 0.5rem;
-        color: #1a3b1f;
-      }
-
-      p {
-        color: #555;
-      }
-
-      .learn-btn {
-        background: none;
-        border: none;
-        color: #28a745;
-        font-weight: 600;
-        margin-top: 0.5rem;
-        cursor: pointer;
+        background: #c8e6c9;
       }
     }
   }
 }
 
-/* Quick Actions */
+/*  QUICK ACTIONS  */
 .quick-actions {
-  background: #05b905;
-  border-radius: 12px;
-  padding: 2rem;
-  text-align: center;
-  margin-bottom: 2rem;
-  margin-left: 17.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-items: center;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
 
   h2 {
-    color: #021f06;
-    margin-bottom: 0.5rem;
+    font-size: 24px;
+    color: #2e7d32;
+    margin-bottom: 10px;
   }
 
   p {
-    color: #000000;
-    margin-bottom: 1.5rem;
+    color: #616161;
+    margin-bottom: 20px;
   }
 
   .action-buttons {
     display: flex;
     justify-content: center;
-    gap: 1rem;
+    align-items: center;
+    gap: 16px;
     flex-wrap: wrap;
   }
 }
 
-/* Responsive Fixes */
+/*  RESPONSIVE  */
 @media (max-width: 768px) {
   .dashboard-container {
-    flex-direction: column;
-
-    .dashboard {
-      margin-left: 0;
-      padding: 1.5rem;
-    }
+    margin-left: 0;
+    padding: 16px;
   }
-}
 
-.secondary-btn {
-  background-color: rgb(171, 208, 61);
-  padding: 6px 33px;
-  border-radius: 1rem ;
-}
-
-.primary-btn {
-  background-color: rgb(171, 208, 61);
-  padding: 6px 33px;
-  border-radius: 1rem;
-}
-
-.tertiary-btn {
-  background-color: rgb(171, 208, 61);
-  padding: 6px 33px;
-  border-radius: 1rem;
-  
+  .dashboard-header h1 {
+    font-size: 26px;
+  }
 }
