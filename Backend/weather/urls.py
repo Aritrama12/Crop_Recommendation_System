@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import seven_day_forecast
+from .views import weather_now_and_forecast
 
 urlpatterns = [
-    path('forecast', seven_day_forecast),
+    path('forecast', weather_now_and_forecast),
 ]
