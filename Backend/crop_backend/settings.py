@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'api',
     'users',
     'profiles',
+    'weather',
 ]
 
 REST_FRAMEWORK = {
