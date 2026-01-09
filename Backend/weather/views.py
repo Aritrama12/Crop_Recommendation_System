@@ -65,11 +65,44 @@ def weather_now_and_forecast(request):
         realtime_values = realtime_res.json()["data"]["values"]
 
         current = {
+            # Temperature
             "temperature": realtime_values.get("temperature"),
+            "feels_like": realtime_values.get("temperatureApparent"),
+            "dew_point": realtime_values.get("dewPoint"),
+
+            # Atmosphere
             "humidity": realtime_values.get("humidity"),
-            "rain_intensity": realtime_values.get("precipitationIntensity"),
+            "pressure": realtime_values.get("pressureSurfaceLevel"),
+            "visibility": realtime_values.get("visibility"),
+
+            # Clouds
+            "cloud_base": realtime_values.get("cloudBase"),
+            "cloud_ceiling": realtime_values.get("cloudCeiling"),
+            "cloud_cover": realtime_values.get("cloudCover"),
+
+            # Precipitation probability
+            "precipitation_probability": realtime_values.get("precipitationProbability"),
+
+            # Precipitation intensity (by type)
+            "rain_intensity": realtime_values.get("rainIntensity"),
+            "snow_intensity": realtime_values.get("snowIntensity"),
+            "sleet_intensity": realtime_values.get("sleetIntensity"),
+            "freezing_rain_intensity": realtime_values.get("freezingRainIntensity"),
+
+            # Wind
+            "wind_speed": realtime_values.get("windSpeed"),
+            "wind_gust": realtime_values.get("windGust"),
+            "wind_direction": realtime_values.get("windDirection"),
+
+            # UV
+            "uv_index": realtime_values.get("uvIndex"),
+            "uv_health_concern": realtime_values.get("uvHealthConcern"),
+
+            # Weather description
+            "weather_code": realtime_values.get("weatherCode"),
             "weather": weather_text(realtime_values.get("weatherCode"))
         }
+
 
        
         # FORECAST
@@ -88,11 +121,51 @@ def weather_now_and_forecast(request):
         for day in daily[:5]:
             v = day["values"]
             forecast.append({
+                # Date
                 "date": day["time"].split("T")[0],
+
+                # Temperature
                 "temp_min": v.get("temperatureMin"),
                 "temp_max": v.get("temperatureMax"),
-                "humidity": v.get("humidityAvg"),
-                "rain_probability": v.get("precipitationProbabilityAvg"),
+                "temp_avg": v.get("temperatureAvg"),
+                "feels_like_avg": v.get("temperatureApparentAvg"),
+                "dew_point_avg": v.get("dewPointAvg"),
+
+                # Atmosphere
+                "humidity_avg": v.get("humidityAvg"),
+                "pressure_surface_avg": v.get("pressureSurfaceLevelAvg"),
+                "pressure_sea_avg": v.get("pressureSeaLevelAvg"),
+                "visibility_avg": v.get("visibilityAvg"),
+
+                # Clouds
+                "cloud_cover_avg": v.get("cloudCoverAvg"),
+                "cloud_base_avg": v.get("cloudBaseAvg"),
+                "cloud_ceiling_avg": v.get("cloudCeilingAvg"),
+
+                # Precipitation probability
+                "precipitation_probability_avg": v.get("precipitationProbabilityAvg"),
+
+                # Precipitation intensity
+                "rain_intensity_avg": v.get("rainIntensityAvg"),
+                "snow_intensity_avg": v.get("snowIntensityAvg"),
+                "sleet_intensity_avg": v.get("sleetIntensityAvg"),
+                "freezing_rain_intensity_avg": v.get("freezingRainIntensityAvg"),
+
+                # Hail (new in your data)
+                "hail_probability_avg": v.get("hailProbabilityAvg"),
+                "hail_size_avg": v.get("hailSizeAvg"),
+
+                # Wind
+                "wind_speed_avg": v.get("windSpeedAvg"),
+                "wind_gust_avg": v.get("windGustAvg"),
+                "wind_direction_avg": v.get("windDirectionAvg"),
+
+                # UV
+                "uv_index_avg": v.get("uvIndexAvg"),
+                "uv_health_concern_avg": v.get("uvHealthConcernAvg"),
+
+                # Weather
+                "weather_code": v.get("weatherCodeMax"),
                 "weather": weather_text(v.get("weatherCodeMax"))
             })
 
