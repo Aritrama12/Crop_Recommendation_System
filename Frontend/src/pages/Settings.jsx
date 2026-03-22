@@ -1,9 +1,78 @@
 import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import "../scss/settings.scss";
+import axios from "axios";
+import { useEffect } from "react";
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState("notifications");
+
+  const [notifications, setNotifications] = useState({
+  weather_alerts: false,
+  crop_recommendations: false,
+  soil_analysis: false,
+  market_prices: false,
+});
+
+
+
+useEffect(() => {
+  const token = localStorage.getItem("access");
+
+  axios
+    .get("http://127.0.0.1:8000/api/notifications/", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      setNotifications(res.data);
+    })
+    .catch((err) => console.error(err));
+}, []);
+
+
+
+
+const handleToggle = async (field) => {
+  const updatedValue = !notifications[field];
+  const token = localStorage.getItem("access");
+
+  // instant UI update
+  setNotifications((prev) => ({
+    ...prev,
+    [field]: updatedValue,
+  }));
+
+  try {
+    await axios.patch(
+      "http://127.0.0.1:8000/api/notifications/",
+      {
+        [field]: updatedValue,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  } catch (err) {
+    console.error(err);
+
+    // rollback if API fails
+    setNotifications((prev) => ({
+      ...prev,
+      [field]: !updatedValue,
+    }));
+  }
+};
+
+
+
+
+
+
 
   return (
     <>
@@ -51,24 +120,24 @@ export default function Settings() {
 
             {[
               {
+                key: "weather_alerts",
                 title: "Weather Alerts",
                 text: "Get notified about weather changes that may affect your crops",
-                checked: true,
               },
               {
+                key: "crop_recommendations",
                 title: "Crop Recommendations",
                 text: "Notifications about new crop recommendations",
-                checked: true,
               },
               {
+                key: "soil_analysis",
                 title: "Soil Analysis",
                 text: "Get notified when soil test results are available",
-                checked: false,
               },
               {
+                key: "market_prices",
                 title: "Market Prices",
                 text: "Stay updated on crop prices and market trends",
-                checked: true,
               },
             ].map((item, i) => (
               <div className="setting-item" key={i}>
@@ -77,7 +146,11 @@ export default function Settings() {
                   <p>{item.text}</p>
                 </div>
                 <label className="switch">
-                  <input type="checkbox" defaultChecked={item.checked} />
+                  <input
+                    type="checkbox"
+                    checked={notifications[item.key] || false}
+                    onChange={() => handleToggle(item.key)}
+                  />
                   <span></span>
                 </label>
               </div>
