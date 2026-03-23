@@ -12,6 +12,9 @@ export default function Settings() {
   crop_recommendations: false,
   soil_analysis: false,
   market_prices: false,
+
+  location_access: false,
+  share_analytics: false,
 });
 
 
@@ -161,36 +164,42 @@ const handleToggle = async (field) => {
         {/* ==========================
             PRIVACY
         =========================== */}
-        {activeTab === "privacy" && (
-          <div className="settings-card fadeIn">
-            <h2 className="section-title">Privacy Controls</h2>
-            <p className="section-subtext">
-              Manage your privacy and data sharing preferences
-            </p>
+          {activeTab === "privacy" && (
+            <div className="settings-card fadeIn">
+              <h2 className="section-title">Privacy Controls</h2>
+              <p className="section-subtext">
+                Manage your privacy and data sharing preferences
+              </p>
 
-            <div className="setting-item">
-              <div>
-                <h3>Location Access</h3>
-                <p>Allow app to access your device location for accurate results</p>
-              </div>
-              <label className="switch">
-                <input type="checkbox" defaultChecked />
-                <span></span>
-              </label>
+              {[
+                {
+                  key: "location_access",
+                  title: "Location Access",
+                  text: "Allow app to access your device location for accurate results",
+                },
+                {
+                  key: "share_analytics",
+                  title: "Share Analytics",
+                  text: "Allow anonymous usage data to improve product features",
+                },
+              ].map((item, i) => (
+                <div className="setting-item" key={i}>
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                  </div>
+                  <label className="switch">
+                    <input
+                      type="checkbox"
+                      checked={notifications[item.key] || false}
+                      onChange={() => handleToggle(item.key)}
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              ))}
             </div>
-
-            <div className="setting-item">
-              <div>
-                <h3>Share Analytics</h3>
-                <p>Allow anonymous usage data to improve product features</p>
-              </div>
-              <label className="switch">
-                <input type="checkbox" />
-                <span></span>
-              </label>
-            </div>
-          </div>
-        )}
+          )}
 
         {/* ==========================
             PREFERENCES
