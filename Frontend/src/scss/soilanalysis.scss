@@ -742,40 +742,223 @@
 
 /*  NEW TEST TAB  */
 
-.new-test-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.6rem;
-  max-width: 700px;
+// .new-test-form {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 1.6rem;
+//   max-width: 700px;
 
-  label {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 6px;
+//   label {
+//     font-size: 18px;
+//     font-weight: 600;
+//     margin-bottom: 6px;
+//   }
+
+//   input[type="file"] {
+//     padding: 10px;
+//     font-size: 17px;
+//   }
+
+//   textarea {
+//     min-height: 120px;
+//     padding: 12px;
+//     font-size: 18px;
+//     border-radius: 10px;
+//     resize: vertical;
+//   }
+
+//   .btn-primary {
+//     margin-top: 1rem;
+//     font-size: 18px;
+//     padding: 12px 24px;
+//     border-radius: 10px;
+//     align-self: flex-start;
+//   }
+// }
+
+
+/*  NEW TEST TAB  */
+
+.new-test-panel {
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1rem;
   }
 
-  input[type="file"] {
-    padding: 10px;
-    font-size: 17px;
+  /* TOGGLE */
+  .test-type-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 1.2rem;
+
+    button {
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      background: #eef9ef;
+      cursor: pointer;
+      transition: 0.2s ease;
+
+      &.active {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      &:hover {
+        transform: translateY(-1px);
+      }
+    }
   }
 
-  textarea {
-    min-height: 120px;
-    padding: 12px;
-    font-size: 18px;
-    border-radius: 10px;
-    resize: vertical;
+  /* COMMON FORM ROW */
+  .form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    label {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 15px;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      outline: none;
+      transition: 0.2s;
+
+      &:focus {
+        border-color: var(--accent);
+      }
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
   }
 
-  .btn-primary {
-    margin-top: 1rem;
-    font-size: 18px;
-    padding: 12px 24px;
-    border-radius: 10px;
-    align-self: flex-start;
+  /* FREE FORM */
+  .new-test-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  /* PAID FORM */
+  .paid-test-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* GRID (USED IN PAID FORM) */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* UPLOAD BOX */
+  .upload-box {
+    border: 2px dashed #d1d5db;
+    border-radius: 14px;
+    padding: 28px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+    background: #fafafa;
+
+    &:hover {
+      border-color: var(--accent);
+      background: #f6fff6;
+    }
+
+    p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    input {
+      font-size: 14px;
+    }
+  }
+
+  /* IMAGE PREVIEW */
+  .image-preview {
+    text-align: center;
+
+    img {
+      max-width: 100%;
+      max-height: 220px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+  }
+
+  /* BUTTON */
+  .form-actions {
+    display: flex;
+    justify-content: center;
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 12px 28px;
+      font-size: 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+
+      &:hover {
+        opacity: 0.9;
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  /* MESSAGE */
+  .upload-msg {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 10px;
+
+    &.error {
+      color: #dc2626;
+    }
+
+    &.success {
+      color: #16a34a;
+    }
+
+    &.info {
+      color: #2563eb;
+    }
   }
 }
-
 
 /*  GLOBAL RESPONSIVE  */
 

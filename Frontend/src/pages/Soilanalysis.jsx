@@ -256,9 +256,11 @@ export default function SoilAnalysis() {
   const [sampleImageFile, setSampleImageFile] = useState(null);
   const [sampleImageURL, setSampleImageURL] = useState(null);
   const [dataFile, setDataFile] = useState(null);
-  const [notes, setNotes] = useState("");
   const [uploadMessage, setUploadMessage] = useState(null);
   const [uploading, setUploading] = useState(false);
+
+//  New state for test mode toggle
+  const [testMode, setTestMode] = useState("free");
 
   const imageInputRef = useRef(null);
   const dataInputRef = useRef(null);
@@ -310,7 +312,7 @@ export default function SoilAnalysis() {
   const resetForm = () => {
     setSampleImageFile(null);
     setDataFile(null);
-    setNotes("");
+  
 
     if (sampleImageURL) URL.revokeObjectURL(sampleImageURL);
     setSampleImageURL(null);
@@ -663,58 +665,152 @@ export default function SoilAnalysis() {
               </section>
             )}
 
+
           {/* new test form */}
+
+
           {activeTab === "new" && (
             <section className="panel new-test-panel">
               <h2>Submit New Soil Test</h2>
 
-              <form className="new-test-form" onSubmit={handleSubmitTest}>
-                <div className="form-row">
-                  <label>Sample Image</label>
-                  <input
-                    ref={imageInputRef}
-                    type="file"
-                    onChange={(e) => handleFileChange(e, "image")}
-                  />
-                </div>
+              {/* TOGGLE */}
+              <div className="test-type-toggle">
+                <button
+                  className={testMode === "free" ? "active" : ""}
+                  onClick={() => setTestMode("free")}
+                  type="button"
+                >
+                  Free Quick Test
+                </button>
 
-                {sampleImageURL && (
-                  <div className="image-preview">
-                    <img src={sampleImageURL} alt="Preview" />
+                <button
+                  className={testMode === "paid" ? "active" : ""}
+                  onClick={() => setTestMode("paid")}
+                  type="button"
+                >
+                  Book Professional Test
+                </button>
+              </div>
+
+              {/*  FREE TEST  */}
+              {testMode === "free" && (
+                <form className="new-test-form" onSubmit={handleSubmitTest}>
+                  
+                  {/* Image Upload */}
+                  <div className="form-row">
+                    <label>Upload Soil Image *</label>
+                    <input
+                      ref={imageInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleFileChange(e, "image")}
+                      required
+                    />
                   </div>
-                )}
 
-                <div className="form-row">
-                  <label>Lab Data</label>
-                  <input
-                    ref={dataInputRef}
-                    type="file"
-                    onChange={(e) => handleFileChange(e, "data")}
-                  />
-                </div>
+                  {sampleImageURL && (
+                    <div className="image-preview">
+                      <img src={sampleImageURL} alt="Preview" />
+                    </div>
+                  )}
 
-                <div className="form-row">
-                  <label>Notes</label>
-                  <textarea
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                  />
-                </div>
+                  {/* FORM GRID */}
+                  <div className="form-grid">
 
-                <div className="form-actions">
-                  <button className="btn-primary" disabled={uploading}>
-                    {uploading ? "Uploading..." : "Submit Test"}
-                  </button>
-                </div>
+                    <div className="form-row">
+                      <label>Location</label>
+                      <input type="text" placeholder="e.g. West Bengal" />
+                    </div>
 
-                {uploadMessage && (
-                  <div className={`upload-msg ${uploadMessage.type}`}>
-                    {uploadMessage.text}
+                    <div className="form-row">
+                      <label>Temperature (°C)</label>
+                      <input type="number" placeholder="e.g. 28" />
+                    </div>
+
+                    <div className="form-row">
+                      <label>Moisture (%)</label>
+                      <input type="number" placeholder="e.g. 60" />
+                    </div>
+
+                    <div className="form-row">
+                      <label>Rainfall (mm)</label>
+                      <input type="number" placeholder="e.g. 120" />
+                    </div>
+
+                    {/* <div className="form-row">
+                      <label>Soil Type</label>
+                      <select>
+                        <option>Loamy</option>
+                        <option>Sandy</option>
+                        <option>Clay</option>
+                        <option>Silty</option>
+                      </select>
+                    </div> */}
+
                   </div>
-                )}
-              </form>
+
+                  <div className="form-actions">
+                    <button className="btn-primary" disabled={uploading}>
+                      {uploading ? "Analyzing..." : "Submit Free Test"}
+                    </button>
+                  </div>
+
+                  {uploadMessage && (
+                    <div className={`upload-msg ${uploadMessage.type}`}>
+                      {uploadMessage.text}
+                    </div>
+                  )}
+                </form>
+              )}
+
+              {/*  PAID TEST  */}
+              {testMode === "paid" && (
+                <form className="paid-test-form">
+                  <div className="form-grid">
+                    <div className="form-row">
+                      <label>Farm Location</label>
+                      <input type="text" placeholder="Enter farm address" />
+                    </div>
+
+                    <div className="form-row">
+                      <label>Area to Test (hectares)</label>
+                      <input type="number" placeholder="e.g. 5" />
+                    </div>
+
+                    <div className="form-row">
+                      <label>Preferred Test Date</label>
+                      <input type="date" />
+                    </div>
+
+                    <div className="form-row">
+                      <label>Test Type</label>
+                      <select>
+                        <option>Basic Nutrient Analysis</option>
+                        <option>Comprehensive Soil Health</option>
+                        <option>Organic Matter & pH Only</option>
+                        <option>Heavy Metals Testing</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Upload Section */}
+                  <div className="upload-box">
+                    <p>Upload Soil Samples Photos (optional)</p>
+                    <input type="file" />
+                  </div>
+
+                  <div className="form-actions">
+                    <button className="btn-primary">
+                      Schedule Soil Test - ₹2,500
+                    </button>
+                  </div>
+                </form>
+              )}
             </section>
           )}
+
+
+
         </main>
       </div>
     </>
