@@ -224,9 +224,7 @@
 
 
 
-/* ================================================= */
-/* =============== GLOBAL VARIABLES ================= */
-/* ================================================= */
+/*  GLOBAL VARIABLES  */
 
 :root {
   --accent: #1a3d1a;
@@ -236,9 +234,8 @@
 }
 
 
-/* ================================================= */
-/* ================= SIDEBAR ======================== */
-/* ================================================= */
+
+/*  SIDEBAR  */
 
 .dashboard-sidebar {
   width: 280px;
@@ -251,9 +248,7 @@
 }
 
 
-/* ================================================= */
-/* ============ MAIN DASHBOARD LAYOUT =============== */
-/* ================================================= */
+/*  MAIN DASHBOARD LAYOUT  */
 
 .soil-dashboard {
   margin-left: 280px;
@@ -268,9 +263,7 @@
 }
 
 
-/* ================================================= */
-/* ================== TOP BANNER ==================== */
-/* ================================================= */
+/*  TOP BANNER  */
 
 .soil-top-banner {
   text-align: center;
@@ -300,9 +293,7 @@
 }
 
 
-/* ================================================= */
-/* ==================== TABS ======================== */
-/* ================================================= */
+/*  TABS  */
 
 .soil-tabs {
   display: flex;
@@ -326,9 +317,7 @@
 }
 
 
-/* ================================================= */
-/* ================== PANELS ======================== */
-/* ================================================= */
+/*  PANELS  */
 
 .panel {
   background: var(--card);
@@ -344,13 +333,11 @@
 }
 
 
-/* ================================================= */
-/* ===== CURRENT TAB – NEW DESIGN (ACTIVE UI) ======= */
-/* ================================================= */
+/*  CURRENT TAB   */
 
 .modern-current {
 
-  /* ---------- TOP METRIC CARDS ---------- */
+  /*  TOP METRIC CARDS  */
   .top-cards {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -389,7 +376,7 @@
   }
 
 
-  /* ---------- SOIL SCORE (CIRCULAR) ---------- */
+  /*  SOIL SCORE   */
   .score-box {
     margin-bottom: 25px;
     text-align: center;
@@ -431,7 +418,7 @@
   }
 
 
-  /* ---------- BOTTOM GRID (2 COLUMN LAYOUT) ---------- */
+  /*  BOTTOM GRID (2 COLUMN LAYOUT)  */
   .bottom-grid {
     display: grid;
     grid-template-columns: 2fr 1.5fr;
@@ -439,7 +426,7 @@
   }
 
 
-  /* ---------- INFO CARD ---------- */
+  /*  INFO CARD  */
   .info-card {
     background: #f9fafb;
     padding: 20px;
@@ -457,7 +444,7 @@
   }
 
 
-  /* ---------- PROGRESS ROWS (NUTRIENTS) ---------- */
+  /*  PROGRESS ROWS   */
   .progress-row {
     margin-bottom: 15px;
 
@@ -490,7 +477,7 @@
   }
 
 
-  /* ---------- PHYSICAL PROPERTIES ---------- */
+ 
   .prop {
     display: flex;
     justify-content: space-between;
@@ -506,7 +493,7 @@
   }
 
 
-  /* ---------- STATUS COLORS ---------- */
+ 
   .green { color: #16a34a; }
   .blue { color: #2563eb; }
   .orange { color: #ea580c; }
@@ -527,9 +514,7 @@
 }
 
 
-/* ================================================= */
-/* ===== HISTORY TAB =============================== */
-/* ================================================= */
+/*  HISTORY TAB  */
 
 .history-panel {
   padding: 20px;
@@ -619,9 +604,7 @@
 }
 
 
-/* ================================================= */
-/* ===== RECOMMENDATIONS TAB ======================= */
-/* ================================================= */
+/*  RECOMMENDATIONS TAB  */
 
 .recommendations-panel {
   padding: 20px;
@@ -757,9 +740,7 @@
 }
 
 
-/* ================================================= */
-/* ===== NEW TEST TAB (FORM SECTION) =============== */
-/* ================================================= */
+/*  NEW TEST TAB  */
 
 .new-test-form {
   display: flex;
@@ -796,9 +777,7 @@
 }
 
 
-/* ================================================= */
-/* ================= GLOBAL RESPONSIVE ============== */
-/* ================================================= */
+/*  GLOBAL RESPONSIVE  */
 
 @media (max-width: 820px) {
 
@@ -814,7 +793,7 @@
   .banner-img { height: 220px; }
 
 
-  /* ----- Legacy / Extra Responsive Blocks ----- */
+  /*   Extra Responsive Blocks  */
   .modern-panel {
     .top-grid {
       grid-template-columns: 1fr;

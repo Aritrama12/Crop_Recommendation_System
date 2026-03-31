@@ -263,7 +263,7 @@ export default function SoilAnalysis() {
   const imageInputRef = useRef(null);
   const dataInputRef = useRef(null);
 
-  // ✅ Tabs config
+  //  Tabs config
   const tabs = {
     current: "Current Analysis",
     history: "History",
@@ -271,7 +271,7 @@ export default function SoilAnalysis() {
     new: "New Test",
   };
 
-  // ✅ Validation helpers
+  //  Validation helpers
   const isValidImage = (file) =>
     ["image/jpeg", "image/png", "image/webp"].includes(file.type) &&
     file.size <= 5 * 1024 * 1024;
@@ -281,7 +281,7 @@ export default function SoilAnalysis() {
     return ["csv", "txt"].includes(ext) && file.size <= 2 * 1024 * 1024;
   };
 
-  // ✅ Unified file handler
+  //  Unified file handler
   const handleFileChange = (e, type) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -306,7 +306,7 @@ export default function SoilAnalysis() {
     setUploadMessage(null);
   };
 
-  // ✅ Reset form
+  //  Reset form
   const resetForm = () => {
     setSampleImageFile(null);
     setDataFile(null);
@@ -319,7 +319,7 @@ export default function SoilAnalysis() {
     if (dataInputRef.current) dataInputRef.current.value = "";
   };
 
-  // ✅ Submit handler
+  //  Submit handler
   const handleSubmitTest = (e) => {
     e.preventDefault();
 
