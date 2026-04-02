@@ -1,9 +1,81 @@
 import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import "../scss/settings.scss";
+import axios from "axios";
+import { useEffect } from "react";
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState("notifications");
+
+  const [notifications, setNotifications] = useState({
+  weather_alerts: false,
+  crop_recommendations: false,
+  soil_analysis: false,
+  market_prices: false,
+
+  location_access: false,
+  share_analytics: false,
+});
+
+
+
+useEffect(() => {
+  const token = localStorage.getItem("access");
+
+  axios
+    .get("http://127.0.0.1:8000/api/notifications/", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      setNotifications(res.data);
+    })
+    .catch((err) => console.error(err));
+}, []);
+
+
+
+
+const handleToggle = async (field) => {
+  const updatedValue = !notifications[field];
+  const token = localStorage.getItem("access");
+
+  // instant UI update
+  setNotifications((prev) => ({
+    ...prev,
+    [field]: updatedValue,
+  }));
+
+  try {
+    await axios.patch(
+      "http://127.0.0.1:8000/api/notifications/",
+      {
+        [field]: updatedValue,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  } catch (err) {
+    console.error(err);
+
+    // rollback if API fails
+    setNotifications((prev) => ({
+      ...prev,
+      [field]: !updatedValue,
+    }));
+  }
+};
+
+
+
+
+
+
 
   return (
     <>
@@ -51,24 +123,24 @@ export default function Settings() {
 
             {[
               {
+                key: "weather_alerts",
                 title: "Weather Alerts",
                 text: "Get notified about weather changes that may affect your crops",
-                checked: true,
               },
               {
+                key: "crop_recommendations",
                 title: "Crop Recommendations",
                 text: "Notifications about new crop recommendations",
-                checked: true,
               },
               {
+                key: "soil_analysis",
                 title: "Soil Analysis",
                 text: "Get notified when soil test results are available",
-                checked: false,
               },
               {
+                key: "market_prices",
                 title: "Market Prices",
                 text: "Stay updated on crop prices and market trends",
-                checked: true,
               },
             ].map((item, i) => (
               <div className="setting-item" key={i}>
@@ -77,7 +149,11 @@ export default function Settings() {
                   <p>{item.text}</p>
                 </div>
                 <label className="switch">
-                  <input type="checkbox" defaultChecked={item.checked} />
+                  <input
+                    type="checkbox"
+                    checked={notifications[item.key] || false}
+                    onChange={() => handleToggle(item.key)}
+                  />
                   <span></span>
                 </label>
               </div>
@@ -88,36 +164,42 @@ export default function Settings() {
         {/* ==========================
             PRIVACY
         =========================== */}
-        {activeTab === "privacy" && (
-          <div className="settings-card fadeIn">
-            <h2 className="section-title">Privacy Controls</h2>
-            <p className="section-subtext">
-              Manage your privacy and data sharing preferences
-            </p>
+          {activeTab === "privacy" && (
+            <div className="settings-card fadeIn">
+              <h2 className="section-title">Privacy Controls</h2>
+              <p className="section-subtext">
+                Manage your privacy and data sharing preferences
+              </p>
 
-            <div className="setting-item">
-              <div>
-                <h3>Location Access</h3>
-                <p>Allow app to access your device location for accurate results</p>
-              </div>
-              <label className="switch">
-                <input type="checkbox" defaultChecked />
-                <span></span>
-              </label>
+              {[
+                {
+                  key: "location_access",
+                  title: "Location Access",
+                  text: "Allow app to access your device location for accurate results",
+                },
+                {
+                  key: "share_analytics",
+                  title: "Share Analytics",
+                  text: "Allow anonymous usage data to improve product features",
+                },
+              ].map((item, i) => (
+                <div className="setting-item" key={i}>
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                  </div>
+                  <label className="switch">
+                    <input
+                      type="checkbox"
+                      checked={notifications[item.key] || false}
+                      onChange={() => handleToggle(item.key)}
+                    />
+                    <span></span>
+                  </label>
+                </div>
+              ))}
             </div>
-
-            <div className="setting-item">
-              <div>
-                <h3>Share Analytics</h3>
-                <p>Allow anonymous usage data to improve product features</p>
-              </div>
-              <label className="switch">
-                <input type="checkbox" />
-                <span></span>
-              </label>
-            </div>
-          </div>
-        )}
+          )}
 
         {/* ==========================
             PREFERENCES
