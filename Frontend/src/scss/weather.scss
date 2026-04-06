@@ -735,9 +735,11 @@
   &.sunny {
     //background-image: url("https://images.unsplash.com/photo-1722543443508-73482085bec0");
     color: #92400e;
+    --border--color:#fcd34d;
+    --svg--color: #fbbf24;
 
     &::before {
-      background: linear-gradient(180deg, rgba(251,146,60,0.7), rgba(251,191,36,0.6));
+      background-color: rgb(255, 244, 223);
     }
   }
 
@@ -767,34 +769,33 @@
 
   &.rain {
    // background-image: url("https://images.unsplash.com/photo-1513883232774-3139009c4464");
-    color: #e0f2fe;
+    color: #02395d;
+    --border--color:#b3bcfe;
+    --svg--color: #6ca5f4;
 
     &::before {
-      background: linear-gradient(180deg, rgba(30,58,138,0.7), rgba(71,85,105,0.6));
+      background: linear-gradient(180deg, rgba(216, 214, 241, 0.947), rgba(208, 208, 241, 0.87));
     }
   }
 
-  &.drizzle {
-   // background-image: url("https://images.unsplash.com/photo-1513883232774-3139009c4464");
-    color: #e2e8f0;
-
-    &::before {
-      background: linear-gradient(180deg, rgba(71,85,105,0.7), rgba(100,116,139,0.6));
-    }
-  }
 
   &.thunderstorm {
     //background-image: url("https://images.unsplash.com/photo-1712146503193-05b2d6e1931f");
-    color: #e0e7ff;
+    color: #230147;
+    --border--color: #c4b5fd;
+    --svg--color: #8b5cf6;
+
 
     &::before {
-      background: linear-gradient(180deg, rgba(49,46,129,0.8), rgba(17,24,39,0.9));
+      background-color: lavender;
     }
   }
 
   &.snow {
     //background-image: url("https://images.unsplash.com/photo-1672588354761-14dfb038569e");
     color: #0c4a6e;
+    --border--color:#bae6fd;
+    --svg--color: #7dd3fc;
 
     &::before {
       background: linear-gradient(180deg, rgba(224,242,254,0.7), rgba(186,230,253,0.6));
@@ -808,11 +809,13 @@
   margin-bottom: 2.5rem;
 
   h2 {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
     font-weight: 600;
+    margin-bottom: 1rem;
   }
 
   p {
+    font-size: 1.5rem;
     opacity: 0.8;
   }
 
@@ -846,6 +849,7 @@
   }
 
   .city-name {
+    font-size: 1.2rem;
     margin-top: 0.8rem;
     opacity: 0.8;
   }
@@ -865,6 +869,7 @@
   background-position: center;
   color: #fff; // ensures text is always white
 
+
   // Overlay to darken the background
   &::before {
     content: "";
@@ -880,14 +885,14 @@
   &.sunny {
     background-image: url("https://images.unsplash.com/photo-1722543443508-73482085bec0");
     &::before {
-      background-color: rgba(0, 0, 0, 0.25); // lighter overlay for sunny
+      background: linear-gradient(to right, rgba(231, 109, 2, 0.87),rgba(248, 172, 31, 0.505), rgba(175, 115, 4, 0.692)); // lighter overlay for sunny
     }
   }
 
   &.rain {
     background-image: url("https://images.unsplash.com/photo-1513883232774-3139009c4464");
     &::before {
-      background-color: rgba(0, 0, 0, 0.5); // darker for rain
+      background: linear-gradient(to right, rgba(89, 89, 223, 0.473), rgba(0, 32, 74, 0.733)); // darker for rain
     }
   }
 
@@ -898,17 +903,26 @@
     }
   }
 
+
   &.snow {
     background-image: url("https://images.unsplash.com/photo-1672588354761-14dfb038569e");
     &::before {
-      background-color: rgba(0, 0, 0, 0.35);
+      background: linear-gradient(
+        120deg,
+        rgba(56, 189, 248, 0.55) 0%,   /* cyan/ice left */
+        rgba(99, 102, 241, 0.45) 45%,  /* indigo mid */
+        rgba(168, 85, 247, 0.5) 100%   /* purple right */
+      );
+      z-index: 0;
     }
   }
+
+
 
   &.thunderstorm {
     background-image: url("https://images.unsplash.com/photo-1712146503193-05b2d6e1931f");
     &::before {
-      background-color: rgba(0, 0, 0, 0.6);
+      background: linear-gradient(to right, rgba(120, 46, 255, 0.6), rgba(35, 1, 71, 0.8));
     }
   }
 
@@ -925,7 +939,7 @@
   z-index: 1;
   display: flex;
   justify-content: space-between; // pushes left & right apart
-  gap: 41rem;
+  gap: 32rem;
   align-items: center;
   padding: 2rem;
   color: #fff;
@@ -941,7 +955,7 @@
     }
 
     h3 {
-      font-size: 3rem;
+      font-size: 5rem;
       margin: 0;
     }
 
@@ -952,14 +966,14 @@
 
       .small-icon {
         svg {
-          width: 24px;
-          height: 24px;
+          width: 30px;
+          height: 30px;
           color: #fff;
         }
       }
 
       .weather-text {
-        font-size: 1.2rem;
+        font-size: 1.5rem;
         margin: 0;
       }
     }
@@ -1148,14 +1162,14 @@
     }
 
     h4 {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       font-weight: 600;
       margin-right: 10px;
     }
   }
 
   p {
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     color: #6b7280;
     margin-left: 32px; // aligns under text after icon
   }
@@ -1191,6 +1205,7 @@
 /* METRICS */
 .metrics-summary {
   margin-top: 3rem;
+  //color: #000000;
 
   h3 {
     font-size: 1.6rem;

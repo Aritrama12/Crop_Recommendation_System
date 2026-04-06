@@ -348,6 +348,7 @@ const WeatherDashboard = () => {
   const [city, setCity] = useState("kolkata");
   const [query, setQuery] = useState("kolkata");
 
+const [testMode, setTestMode] = useState(null); 
 
 
     const fetchWeather = async () => {
@@ -390,38 +391,102 @@ const WeatherDashboard = () => {
     }
   };
 
-  const getWeatherIcon = (code) => {
+  // const getWeatherIcon = (code) => {
+  // if (code === 1000 || code === 1100) return <Sun />;
+
+  // // ☁️ Cloudy
+  // if (code === 1102 || code === 1001) return <Cloud />;
+  
+  // // Partly Cloudy
+  // if (code === 1101) return <CloudSun />; 
+
+  // // 🌫 Fog
+  // if (code === 2000 || code === 2100) return <CloudFog />;
+
+  // // 🌦 Drizzle
+  // if (code === 4000) return <CloudDrizzle />;
+
+  // // 🌧 Rain
+  // if (code === 4001 || code === 4200) return <CloudRain />;
+
+  // // 🌧 Heavy Rain (same icon, can customize later)
+  // if (code === 4201) return <CloudRain />;
+
+  // // ❄️ Snow
+  // if (code === 5000 || code === 5001 || code === 5100) return <Snowflake />;
+
+  // // ⛈ Thunderstorm
+  // if (code === 8000) return <CloudLightning />;
+
+  // return <Sun />; // fallback
+  // };
+
+const getWeatherIcon = (code) => {
+  if (!code) return <Sun />;
+
   if (code === 1000 || code === 1100) return <Sun />;
 
-  // ☁️ Cloudy
-  if (code === 1102 || code === 1001) return <Cloud />;
-  
-  // Partly Cloudy
-  if (code === 1101) return <CloudSun />; 
+  if (code === 1101) return <CloudSun />;
 
-  // 🌫 Fog
+  if (code === 1102 || code === 1001) return <Cloud />;
+
   if (code === 2000 || code === 2100) return <CloudFog />;
 
-  // 🌦 Drizzle
+  if (code === 3000 || code === 3001 || code === 3002) return <Wind />;
+
   if (code === 4000) return <CloudDrizzle />;
 
-  // 🌧 Rain
-  if (code === 4001 || code === 4200) return <CloudRain />;
+  if (code === 4001 || code === 4200 || code === 4201)
+    return <CloudRain />;
 
-  // 🌧 Heavy Rain (same icon, can customize later)
-  if (code === 4201) return <CloudRain />;
+  if (
+    code === 5000 ||
+    code === 5001 ||
+    code === 5100 ||
+    code === 5101
+  )
+    return <Snowflake />;
 
-  // ❄️ Snow
-  if (code === 5000) return <CloudSnow />;
+  if (
+    code === 6000 ||
+    code === 6001 ||
+    code === 6200 ||
+    code === 6201 ||
+    code === 7000 ||
+    code === 7100 ||
+    code === 7101 ||
+    code === 7102
+  )
+    return <CloudSnow />;
 
-  // ⛈ Thunderstorm
-  if (code === 8000) return <CloudLightning />;
+  
+  if (code === 8000 || code === 8001)
+    return <CloudLightning />;
 
   return <Sun />; // fallback
-  };
+};
+
 
 
 const { current, forecast, location } = weather || {};
+
+
+// const getWeatherClass = () => {
+//   if (!current?.weather) return "default";
+
+//   const condition = current.weather.toLowerCase();
+
+//   if (condition.includes("clear")) return "clear";
+//   if (condition.includes("cloud")) return "cloudy";
+//   if (condition.includes("rain")) return "rain";
+//   if (condition.includes("drizzle")) return "drizzle";
+//   if (condition.includes("thunder")) return "thunderstorm";
+//   if (condition.includes("snow")) return "snow";
+//   if (condition.includes("fog")) return "cloudy";
+
+//   return "sunny"; // fallback looks better than default
+// };
+
 
 
 const getWeatherClass = () => {
@@ -429,16 +494,39 @@ const getWeatherClass = () => {
 
   const condition = current.weather.toLowerCase();
 
-  if (condition.includes("clear")) return "clear";
+  
+  if (condition === "clear") return "clear";
+  if (condition.includes("mostly clear")) return "sunny";
+  if (condition.includes("partly cloudy")) return "sunny";
   if (condition.includes("cloud")) return "cloudy";
-  if (condition.includes("rain")) return "rain";
-  if (condition.includes("drizzle")) return "drizzle";
-  if (condition.includes("thunder")) return "thunderstorm";
-  if (condition.includes("snow")) return "snow";
   if (condition.includes("fog")) return "cloudy";
+  if (condition.includes("drizzle")) return "rain";
+  if (condition.includes("rain")) return "rain";
+  if (condition.includes("snow") || condition.includes("flurries"))
+    return "snow";
 
-  return "sunny"; // fallback looks better than default
+  if (condition.includes("freezing")) return "snow";
+  if (condition.includes("ice")) return "snow";
+  if (condition.includes("thunder")) return "thunderstorm";
+  if (condition.includes("wind")) return "cloudy";
+
+  return "sunny"; // fallback stays bright instead of dull
 };
+
+
+
+
+const displayCode = testMode
+  ? {
+      clear: 1000,
+      sunny: 1000,
+      cloudy: 1001,
+      rain: 4001,
+      snow: 5000,
+      thunderstorm: 8000,
+    }[testMode]
+  : current?.weather_code ?? 1000;
+
 
 
 
@@ -466,11 +554,12 @@ if (loading)
 
 
 
+
   return (
     <>
       <Sidebar />
 
-      <div className={`weather-dashboard ${getWeatherClass()}`}>
+      <div className={`weather-dashboard ${testMode || getWeatherClass()}`}>
     
         {/* HEADER */}
         <header className="weather-header">
@@ -493,21 +582,39 @@ if (loading)
           </div>
         </header>
 
+
+        <div style={{ margin: "1rem 0" }}>
+          <button onClick={() => setTestMode("clear")}>Clear</button>
+          <button onClick={() => setTestMode("cloudy")}>Cloudy</button>
+          <button onClick={() => setTestMode("rain")}>Rain</button>
+          <button onClick={() => setTestMode("snow")}>Snow</button>
+          <button onClick={() => setTestMode("thunderstorm")}>Storm</button>
+          <button onClick={() => setTestMode("sunny")}>Sunny</button>
+          <button onClick={() => setTestMode(null)}>Real Data</button>
+        </div>
+
+
+
+
+
         {/* CURRENT WEATHER */}
-        <section className={`current-weather-bg ${getWeatherClass()}`}>
+        <section className={`current-weather-bg ${testMode || getWeatherClass()}`}>
           <div className="weather-card">
             <div className="left">
               <h2>{location}</h2>
               <h3>{current.temperature}°C</h3>
               <div className="weather-info">
-                <p className="small-icon">{getWeatherIcon(current.weather_code)}</p>
+                
+                {/* <p className="small-icon">{getWeatherIcon(current.weather_code)}</p> */}
+                <p className="small-icon">{getWeatherIcon(displayCode)}</p>
                 <p className="weather-text">{current.weather}</p>
               </div>
             </div>
 
             <div className="right">
               <div className="big-icon">
-                {getWeatherIcon(current.weather_code)}
+                {/* {getWeatherIcon(current.weather_code)} */}
+                {getWeatherIcon(displayCode)}
               </div>
             </div>
           </div>

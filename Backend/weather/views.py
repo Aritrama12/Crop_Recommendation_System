@@ -19,15 +19,33 @@ WEATHER_CODE_MAP = {
     1001: "Cloudy",
     2000: "Fog",
     2100: "Light Fog",
+    3000: "Light Wind",
+    3001: "Wind",
+    3002: "Strong Wind",
     4000: "Drizzle",
     4001: "Rain",
     4200: "Light Rain",
     4201: "Heavy Rain",
     5000: "Snow",
-    8000: "Thunderstorm"
+    5001: "Flurries",
+    5100: "Light Snow",
+    5101: "Heavy Snow",
+    6000: "Freezing Drizzle",
+    6001: "Freezing Rain",
+    6200: "Light Freezing Rain",
+    6201: "Heavy Freezing Rain",
+    7000: "Ice Pellets",
+    7100: "Light Ice Pellets",
+    7101: "Heavy Ice Pellets",
+    7102: "Mixed Ice Pellets",
+    8000: "Thunderstorm",
+    8001: "Severe Thunderstorm"
 }
 
+
 def weather_text(code):
+    if code not in WEATHER_CODE_MAP:
+        print(f"⚠️ Unknown weather code: {code}")
     return WEATHER_CODE_MAP.get(code, "Unknown")
 
 @api_view(["GET"])
