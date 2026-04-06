@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "../scss/dashboard.scss";
 import Sidebar from "../components/Sidebar";
 const Dashboard = () => {
+    
   return (
      <>
       <Sidebar />

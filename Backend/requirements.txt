@@ -1,0 +1,35 @@
+# Django
+Django>=4.2,<5.0
+djangorestframework>=3.14
+djangorestframework-simplejwt>=5.3
+django-cors-headers>=4.3
+
+# Database
+# SQLite included by default
+
+# ML
+scikit-learn>=1.3
+pandas>=2.0
+numpy>=1.24
+joblib>=1.3
+xgboost>=2.0
+
+# Image Processing (for soil analysis)
+Pillow>=10.0
+# tensorflow>=2.15  # Uncomment for CNN soil analysis
+
+# API clients
+requests>=2.31
+httpx>=0.25
+
+# Async task queue
+celery>=5.3
+redis>=5.0
+
+# Utils
+python-dotenv>=1.0
+gunicorn>=21.0
+
+# Development
+pytest>=7.4
+pytest-django>=4.5
