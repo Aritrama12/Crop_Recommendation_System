@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'api',
     'users',
     'profiles',
+    'soil',
 ]
 
 REST_FRAMEWORK = {
@@ -59,6 +60,7 @@ INSTALLED_APPS += ["corsheaders"]
 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
