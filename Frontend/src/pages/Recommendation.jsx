@@ -492,10 +492,10 @@ const handleGetLocation = () => {
 )}
 
           {/* 🔹 RESULT */}
-          <div  key={error} className={`result-card ${error ? "error-card" : ""}`}>
+          {/* <div  className="result-card">
 
             {error ? (
-              <div className="result error">
+              <div className="">
                 <h2>⚠ Invalid Input</h2>
                 
                
@@ -536,7 +536,64 @@ const handleGetLocation = () => {
               </div>
 
             )}
-          </div>
+          </div> */}
+
+          {/* 🔹 RESULT */}
+<div className={`result-card ${error ? "error-card" : ""}`}>
+
+  {error ? (
+    <div className="error-box">
+      <div className="error-icon">⚠️</div>
+
+      <h2>Invalid Input</h2>
+
+   
+
+      {Object.keys(errorDetails).length > 0 && (
+        <ul className="error-list">
+          {Object.entries(errorDetails).map(([key, value], i) => (
+            <li key={i}>
+              <strong>{key}:</strong> {value}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+
+  ) : !result ? (
+
+    <div className="empty">
+      <div className="icon">🤖</div>
+      <h3>No prediction yet</h3>
+      <p>Enter your data and click "Get Recommendation"</p>
+    </div>
+
+  ) : (
+
+    <div className="result">
+      <h2>🌱 Top Crop Recommendation</h2>
+      <div className="crop-name">{result}</div>
+
+      <div style={{ width: "100%", height: 300 }}>
+        <ResponsiveContainer>
+          <BarChart data={chartData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis domain={[0, 100]} />
+            <Tooltip formatter={(value) => `${value}%`} />
+
+            <Bar dataKey="score">
+              {chartData.map((entry, index) => (
+                <Cell key={index} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+
+  )}
+</div>
 
           
 
