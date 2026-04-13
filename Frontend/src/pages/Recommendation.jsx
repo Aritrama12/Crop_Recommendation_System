@@ -492,11 +492,12 @@ const handleGetLocation = () => {
 )}
 
           {/* 🔹 RESULT */}
-          <div className={`result-card ${error ? "error-card" : ""}`}>
+          <div  key={error} className={`result-card ${error ? "error-card" : ""}`}>
 
             {error ? (
               <div className="result error">
                 <h2>⚠ Invalid Input</h2>
+                
                
 
                 

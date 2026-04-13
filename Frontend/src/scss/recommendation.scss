@@ -1,5 +1,4 @@
 
-
 .recommendation-page {
   margin-left: 320px;
   padding: 40px;
@@ -122,7 +121,7 @@
   .input-error {
     border: 2px solid #e53935 !important;
     background: #fff5f5;
-    animation: shake 0.2s ease;
+    // animation: shake 0.2s ease;
   }
 
   /* 🔴 ERROR TEXT */
@@ -180,6 +179,25 @@
   }
 }
 
+/* ===== LOCATION ===== */
+.form-card .location-note {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 15px;
+}
+
+.form-card .location-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+
+  &:hover {
+    background: #1e40af;
+  }
+}
 
 /* ===== RESULT ===== */
 .result-card {
@@ -190,6 +208,9 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
+
+  position: relative;
+  overflow: hidden;
 
   .empty {
     text-align: center;
@@ -231,7 +252,7 @@
 .result-card.error-card {
   background: #fff5f5;
   border: 2px solid #ef4444;
-  animation: shake 0.3s ease;
+    animation: resultShake 0.35s ease;
 
   h2 {
     color: #dc2626;
@@ -239,26 +260,22 @@
 
   .error-text {
     color: #dc2626;
+    margin-left: 500px;
     font-size: 14px;
     margin-bottom: 10px;
   }
 
-  .error-list {
-    text-align: left;
-    color: #b91c1c;
-
-    li {
-      margin-bottom: 5px;
-    }
-  }
+  
 }
 
 /* ===== ANIMATION ===== */
-@keyframes shake {
+/* 🔥 NEW SAFE SHAKE (no overflow effect) */
+@keyframes resultShake {
   0% { transform: translateX(0); }
-  25% { transform: translateX(-4px); }
-  50% { transform: translateX(4px); }
-  75% { transform: translateX(-4px); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
   100% { transform: translateX(0); }
 }
 
@@ -273,7 +290,6 @@
     grid-template-columns: 1fr;
   }
 }
-
  /* 🔥 LOCATION BUTTON */
   .location-btn {
     display: flex;
