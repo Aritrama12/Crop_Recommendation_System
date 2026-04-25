@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Landing from './pages/Landing'
 import Dashboard from './pages/Dashboard'
 import Recommendation from './pages/Recommendation'
+import FarmRecords from './pages/FarmRecords'
 import Weather from './pages/Weather'
 import Soilanalysis from './pages/Soilanalysis'
 import Analytics from './pages/Analytics'
@@ -22,6 +23,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
         <Route path='/dashboard' element={<Dashboard/>} />
         <Route path='/recommendations' element={<Recommendation/>} />
+        <Route path='/farm-records' element={<FarmRecords/>} />
         <Route path='/weather' element={<Weather/>}/>
         <Route path='/soil-analysis' element={<Soilanalysis/>}/>
         <Route path='/analytics' element={<Analytics/>}/>

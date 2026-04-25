@@ -74,6 +74,11 @@ export default function Sidebar() {
           <Lightbulb size={18} />
           Recommendations
         </NavLink>
+        <NavLink to="/farm-records">
+          <BarChart2 size={18} />
+          Farm Records
+        </NavLink>
+
         <NavLink to="/weather">
           <CloudSun size={18} />
           Weather
