@@ -214,4 +214,71 @@
     }
   }
 }
+
+
+//harvesting history section
+
+/* harvest icon color */
+.harvest-icon {
+  color: #2563eb;
+}
+
+/* yield green text */
+.yield {
+  color: #16a34a;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* quality tags */
+.tag {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.tag.excellent {
+  color: #111;
+}
+
+.tag.good {
+  color: #111;
+}
+
+// sales history section
+
+/* sales icon */
+.sales-icon {
+  color: #16a34a;
+}
+
+/* revenue highlight */
+.revenue {
+  color: #16a34a;
+}
+
+
+
+
+
+//expanse history section
+
+/* expense icon */
+.expense-icon {
+  color: #ea580c;
+}
+
+/* expense amount */
+.expense {
+  color: #ea580c;
+}
+
+/* reuse tag but slightly tweak spacing if needed */
+.tag {
+  margin-right: 8px;
+}
 }
