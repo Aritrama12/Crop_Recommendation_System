@@ -133,33 +133,134 @@ def predict_crop_from_location(request):
 
 #history
 
+# @api_view(["GET"])
+# def get_prediction_history(request):
+#     try:
+#         records = CropPrediction.objects.all().order_by("-created_at")
+
+#         data = []
+
+#         for item in records:
+#             try:
+#                 crop = str(item.predicted_crop)
+
+#                 # ❌ ignore null / empty
+#                 if not crop or crop.lower() in ["none", "null"]:
+#                     continue
+
+#                 # ❌ ignore corrupted numpy/string dumps
+#                 if "array" in crop or "Response" in crop:
+#                     continue
+
+#                 # 🧹 clean garbage patterns
+#                 crop = re.sub(r"\{.*?:\s*", "", crop)
+#                 crop = re.sub(r"array\(\['", "", crop)
+#                 crop = re.sub(r"'\], dtype=.*\)", "", crop)
+#                 crop = crop.replace("{'crop':", "").replace("}", "").strip()
+
+#                 # ❌ final safety check
+#                 if not crop:
+#                     continue
+
+#                 data.append({
+#                     "crop": crop,
+#                     "N": item.N,
+#                     "P": item.P,
+#                     "K": item.K,
+#                     "temperature": item.temperature,
+#                     "humidity": item.humidity,
+#                     "ph": item.ph,
+#                     "rainfall": item.rainfall,
+#                     "created_at": timezone.localtime(item.created_at).isoformat()
+#                 })
+
+#             except Exception:
+#                 # ✅ ignore single bad record (do NOT break whole API)
+#                 continue
+
+#         return Response(data, status=200)
+
+#     except Exception:
+#         # ✅ ignore total API failure safely
+#         return Response({
+#             "message": "History loaded with safe fallback",
+#             "data": []
+#         }, status=200)
+
+# ================================
+# 📁 api/views.py (HISTORY API)
+# ================================
+
+# @api_view(["GET"])
+# def get_prediction_history(request):
+#     records = CropPrediction.objects.all().order_by("-created_at")
+
+#     data = []
+
+#     for item in records:
+#         crop = str(item.predicted_crop).strip()
+
+#         # ❌ Skip bad data
+#         if (
+#             not crop or
+#             crop.lower() in ["none", "null"] or
+#             crop.isdigit() or
+#             "array" in crop.lower()
+#         ):
+#             continue
+
+#         data.append({
+#             "crop": crop,
+#             "N": item.N,
+#             "P": item.P,
+#             "K": item.K,
+#             "temperature": item.temperature,
+#             "humidity": item.humidity,
+#             "ph": item.ph,
+#             "rainfall": item.rainfall,
+#             "created_at": timezone.localtime(item.created_at).isoformat()
+#         })
+
+#     return Response(data, status=200)
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.utils import timezone
+import re
+from api.models import CropPrediction
+
+
 @api_view(["GET"])
 def get_prediction_history(request):
     try:
         records = CropPrediction.objects.all().order_by("-created_at")
-
         data = []
 
         for item in records:
             try:
-                crop = str(item.predicted_crop)
+                crop = str(item.predicted_crop).strip()
 
                 # ❌ ignore null / empty
                 if not crop or crop.lower() in ["none", "null"]:
                     continue
 
-                # ❌ ignore corrupted numpy/string dumps
-                if "array" in crop or "Response" in crop:
+                # ❌ ignore numbers (VERY IMPORTANT FIX)
+                if crop.isdigit():
                     continue
 
-                # 🧹 clean garbage patterns
-                crop = re.sub(r"\{.*?:\s*", "", crop)
-                crop = re.sub(r"array\(\['", "", crop)
-                crop = re.sub(r"'\], dtype=.*\)", "", crop)
+                # ❌ ignore float-like values (e.g., "12.0")
+                if re.match(r'^\d+(\.\d+)?$', crop):
+                    continue
+
+                # ❌ ignore corrupted values
+                if "array" in crop.lower() or "response" in crop.lower():
+                    continue
+
+                # 🧹 optional cleaning (safe minimal)
                 crop = crop.replace("{'crop':", "").replace("}", "").strip()
 
-                # ❌ final safety check
-                if not crop:
+                # ❌ final check
+                if not crop or crop.isdigit():
                     continue
 
                 data.append({
@@ -175,13 +276,11 @@ def get_prediction_history(request):
                 })
 
             except Exception:
-                # ✅ ignore single bad record (do NOT break whole API)
                 continue
 
         return Response(data, status=200)
 
     except Exception:
-        # ✅ ignore total API failure safely
         return Response({
             "message": "History loaded with safe fallback",
             "data": []

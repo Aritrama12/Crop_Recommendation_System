@@ -1,8 +1,22 @@
-from django.urls import path
-from .views import UploadSoil, LatestSoil, History
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import (
+    SoilTestViewSet,
+    CurrentSoilAnalysisView,
+    SoilHistoryView,
+    SoilRecommendationsView,
+    SoilImageUploadView,
+    SoilHealthSummaryView
+)
+
+router = DefaultRouter()
+router.register(r'tests', SoilTestViewSet, basename='soil-tests')
 
 urlpatterns = [
-    path('upload/', UploadSoil.as_view()),
-    path('latest/', LatestSoil.as_view()),
-    path('history/', History.as_view()),
+    path('', include(router.urls)),
+    path('current/', CurrentSoilAnalysisView.as_view(), name='current_soil'),
+    path('history/', SoilHistoryView.as_view(), name='soil_history'),
+    path('recommendations/', SoilRecommendationsView.as_view(), name='soil_recommendations'),
+    path('image-analyze/', SoilImageUploadView.as_view(), name='soil_image_analyze'), # completed
+    path('health-summary/', SoilHealthSummaryView.as_view(), name='soil_health_summary'),
 ]
