@@ -1,4 +1,5 @@
 import './App.css'
+import { Toaster } from "react-hot-toast";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Landing from './pages/Landing'
 import Dashboard from './pages/Dashboard'
@@ -16,6 +17,27 @@ function App() {
 
   return (
    <div className="container">
+
+
+    {/* ✅ HOT TOAST GLOBAL NOTIFIER */}
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          success: {
+            style: {
+              background: "#1f8f4a",
+              color: "#fff",
+            },
+          },
+          error: {
+            style: {
+              background: "#d9534f",
+              color: "#fff",
+            },
+          },
+          duration: 3000,
+        }}
+      />
     <Router>
       <Routes>
         <Route path='/' element={<Landing/>} />

@@ -1,829 +1,786 @@
-// import React, { useState, useRef } from "react";
-// import "../scss/soilanalysis.scss";
-// import topImage from "../assets/soil-top.jpg";
-// import Sidebar from "../components/Sidebar";
-
-// export default function SoilAnalysis() {
-//   const [activeTab, setActiveTab] = useState("current");
-
-//   const [sampleImageFile, setSampleImageFile] = useState(null);
-//   const [sampleImageURL, setSampleImageURL] = useState(null);
-//   const [dataFile, setDataFile] = useState(null);
-//   const [notes, setNotes] = useState("");
-//   const [uploadMessage, setUploadMessage] = useState(null);
-//   const [uploading, setUploading] = useState(false);
-
-//   const imageInputRef = useRef(null);
-//   const dataInputRef = useRef(null);
-
-//   const handleImageChange = (e) => {
-//     const file = e.target.files?.[0];
-//     if (!file) return;
-
-//     if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
-//       setUploadMessage({ type: "error", text: "Image must be JPG, PNG, or WEBP." });
-//       return;
-//     }
-
-//     if (file.size > 5 * 1024 * 1024) {
-//       setUploadMessage({ type: "error", text: "Image must be under 5MB." });
-//       return;
-//     }
-
-//     setSampleImageFile(file);
-//     setSampleImageURL(URL.createObjectURL(file));
-//     setUploadMessage(null);
-//   };
-
-//   const handleDataFileChange = (e) => {
-//     const file = e.target.files?.[0];
-//     if (!file) return;
-
-//     const ext = file.name.split(".").pop().toLowerCase();
-//     if (!["csv", "txt"].includes(ext)) {
-//       setUploadMessage({ type: "error", text: "Only CSV or TXT allowed." });
-//       return;
-//     }
-
-//     if (file.size > 2 * 1024 * 1024) {
-//       setUploadMessage({ type: "error", text: "File must be under 2MB." });
-//       return;
-//     }
-
-//     setDataFile(file);
-//     setUploadMessage(null);
-//   };
-
-//   const handleSubmitTest = (e) => {
-//     e.preventDefault();
-
-//     if (!sampleImageFile && !dataFile) {
-//       setUploadMessage({ type: "error", text: "Attach an image or data file." });
-//       return;
-//     }
-
-//     setUploading(true);
-//     setUploadMessage({ type: "info", text: "Uploading (simulated)..." });
-
-//     setTimeout(() => {
-//       setUploading(false);
-//       setUploadMessage({ type: "success", text: "Test submitted successfully." });
-
-//       setSampleImageFile(null);
-//       if (sampleImageURL) URL.revokeObjectURL(sampleImageURL);
-//       setSampleImageURL(null);
-//       setDataFile(null);
-//       setNotes("");
-
-//       if (imageInputRef.current) imageInputRef.current.value = "";
-//       if (dataInputRef.current) dataInputRef.current.value = "";
-//     }, 900);
-//   };
-
-//   return (
-//     <>
-//       {/* ✅ SAME AS WEATHER */}
-//       <Sidebar />
-
-//       {/* ✅ CONTENT STARTS AFTER SIDEBAR */}
-//       <div className="soil-dashboard">
-//         {/* HERO */}
-//         <div className="soil-top-banner">
-//           <img src={topImage} alt="Soil Testing" className="banner-img" />
-//           <div className="soil-banner-heading">
-//             <h1>Professional Soil Testing</h1>
-//             <p>Accurate analysis for better farming decisions</p>
-//           </div>
-//         </div>
-
-//         {/* TABS */}
-//         <div className="soil-tabs-container">
-//           <div className="soil-tabs">
-//             {["current", "history", "recommendations", "new"].map((tab) => (
-//               <button
-//                 key={tab}
-//                 className={activeTab === tab ? "active" : ""}
-//                 onClick={() => setActiveTab(tab)}
-//               >
-//                 {tab === "current" && "Current Analysis"}
-//                 {tab === "history" && "History"}
-//                 {tab === "recommendations" && "Recommendations"}
-//                 {tab === "new" && "New Test"}
-//               </button>
-//             ))}
-//           </div>
-//         </div>
-
-//         {/* CONTENT */}
-//         <main className="soil-main">
-//           {activeTab === "current" && (
-//             <section className="panel">
-//               <h2>Current Soil Health</h2>
-
-//               <div className="summary">
-//                 <div className="score-block">
-//                   <h3>Soil Score</h3>
-//                   <p className="score">78 / 100</p>
-//                   <div className="progress">
-//                     <span style={{ width: "78%" }} />
-//                   </div>
-//                 </div>
-
-//                 <div className="small-stat">
-//                   <h4>pH</h4>
-//                   <p>6.8</p>
-//                   <small>Near optimal for wheat</small>
-//                 </div>
-
-//                 <div className="small-stat">
-//                   <h4>Moisture</h4>
-//                   <p>18%</p>
-//                   <small>Good</small>
-//                 </div>
-
-//                 <div className="small-stat">
-//                   <p><b>Last test:</b> 15 Mar 2024</p>
-//                   <p><b>Next check:</b> in 30 days</p>
-//                 </div>
-//               </div>
-
-//               <div className="nutrients">
-//                 <article className="card border-left green">
-//                   <h4>Nitrogen</h4>
-//                   <p>Maintain levels with compost.</p>
-//                   <b>45 kg/ha</b>
-//                 </article>
-
-//                 <article className="card border-left orange">
-//                   <h4>Phosphorus</h4>
-//                   <p>Apply DAP.</p>
-//                   <b>25 kg/ha</b>
-//                 </article>
-
-//                 <article className="card border-left blue">
-//                   <h4>Potassium</h4>
-//                   <p>Healthy level.</p>
-//                   <b>35 kg/ha</b>
-//                 </article>
-
-//                 <article className="card border-left brown">
-//                   <h4>Organic Matter</h4>
-//                   <p>Add compost.</p>
-//                   <b>2.1%</b>
-//                 </article>
-//               </div>
-//             </section>
-//           )}
-
-//           {activeTab === "history" && (
-//             <section className="panel">
-//               <h2>History</h2>
-//               <div className="card">15 Mar 2024 – pH 6.8 | N 45 | P 25 | K 35</div>
-//               <div className="card">15 Feb 2024 – pH 6.6 | N 42 | P 23 | K 33</div>
-//               <div className="card">15 Jan 2024 – pH 6.5 | N 40 | P 22 | K 32</div>
-//             </section>
-//           )}
-
-//           {activeTab === "recommendations" && (
-//             <section className="panel">
-//               <h2>Recommendations</h2>
-//               <div className="card">
-//                 <ul>
-//                   <li>Wheat</li>
-//                   <li>Maize</li>
-//                   <li>Pulses</li>
-//                 </ul>
-//               </div>
-//             </section>
-//           )}
-
-//           {activeTab === "new" && (
-//             <section className="panel new-test-panel">
-//               <h2>Submit New Soil Test</h2>
-
-//               <form className="new-test-form" onSubmit={handleSubmitTest}>
-//                 <div className="form-row">
-//                   <label>Sample Image</label>
-//                   <input ref={imageInputRef} type="file" onChange={handleImageChange} />
-//                 </div>
-
-//                 {sampleImageURL && (
-//                   <div className="image-preview">
-//                     <img src={sampleImageURL} alt="Preview" />
-//                   </div>
-//                 )}
-
-//                 <div className="form-row">
-//                   <label>Lab Data</label>
-//                   <input ref={dataInputRef} type="file" onChange={handleDataFileChange} />
-//                 </div>
-
-//                 <div className="form-row">
-//                   <label>Notes</label>
-//                   <textarea value={notes} onChange={(e) => setNotes(e.target.value)} />
-//                 </div>
-
-//                 <div className="form-actions">
-//                   <button className="btn-primary" disabled={uploading}>
-//                     {uploading ? "Uploading..." : "Submit Test"}
-//                   </button>
-//                 </div>
-
-//                 {uploadMessage && (
-//                   <div className={`upload-msg ${uploadMessage.type}`}>
-//                     {uploadMessage.text}
-//                   </div>
-//                 )}
-//               </form>
-//             </section>
-//           )}
-//         </main>
-//       </div>
-//     </>
-//   );
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import React, { useState, useRef } from "react";
+//updated soilAnalysis.jsx
+import React, { useState, useEffect } from "react";
+import {
+ PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  ResponsiveContainer,
+  Legend
+} from "recharts";
 import "../scss/soilanalysis.scss";
-import topImage from "../assets/soil-top.jpg";
+import { FiUpload, FiPlus, FiX } from "react-icons/fi";
 import Sidebar from "../components/Sidebar";
+import { soilAPI } from "../api/soilApi";
+import toast from "react-hot-toast";
 
 export default function SoilAnalysis() {
   const [activeTab, setActiveTab] = useState("current");
+  const [showForm, setShowForm] = useState(false);
+  const [showImageForm, setShowImageForm] = useState(false);
 
-  const [sampleImageFile, setSampleImageFile] = useState(null);
-  const [sampleImageURL, setSampleImageURL] = useState(null);
-  const [dataFile, setDataFile] = useState(null);
-  const [uploadMessage, setUploadMessage] = useState(null);
-  const [uploading, setUploading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
-//  New state for test mode toggle
-  const [testMode, setTestMode] = useState("free");
+  const [summary, setSummary] = useState({});
+  const [latestTest, setLatestTest] = useState({});
+  const [history, setHistory] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
 
-  const imageInputRef = useRef(null);
-  const dataInputRef = useRef(null);
+  const [analysisPopup, setAnalysisPopup] = useState(false);
+  const [analysisResult, setAnalysisResult] = useState(null);
 
-  //  Tabs config
-  const tabs = {
-    current: "Current Analysis",
-    history: "History",
-    recommendations: "Recommendations",
-    new: "New Test",
-  };
+  const [formData, setFormData] = useState({
+    field_name: "",
+    test_date: "",
+    nitrogen: "",
+    phosphorus: "",
+    potassium: "",
+    ph: "",
+    organic_carbon: "",
+    moisture: "",
+    notes: "",
+  });
 
-  //  Validation helpers
-  const isValidImage = (file) =>
-    ["image/jpeg", "image/png", "image/webp"].includes(file.type) &&
-    file.size <= 5 * 1024 * 1024;
+  useEffect(() => {
+    loadAllData();
+  }, []);
 
-  const isValidDataFile = (file) => {
-    const ext = file.name.split(".").pop().toLowerCase();
-    return ["csv", "txt"].includes(ext) && file.size <= 2 * 1024 * 1024;
-  };
+  const loadAllData = async () => {
+    try {
+      const [
+        summaryRes,
+        currentRes,
+        historyRes,
+        recommendationRes
+      ] = await Promise.all([
+        soilAPI.getSummary(),
+        soilAPI.getCurrent(),
+        soilAPI.getHistory(),
+        soilAPI.getRecommendations()
+      ]);
 
-  //  Unified file handler
-  const handleFileChange = (e, type) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+      setSummary(summaryRes.data);
 
-    if (type === "image") {
-      if (!isValidImage(file)) {
-        setUploadMessage({ type: "error", text: "Invalid image (type/size)." });
-        return;
-      }
-      setSampleImageFile(file);
-      setSampleImageURL(URL.createObjectURL(file));
+      setLatestTest({
+        field: currentRes?.data?.field_name || "",
+        date: currentRes?.data?.test_date || "",
+        nitrogen: currentRes?.data?.nitrogen || 0,
+        phosphorus: currentRes?.data?.phosphorus || 0,
+        potassium: currentRes?.data?.potassium || 0,
+        ph: currentRes?.data?.ph || 0,
+        organicCarbon: currentRes?.data?.organic_carbon || 0,
+        moisture: currentRes?.data?.moisture || 0,
+      });
+
+      const historyData = Array.isArray(historyRes.data)
+        ? historyRes.data
+        : historyRes.data.results || [];
+
+      setHistory(
+        historyData.map((item) => ({
+          field: item.field_name,
+          date: item.test_date,
+          n: item.nitrogen,
+          p: item.phosphorus,
+          k: item.potassium,
+          ph: item.ph,
+          status: item.status,
+        }))
+      );
+
+      const recommendationData = Array.isArray(recommendationRes.data)
+        ? recommendationRes.data
+        : recommendationRes.data.results || [];
+
+      // setRecommendations(
+      //   recommendationData.map((item) => ({
+      //     title: item.title,
+      //     description: item.description,
+      //     action_required: item.action_required,
+      //     priority: item.priority,
+      //     crop_name: item.crop_name,
+      //     soil_reason: item.soil_reason,
+      //     nutrient_notes: item.nutrient_notes,
+      //     climate_notes: item.climate_notes,
+      //   }))
+      // );
+      setRecommendations(
+  recommendationData.map((item) => ({
+    title: item.title,
+    description: item.description,
+    action_required: item.action_required,
+    priority: item.priority,
+    crop_name: item.crop_name,
+    soil_reason: item.soil_reason,
+    nutrient_notes: item.nutrient_notes,
+    climate_notes: item.climate_notes,
+  }))
+);
+    } catch (err) {
+      console.log(err);
     }
-
-    if (type === "data") {
-      if (!isValidDataFile(file)) {
-        setUploadMessage({ type: "error", text: "Invalid data file." });
-        return;
-      }
-      setDataFile(file);
-    }
-
-    setUploadMessage(null);
   };
 
-  //  Reset form
-  const resetForm = () => {
-    setSampleImageFile(null);
-    setDataFile(null);
-  
-
-    if (sampleImageURL) URL.revokeObjectURL(sampleImageURL);
-    setSampleImageURL(null);
-
-    if (imageInputRef.current) imageInputRef.current.value = "";
-    if (dataInputRef.current) dataInputRef.current.value = "";
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  //  Submit handler
-  const handleSubmitTest = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const hasUpload = sampleImageFile || dataFile;
+    const loading = toast.loading("Saving soil test...");
 
-    if (!hasUpload) {
-      setUploadMessage({ type: "error", text: "Attach an image or data file." });
+    try {
+      await soilAPI.createTest(formData);
+
+      toast.success("Saved successfully 🌱");
+
+      setFormData({
+        field_name: "",
+        test_date: "",
+        nitrogen: "",
+        phosphorus: "",
+        potassium: "",
+        ph: "",
+        organic_carbon: "",
+        moisture: "",
+        notes: "",
+      });
+
+      setShowForm(false);
+      loadAllData();
+    } catch {
+      toast.error("Failed ❌");
+    } finally {
+      toast.dismiss(loading);
+    }
+  };
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    setShowForm(false);
+    setShowImageForm(false);
+    setSelectedImage(null);
+    setImagePreview(null);
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      setSelectedImage(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleImageUpload = async () => {
+    if (!selectedImage) {
+      toast.error("Select image first");
       return;
     }
 
-    setUploading(true);
-    setUploadMessage({ type: "info", text: "Uploading (simulated)..." });
+    const loading = toast.loading("Analyzing...");
 
-    setTimeout(() => {
-      setUploading(false);
-      setUploadMessage({ type: "success", text: "Test submitted successfully." });
-      resetForm();
-    }, 900);
+    try {
+      const fd = new FormData();
+      fd.append("image", selectedImage);
+
+      const res = await soilAPI.analyzeImage(fd);
+
+      setAnalysisResult(res.data.analysis);
+      setAnalysisPopup(true);
+
+      setShowImageForm(false);
+      setSelectedImage(null);
+      setImagePreview(null);
+
+      loadAllData();
+
+      toast.success("Done 🌱");
+    } catch {
+      toast.error("Failed ❌");
+    } finally {
+      toast.dismiss(loading);
+    }
   };
+
+  const pieData = [
+    { name: "Nitrogen (N) ", value: latestTest.nitrogen || 0 },
+    { name: "Phosphorus (P)", value: latestTest.phosphorus || 0 },
+    { name: "Potassium (K)", value: latestTest. potassium || 0 },
+    { name: "Moisture", value: latestTest.moisture || 0 },
+    {
+    name: "Organic Carbon (C)",
+    value: latestTest.organicCarbon || 0
+  }
+  ];
+
+  const COLORS = ["#2f6f4f", "#d9ab3f", "#ef6b4a", "#3b82f6", "#891c8d"];
 
   return (
     <>
       <Sidebar />
 
-      <div className="soil-dashboard">
-        {/* HERO */}
-        <div className="soil-top-banner">
-          <img src={topImage} alt="Soil Testing" className="banner-img" />
-          <div className="soil-banner-heading">
-            <h1>Professional Soil Testing</h1>
-            <p>Accurate analysis for better farming decisions</p>
+      <div className="soil-analysis-page">
+
+        <div className="top-header">
+          <div>
+            <h1>🧪 Soil Analysis</h1>
+            <p>Monitor and analyze your soil health</p>
           </div>
+
+          {activeTab === "current" && (
+            <div className="header-btns">
+
+              <button
+                className="secondary-btn"
+                onClick={() => {
+                  setShowImageForm(!showImageForm);
+                  setShowForm(false);
+                }}
+              >
+                {showImageForm ? <FiX /> : <FiUpload />}
+                {showImageForm ? "Cancel" : "Image Analysis"}
+              </button>
+
+              <button
+                className="primary-btn"
+                onClick={() => {
+                  setShowForm(!showForm);
+                  setShowImageForm(false);
+                }}
+              >
+                {showForm ? <FiX /> : <FiPlus />}
+                {showForm ? "Cancel" : "New Test"}
+              </button>
+
+            </div>
+          )}
         </div>
 
-        {/* TABS */}
-        <div className="soil-tabs-container">
-          <div className="soil-tabs">
-            {Object.entries(tabs).map(([key, label]) => (
-              <button
-                key={key}
-                className={activeTab === key ? "active" : ""}
-                onClick={() => setActiveTab(key)}
-              >
-                {label}
-              </button>
+        {/* summary */}
+        <div className="summary-grid">
+
+          <div className="card">
+            <div className="icon green">🍃</div>
+            <div>
+              <h2>{summary?.overall_health}</h2>
+              <p>Overall Health</p>
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="icon green">📈</div>
+            <div>
+              <h2>{summary?.health_score}/100</h2>
+              <p>Health Score</p>
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="icon red">N</div>
+            <div>
+              <h2 className="low">
+                {summary?.nutrient_status?.nitrogen}
+              </h2>
+              <p>Nitrogen</p>
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="icon yellow">P</div>
+            <div>
+              <h2 className="high">
+                {summary?.nutrient_status?.phosphorus}
+              </h2>
+              <p>Phosphorus</p>
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="icon red">K</div>
+            <div>
+              <h2 className="low">
+                {summary?.nutrient_status?.potassium}
+              </h2>
+              <p>Potassium</p>
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="icon yellow">pH</div>
+            <div>
+              <h2 className="alkaline">
+                {summary?.nutrient_status?.ph}
+              </h2>
+              <p>pH</p>
+            </div>
+          </div>
+
+        </div>
+
+        {/* tabs */}
+        <div className="tabs">
+          <button
+            className={activeTab === "current" ? "active" : ""}
+            onClick={() => handleTabChange("current")}
+          >
+            Current Analysis
+          </button>
+
+          <button
+            className={activeTab === "history" ? "active" : ""}
+            onClick={() => handleTabChange("history")}
+          >
+            Historical Data
+          </button>
+
+          <button
+            className={activeTab === "recommendation" ? "active" : ""}
+            onClick={() => handleTabChange("recommendation")}
+          >
+            Recommendations
+          </button>
+        </div>
+
+        {/* CURRENT */}
+        {activeTab === "current" && (
+          <>
+            {showImageForm && (
+              <div className="image-box">
+                <h3>Upload Soil Image</h3>
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+
+                {imagePreview && (
+                  <img src={imagePreview} alt="" />
+                )}
+
+                <button
+                  className="analyze-btn"
+                  onClick={handleImageUpload}
+                >
+                  Analyze
+                </button>
+              </div>
+            )}
+
+            {/* {showForm && (
+              <div className="manual-form-box">
+                <form onSubmit={handleSubmit}>
+                  <input
+                    name="field_name"
+                    placeholder="Field Name"
+                    value={formData.field_name}
+                    onChange={handleChange}
+                  />
+
+                  <input
+                    type="date"
+                    name="test_date"
+                    value={formData.test_date}
+                    onChange={handleChange}
+                  />
+
+                  <input
+                    name="nitrogen"
+                    placeholder="Nitrogen"
+                    value={formData.nitrogen}
+                    onChange={handleChange}
+                  />
+
+                  <button className="save-btn">
+                    Save
+                  </button>
+                </form>
+              </div>
+            )} */}
+            {showForm && (
+  <div className="manual-form-box">
+    <h2>Add Soil Test</h2>
+
+    <form onSubmit={handleSubmit}>
+
+      <div className="form-grid two">
+        <div>
+          <label>Field Name *</label>
+          <input
+            type="text"
+            name="field_name"
+            value={formData.field_name}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div>
+          <label>Test Date *</label>
+          <input
+            type="date"
+            name="test_date"
+            value={formData.test_date}
+            onChange={handleChange}
+            required
+          />
+        </div>
+      </div>
+
+      <div className="form-grid three">
+        <div>
+          <label>Nitrogen</label>
+          <input
+            type="number"
+            name="nitrogen"
+            placeholder="Nitrogen"
+            value={formData.nitrogen}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div>
+          <label>Phosphorus</label>
+          <input
+            type="number"
+            name="phosphorus"
+            placeholder="Phosphorus"
+            value={formData.phosphorus}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div>
+          <label>Potassium</label>
+          <input
+            type="number"
+            name="potassium"
+            placeholder="Potassium"
+            value={formData.potassium}
+            onChange={handleChange}
+            required
+          />
+        </div>
+      </div>
+
+      <div className="form-grid three">
+        <div>
+          <label>pH</label>
+          <input
+            type="number"
+            step="0.1"
+            name="ph"
+            placeholder="pH"
+            value={formData.ph}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div>
+          <label>Organic Carbon</label>
+          <input
+            type="number"
+            step="0.1"
+            name="organic_carbon"
+            placeholder="Organic Carbon"
+            value={formData.organic_carbon}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div>
+          <label>Moisture</label>
+          <input
+            type="number"
+            step="0.1"
+            name="moisture"
+            placeholder="Moisture"
+            value={formData.moisture}
+            onChange={handleChange}
+            required
+          />
+        </div>
+      </div>
+
+      <div className="notes">
+        <label>Notes</label>
+        <textarea
+          rows="5"
+          name="notes"
+          placeholder="Additional notes..."
+          value={formData.notes}
+          onChange={handleChange}
+        />
+      </div>
+
+      <button type="submit" className="save-btn">
+        <FiPlus />
+        Save Test
+      </button>
+
+    </form>
+  </div>
+)}
+
+            <div className="content-box modern-current-box">
+
+              <div className="current-left">
+                <h2>Latest Soil Test - {latestTest.field}</h2>
+                <p>Date: {latestTest.date}</p>
+
+                <div className="metric-grid">
+                  <div className="metric-card">
+                    <h3>{latestTest.nitrogen} kg/ha</h3>
+                    <span>Nitrogen</span>
+                  </div>
+
+                  <div className="metric-card">
+                    <h3>{latestTest.phosphorus} kg/ha</h3>
+                    <span>Phosphorus</span>
+                  </div>
+
+                  <div className="metric-card">
+                    <h3>{latestTest.potassium} kg/ha</h3>
+                    <span>Potassium</span>
+                  </div>
+
+                  <div className="metric-card">
+                    <h3>{latestTest.ph}</h3>
+                    <span>pH</span>
+                  </div>
+
+                  <div className="metric-card">
+                    <h3>{latestTest.organicCarbon}%</h3>
+                    <span>Organic Carbon</span>
+                  </div>
+
+                  <div className="metric-card">
+                    <h3>{latestTest.moisture}%</h3>
+                    <span>Moisture</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="chart-side">
+                <h2>Nutrient Distribution</h2>
+
+                <PieChart width={450} height={300}>
+                  {/* <Pie
+                    data={pieData}
+                    cx="40%"
+                    cy="50%"
+                    outerRadius={110}
+                    label
+                    dataKey="value"
+                  >
+                    {pieData.map((_, i) => (
+                      <Cell
+                        key={i}
+                        fill={COLORS[i]}
+                      />
+                    ))}
+                  </Pie> */}
+ <Pie
+  data={pieData}
+  cx="80%"
+  cy="50%"
+  outerRadius={110}
+  innerRadius={55}   // makes donut style (optional)
+  dataKey="value"
+  label={({ percent }) =>
+    `${(percent * 100).toFixed(1)}%`
+  }
+  labelLine={false}
+>
+  {pieData.map((_, i) => (
+    <Cell
+      key={i}
+      fill={COLORS[i]}
+    />
+  ))}
+</Pie>
+
+<Legend
+  layout="vertical"
+  align="right"
+  verticalAlign="middle"
+  wrapperStyle={{
+    right: -100,
+    lineHeight: "32px",
+    paddingLeft: "60px"
+  }}
+/>
+                </PieChart>
+              </div>
+
+            </div>
+          </>
+        )}
+
+        {/* HISTORY */}
+        {activeTab === "history" && (
+          <div className="content-box">
+            <table>
+              <thead>
+                <tr>
+                  <th>Field</th>
+                  <th>Date</th>
+                  <th>N</th>
+                  <th>P</th>
+                  <th>K</th>
+                  <th>pH</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {history.map((item, i) => (
+                  <tr key={i}>
+                    <td>{item.field}</td>
+                    <td>{item.date}</td>
+                    <td>{item.n}</td>
+                    <td>{item.p}</td>
+                    <td>{item.k}</td>
+                    <td>{item.ph}</td>
+                    <td>
+  <span className={`status ${item.status?.toLowerCase()}`}>
+    {item.status}
+  </span>
+</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {/* recommendation */}
+        {/* {activeTab === "recommendation" && (
+          <div className="content-box recommendation-list">
+            {recommendations.map((item, i) => (
+              <div className="recommend-card" key={i}>
+                <h3>{item.crop_name}</h3>
+                <p>{item.description}</p>
+                <p>{item.action_required}</p>
+              </div>
             ))}
           </div>
+        )} */}
+        {/* RECOMMENDATION */}
+{activeTab === "recommendation" && (
+  <div className="content-box recommendation-list">
+    {recommendations.length > 0 ? (
+      recommendations.map((item, i) => (
+        <div
+          key={i}
+          className={`recommend-card ${item.priority || "medium"}`}
+        >
+          {/* LEFT */}
+          <div className="rec-main">
+            <h3 className="crop-title">
+              🌾 {item.crop_name || item.title}
+            </h3>
+
+            <p className="crop-desc">
+              {item.description}
+            </p>
+
+            <div className="crop-details">
+              {item.soil_reason && (
+                <p>
+                  <strong>Soil Suitability:</strong>{" "}
+                  {item.soil_reason}
+                </p>
+              )}
+
+              {item.nutrient_notes && (
+                <p>
+                  <strong>Nutrient Insight:</strong>{" "}
+                  {item.nutrient_notes}
+                </p>
+              )}
+
+              {item.climate_notes && (
+                <p>
+                  <strong>Climate Fit:</strong>{" "}
+                  {item.climate_notes}
+                </p>
+              )}
+            </div>
+
+            {item.action_required && (
+              <div className="action-box">
+                <strong>Recommended Action:</strong>
+                <p>{item.action_required}</p>
+              </div>
+            )}
+          </div>
+
+          {/* RIGHT */}
+          <div className="rec-badge">
+            <span className={item.priority}>
+              {item.priority}
+            </span>
+          </div>
         </div>
+      ))
+    ) : (
+      <p>No recommendations available</p>
+    )}
+  </div>
+)}
 
-        
-        <main className="soil-main">
-
-          {/* current analysis */}
-           {activeTab === "current" && (
-            <section className="panel modern-current">
-              <h2>Current Soil Health</h2>
-
-
-               {/* SOIL SCORE */}
-              <div className="score-box">
-                <h3>Soil Score</h3>
-                <div className="score-circle">
-                  <div style={{ width: "78%" }} />
-                </div>
-                <p>78 / 100</p>
-              </div>
-
-              {/* TOP METRICS */}
-              <div className="top-cards">
-                <div className="metric-card">
-                  <span className="icon">🧪</span>
-                  <h3>6.8</h3>
-                  <p>pH Level</p>
-                  <span className="tag">Optimal</span>
-                </div>
-
-                <div className="metric-card">
-                  <span className="icon">🌿</span>
-                  <h3>45</h3>
-                  <p>Nitrogen (kg/ha)</p>
-                  <span className="tag">Good</span>
-                </div>
-
-                <div className="metric-card">
-                  <span className="icon">💧</span>
-                  <h3>18%</h3>
-                  <p>Moisture</p>
-                  <span className="tag">Normal</span>
-                </div>
-
-                <div className="metric-card">
-                  <span className="icon">⚗️</span>
-                  <h3>2.1%</h3>
-                  <p>Organic Matter</p>
-                  <span className="tag">Low</span>
-                </div>
-              </div>
-
-             
-
-              {/* LOWER GRID */}
-              <div className="bottom-grid">
-                {/* Nutrients */}
-                <div className="info-card">
-                  <h3>Nutrient Levels</h3>
-                  <p className="sub">Current soil nutrient composition</p>
-
-                  {/* ===== Progress Row ===== */}
-                  <div className="progress-row">
-                    <div className="top">
-                      <span>Nitrogen (N)</span>
-                      <b>45 kg/ha</b>
-                    </div>
-
-                    <div className="bar">
-                      <div style={{ width: "75%" }}></div> {/* dynamic width */}
-                    </div>
-                  </div>
-
-                  <div className="progress-row">
-                    <div className="top">
-                      <span>Phosphorus (P)</span>
-                      <b>25 kg/ha</b>
-                    </div>
-
-                    <div className="bar">
-                      <div style={{ width: "60%" }} />
-                      </div>
-                  </div>
-
-                  <div className="progress-row">
-                    <div className="top">
-                      <span>Potassium (K)</span>
-                      <b>35 kg/ha</b>
-                    </div>
-
-                    <div className="bar">
-                      <div style={{ width: "70%" }} />
-                      </div>
-                  </div>
-
-                  <div className="progress-row">
-                    <div className="top">
-                      <span>Organic Matter</span>
-                      <b>2.1%</b>
-                    </div>
-
-                    <div className="bar">
-                      <div style={{ width: "40%" }} />
-                      </div>
-                  </div>
-                </div>
-
-                {/* Physical Properties */}
-                <div className="info-card">
-                  <h3>Physical Properties</h3>
-                  <p className="sub">Soil structure and conditions</p>
-
-                  <div className="prop">
-                    <span>pH Level</span>
-                    <div className="right">
-                      <b>6.8</b>
-                      <p className="green">Slightly Acidic</p>
-                    </div>
-                  </div>
-
-                  <div className="prop">
-                    <span>Moisture</span>
-                    <div className="right">
-                      <b>18%</b>
-                      <p className="blue">Adequate</p>
-                    </div>
-                  </div>
-
-                  <div className="prop">
-                    <span>Temperature</span>
-                    <div className="right">
-                      <b>24°C</b>
-                      <p className="orange">Optimal</p>
-                    </div>
-                  </div>
-
-                  <div className="prop">
-                    <span>Conductivity</span>
-                    <div className="right">
-                      <b>0.8 dS/m</b>
-                      <p className="green">Normal</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-          )}
-
-
-
-          {/* history */}
-            {activeTab === "history" && (
-              <section className="panel history-panel">
-                <div className="history-header">
-                  <h2>Soil Analysis History</h2>
-                  <p>Track changes in soil composition over time</p>
-                </div>
-
-                <div className="history-list">
-                  {[
-                    {
-                      date: "1/15/2024",
-                      test: "Test #1",
-                      pH: 6.5,
-                      N: 40,
-                      P: 22,
-                      K: 32,
-                      organic: "1.9%",
-                    },
-                    {
-                      date: "2/15/2024",
-                      test: "Test #2",
-                      pH: 6.6,
-                      N: 42,
-                      P: 23,
-                      K: 33,
-                      organic: "2%",
-                    },
-                    {
-                      date: "3/15/2024",
-                      test: "Test #3",
-                      pH: 6.8,
-                      N: 45,
-                      P: 25,
-                      K: 35,
-                      organic: "2.1%",
-                    },
-                  ].map((item, i) => (
-                    <div key={i} className="history-card">
-                      <div className="history-top">
-                        <div className="date">
-                          📅 <span>{item.date}</span>
-                        </div>
-                        <div className="badge">{item.test}</div>
-                      </div>
-
-                      <div className="history-metrics">
-                        <div>
-                          <p>pH</p>
-                          <h4>{item.pH}</h4>
-                        </div>
-
-                        <div>
-                          <p>Nitrogen</p>
-                          <h4>{item.N} kg/ha</h4>
-                        </div>
-
-                        <div>
-                          <p>Phosphorus</p>
-                          <h4>{item.P} kg/ha</h4>
-                        </div>
-
-                        <div>
-                          <p>Potassium</p>
-                          <h4>{item.K} kg/ha</h4>
-                        </div>
-
-                        <div>
-                          <p>Organic Matter</p>
-                          <h4>{item.organic}</h4>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* recommendations */}
-            {activeTab === "recommendations" && (
-              <section className="panel recommendations-panel">
-                <h2>Soil Recommendations</h2>
-
-                <div className="recommendation-list">
-                  {[
-                    {
-                      title: "Nitrogen",
-                      desc: "Maintain current levels with organic compost",
-                      value: "45 kg/ha",
-                      status: "good",
-                      priority: "low",
-                    },
-                    {
-                      title: "Phosphorus",
-                      desc: "Apply DAP fertilizer - 50kg per hectare",
-                      value: "25 kg/ha",
-                      status: "low",
-                      priority: "medium",
-                    },
-                    {
-                      title: "Potassium",
-                      desc: "Consider potash application before next season",
-                      value: "35 kg/ha",
-                      status: "warning",
-                      priority: "low",
-                    },
-                    {
-                      title: "pH Level",
-                      desc: "Perfect for most crops. No adjustment needed",
-                      value: "6.8",
-                      status: "good",
-                      priority: "low",
-                    },
-                  ].map((item, i) => (
-                    <div key={i} className="recommendation-card">
-                      
-                      {/* LEFT */}
-                      <div className="rec-left">
-                        <div className={`iconn ${item.status}`}>
-                          {item.status === "good" && "✔"}
-                          {item.status === "low" && "!"}
-                          {item.status === "warning" && "⚠"}
-                        </div>
-
-                        <div className="rec-content">
-                          <h3>{item.title}</h3>
-                          <p>{item.desc}</p>
-
-                          <div className="current">
-                            Current:
-                            <span className={`value ${item.status}`}>
-                              {item.value}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* RIGHT */}
-                      <div className={`priority ${item.priority}`}>
-                        {item.priority} priority
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-
-          {/* new test form */}
-
-
-          {activeTab === "new" && (
-            <section className="panel new-test-panel">
-              <h2>Submit New Soil Test</h2>
-
-              {/* TOGGLE */}
-              <div className="test-type-toggle">
-                <button
-                  className={testMode === "free" ? "active" : ""}
-                  onClick={() => setTestMode("free")}
-                  type="button"
-                >
-                  Free Quick Test
-                </button>
-
-                <button
-                  className={testMode === "paid" ? "active" : ""}
-                  onClick={() => setTestMode("paid")}
-                  type="button"
-                >
-                  Book Professional Test
-                </button>
-              </div>
-
-              {/*  FREE TEST  */}
-              {testMode === "free" && (
-                <form className="new-test-form" onSubmit={handleSubmitTest}>
-                  
-                  {/* Image Upload */}
-                  <div className="form-row">
-                    <label>Upload Soil Image *</label>
-                    <input
-                      ref={imageInputRef}
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => handleFileChange(e, "image")}
-                      required
-                    />
-                  </div>
-
-                  {sampleImageURL && (
-                    <div className="image-preview">
-                      <img src={sampleImageURL} alt="Preview" />
-                    </div>
-                  )}
-
-                  {/* FORM GRID */}
-                  <div className="form-grid">
-
-                    <div className="form-row">
-                      <label>Location</label>
-                      <input type="text" placeholder="e.g. West Bengal" />
-                    </div>
-
-                    <div className="form-row">
-                      <label>Temperature (°C)</label>
-                      <input type="number" placeholder="e.g. 28" />
-                    </div>
-
-                    <div className="form-row">
-                      <label>Moisture (%)</label>
-                      <input type="number" placeholder="e.g. 60" />
-                    </div>
-
-                    <div className="form-row">
-                      <label>Rainfall (mm)</label>
-                      <input type="number" placeholder="e.g. 120" />
-                    </div>
-
-                    {/* <div className="form-row">
-                      <label>Soil Type</label>
-                      <select>
-                        <option>Loamy</option>
-                        <option>Sandy</option>
-                        <option>Clay</option>
-                        <option>Silty</option>
-                      </select>
-                    </div> */}
-
-                  </div>
-
-                  <div className="form-actions">
-                    <button className="btn-primary" disabled={uploading}>
-                      {uploading ? "Analyzing..." : "Submit Free Test"}
-                    </button>
-                  </div>
-
-                  {uploadMessage && (
-                    <div className={`upload-msg ${uploadMessage.type}`}>
-                      {uploadMessage.text}
-                    </div>
-                  )}
-                </form>
-              )}
-
-              {/*  PAID TEST  */}
-              {testMode === "paid" && (
-                <form className="paid-test-form">
-                  <div className="form-grid">
-                    <div className="form-row">
-                      <label>Farm Location</label>
-                      <input type="text" placeholder="Enter farm address" />
-                    </div>
-
-                    <div className="form-row">
-                      <label>Area to Test (hectares)</label>
-                      <input type="number" placeholder="e.g. 5" />
-                    </div>
-
-                    <div className="form-row">
-                      <label>Preferred Test Date</label>
-                      <input type="date" />
-                    </div>
-
-                    <div className="form-row">
-                      <label>Test Type</label>
-                      <select>
-                        <option>Basic Nutrient Analysis</option>
-                        <option>Comprehensive Soil Health</option>
-                        <option>Organic Matter & pH Only</option>
-                        <option>Heavy Metals Testing</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Upload Section */}
-                  <div className="upload-box">
-                    <p>Upload Soil Samples Photos (optional)</p>
-                    <input type="file" />
-                  </div>
-
-                  <div className="form-actions">
-                    <button className="btn-primary">
-                      Schedule Soil Test - ₹2,500
-                    </button>
-                  </div>
-                </form>
-              )}
-            </section>
-          )}
-
-
-
-        </main>
       </div>
+
+      {analysisPopup && analysisResult && (
+        <div className="popup-overlay">
+          <div className="analysis-popup">
+            <button
+              className="close-popup"
+              onClick={() => setAnalysisPopup(false)}
+            >
+              <FiX />
+            </button>
+
+            <h2>🌱 Analysis Result</h2>
+
+            <div className="popup-result-grid">
+              <div className="result-card">
+                 
+
+                <h3>Soil Type : {analysisResult.soil_type}</h3>
+               
+              </div>
+
+              <div className="result-card">
+                
+                <h3>Moisture : {analysisResult.moisture}</h3>
+                
+              </div>
+
+              <div className="result-card">
+                <h3>Fertility : {analysisResult.fertility}</h3>
+               
+              </div>
+
+              <div className="result-card">
+           <h3>Confidence: {(analysisResult.confidence * 100).toFixed(2)}%</h3>
+          
+         </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

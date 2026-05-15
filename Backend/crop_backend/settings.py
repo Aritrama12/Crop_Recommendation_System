@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'profiles',
     'weather',
     'settings',
+    'soil',
+    
 ]
 
 REST_FRAMEWORK = {

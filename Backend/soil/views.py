@@ -1,93 +1,323 @@
-from django.shortcuts import render
 
+from rest_framework import generics, status, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import SoilTest
-from .utils import analyze_soil
+from rest_framework.parsers import MultiPartParser, FormParser
+from django.utils import timezone
 
-import pandas as pd   # ✅ NEW
+from .models import SoilTest, SoilRecommendation, SoilImage
+from .serializers import (
+    SoilTestSerializer,
+    SoilTestCreateSerializer,
+    SoilRecommendationSerializer,
+    SoilImageUploadSerializer
+)
+from .services import SoilAnalysisService, SoilImageAnalyzer
 
 
-class UploadSoil(APIView):
-    def post(self, request):
-        try:
-            image = request.FILES.get('image')
-            data_file = request.FILES.get('data_file')
-            notes = request.data.get('notes')
+# ==========================================================
+# SOIL TEST CRUD
+# ==========================================================
+class SoilTestViewSet(viewsets.ModelViewSet):
+    serializer_class = SoilTestSerializer
 
-            # ✅ REAL ANALYSIS (CSV or default)
-            if data_file:
-                df = pd.read_csv(data_file)
-                row = df.iloc[0].to_dict()   # first row
-                result = analyze_soil(row)
-            else:
-                result = analyze_soil({})
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return SoilTest.objects.filter(
+                user=self.request.user
+            ).order_by("-created_at")
 
-            # ✅ SAVE TO DATABASE
-            SoilTest.objects.create(
-                image=image,
-                data_file=data_file,
-                notes=notes,
-                ph=result["ph"],
-                nitrogen=result["nitrogen"],
-                phosphorus=result["phosphorus"],
-                potassium=result["potassium"],
-                moisture=result["moisture"],
-                soil_score=result["soil_score"],
-                organic_matter=result["organic_matter"]
+        return SoilTest.objects.all().order_by("-created_at")
+
+    def get_serializer_class(self):
+        if self.action in ["create", "update", "partial_update"]:
+            return SoilTestCreateSerializer
+        return SoilTestSerializer
+
+    def perform_create(self, serializer):
+        # if logged in -> save user
+        if self.request.user.is_authenticated:
+            soil_test = serializer.save(
+                user=self.request.user,
+                status="completed"
+            )
+        else:
+            soil_test = serializer.save(
+                status="completed"
             )
 
-            return Response({
-                "message": "Uploaded",
-                "data": result
-            })
+        service = SoilAnalysisService()
+        recommendations = service.analyze_soil_test(soil_test)
 
-        except Exception as e:
-            print("ERROR:", e)
-            return Response({"error": str(e)}, status=500)
+        for rec in recommendations:
+            SoilRecommendation.objects.create(
+                soil_test=soil_test,
+                **rec
+            )
 
 
-class LatestSoil(APIView):
+# ==========================================================
+# CURRENT SOIL ANALYSIS
+# ==========================================================
+class CurrentSoilAnalysisView(APIView):
+
     def get(self, request):
-        soil = SoilTest.objects.last()
 
-        # ✅ IF NO DATA
-        if not soil:
-            return Response({
-                "soil_score": 0,
-                "ph": 0,
-                "moisture": 0,
-                "nitrogen": 0,
-                "phosphorus": 0,
-                "potassium": 0,
-                "organic_matter": 0
+        if request.user.is_authenticated:
+            soil_test = SoilTest.objects.filter(
+                user=request.user,
+                status="completed"
+            ).order_by("-created_at").first()
+        else:
+            soil_test = SoilTest.objects.filter(
+                status="completed"
+            ).order_by("-created_at").first()
+
+        if not soil_test:
+            return Response(
+                {"message": "No completed soil tests found"},
+                status=404
+            )
+
+        serializer = SoilTestSerializer(soil_test)
+        return Response(serializer.data)
+
+
+# ==========================================================
+# SOIL HISTORY
+# ==========================================================
+class SoilHistoryView(generics.ListAPIView):
+    serializer_class = SoilTestSerializer
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return SoilTest.objects.filter(
+                user=self.request.user
+            ).order_by("-created_at")
+
+        return SoilTest.objects.all().order_by("-created_at")
+
+
+# # ==========================================================
+# # RECOMMENDATIONS
+# # ==========================================================
+# class SoilRecommendationsView(generics.ListAPIView):
+#     serializer_class = SoilRecommendationSerializer
+
+#     def get_queryset(self):
+#         if self.request.user.is_authenticated:
+#             return SoilRecommendation.objects.filter(
+#                 soil_test__user=self.request.user
+#             ).order_by("-priority", "-created_at")
+
+#         return SoilRecommendation.objects.all().order_by(
+#             "-priority",
+#             "-created_at"
+#         )
+class SoilRecommendationsView(generics.ListAPIView):
+    serializer_class = SoilRecommendationSerializer
+
+    def list(self, request, *args, **kwargs):
+
+        if request.user.is_authenticated:
+            recommendations = SoilRecommendation.objects.filter(
+                soil_test__user=request.user
+            ).order_by("-priority", "-created_at")
+        else:
+            recommendations = SoilRecommendation.objects.all().order_by(
+                "-priority",
+                "-created_at"
+            )
+
+        data = []
+
+        for r in recommendations:
+
+            # ---------------- CROP PARSE ----------------
+            crop_name = None
+            soil_reason = None
+
+            if r.category == "crop":
+                crop_name = "Recommended Crop Selection"
+                soil_reason = r.description
+
+            # ---------------- NUTRIENT INSIGHT ----------------
+            nutrient_notes = None
+            if r.category == "fertilizer":
+                nutrient_notes = r.description
+
+            # ---------------- CLIMATE / PH INSIGHT ----------------
+            climate_notes = None
+            if r.category == "amendment":
+                climate_notes = r.description
+
+            data.append({
+                "id": r.id,
+                "title": r.title,
+                "desc": r.description,
+                "action": r.action_required,
+                "severity": r.priority,
+
+                # NEW FRONTEND FIELDS
+                "crop_name": crop_name,
+                "soil_reason": soil_reason,
+                "nutrient_notes": nutrient_notes,
+                "climate_notes": climate_notes,
             })
 
-        # ✅ RETURN FULL DATA
+        return Response(data)
+
+# ==========================================================
+# IMAGE ANALYSIS
+# ==========================================================
+class SoilImageUploadView(APIView):
+    parser_classes = [MultiPartParser, FormParser]
+
+    def post(self, request):
+        serializer = SoilImageUploadSerializer(
+            data=request.data
+        )
+        serializer.is_valid(raise_exception=True)
+
+        if request.user.is_authenticated:
+            soil_image = SoilImage.objects.create(
+                user=request.user,
+                **serializer.validated_data
+            )
+        else:
+            soil_image = SoilImage.objects.create(
+                **serializer.validated_data
+            )
+
+        analyzer = SoilImageAnalyzer()
+
+        result = analyzer.analyze_image(
+            soil_image.image.path
+        )
+
+        soil_image.analyzed = True
+        soil_image.predicted_soil_type = result["soil_type"]
+        soil_image.predicted_moisture = result["moisture"]
+        soil_image.predicted_fertility = result["fertility"]
+        soil_image.confidence = result["confidence"]
+        soil_image.analysis_data = result["analysis_data"]
+        soil_image.analyzed_at = timezone.now()
+        soil_image.save()
+
         return Response({
-            "soil_score": soil.soil_score,
-            "ph": soil.ph,
-            "moisture": soil.moisture,
-            "nitrogen": soil.nitrogen,
-            "phosphorus": soil.phosphorus,
-            "potassium": soil.potassium,
-            "organic_matter": soil.organic_matter
+            "id": soil_image.id,
+            "image_url": request.build_absolute_uri(
+                soil_image.image.url
+            ),
+            "analysis": result
+        }, status=201)
+
+
+# ==========================================================
+# HEALTH SUMMARY
+# ==========================================================
+class SoilHealthSummaryView(APIView):
+
+    def get(self, request):
+
+        if request.user.is_authenticated:
+            latest_test = SoilTest.objects.filter(
+                user=request.user,
+                status="completed"
+            ).order_by("-created_at").first()
+        else:
+            latest_test = SoilTest.objects.filter(
+                status="completed"
+            ).order_by("-created_at").first()
+
+        if not latest_test:
+            return Response({
+                "overall_health": "No Data",
+                "health_score": 0,
+                "nutrient_status": {}
+            })
+
+        score = self._calculate_health_score(latest_test)
+
+        return Response({
+            "overall_health": self._get_health_label(score),
+            "health_score": score,
+            "nutrient_status": {
+                "nitrogen": self._get_nutrient_status(
+                    latest_test.nitrogen, "nitrogen"
+                ),
+                "phosphorus": self._get_nutrient_status(
+                    latest_test.phosphorus, "phosphorus"
+                ),
+                "potassium": self._get_nutrient_status(
+                    latest_test.potassium, "potassium"
+                ),
+                "ph": self._get_ph_status(
+                    latest_test.ph
+                )
+            },
+            "recommendations_count":
+                latest_test.recommendations.count(),
+            "last_test_date":
+                latest_test.test_date
         })
 
+    def _calculate_health_score(self, test):
+        score = 100
 
-class History(APIView):
-    def get(self, request):
-        data = SoilTest.objects.all().order_by('-created_at')
+        if test.nitrogen < 140:
+            score -= 15
+        elif test.nitrogen > 560:
+            score -= 10
 
-        result = []
-        for d in data:
-            result.append({
-                "date": d.created_at.strftime("%d %b %Y"),
-                "ph": d.ph,
-                "nitrogen": d.nitrogen,
-                "phosphorus": d.phosphorus,
-                "potassium": d.potassium,
-                "soil_score": d.soil_score
-            })
+        if test.phosphorus < 10:
+            score -= 15
+        elif test.phosphorus > 50:
+            score -= 10
 
-        return Response(result)
+        if test.potassium < 110:
+            score -= 15
+        elif test.potassium > 560:
+            score -= 10
+
+        if test.ph < 5.5 or test.ph > 8.5:
+            score -= 20
+        elif test.ph < 6.0 or test.ph > 7.5:
+            score -= 10
+
+        return max(0, min(100, score))
+
+    def _get_health_label(self, score):
+        if score >= 80:
+            return "Excellent"
+        elif score >= 60:
+            return "Good"
+        elif score >= 40:
+            return "Fair"
+        return "Poor"
+
+    def _get_nutrient_status(self, value, nutrient):
+        ranges = {
+            "nitrogen": {"low": 140, "high": 560},
+            "phosphorus": {"low": 10, "high": 50},
+            "potassium": {"low": 110, "high": 560},
+        }
+
+        r = ranges[nutrient]
+
+        if value < r["low"]:
+            return "Low"
+        elif value > r["high"]:
+            return "High"
+        return "Optimal"
+
+    def _get_ph_status(self, ph):
+        if ph < 5.5:
+            return "Very Acidic"
+        elif ph < 6.0:
+            return "Acidic"
+        elif ph <= 7.5:
+            return "Optimal"
+        elif ph <= 8.5:
+            return "Alkaline"
+        return "Very Alkaline"
