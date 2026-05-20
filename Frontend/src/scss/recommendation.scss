@@ -220,6 +220,7 @@
     .icon {
       font-size: 50px;
       margin-bottom: 10px;
+      margin-left: 13px;
     }
 
     h3 {
@@ -270,16 +271,7 @@
   
 }
 
-/* ===== ANIMATION ===== */
-/* 🔥 NEW SAFE SHAKE (no overflow effect) */
-// @keyframes resultShake {
-//   0% { transform: translateX(0); }
-//   20% { transform: translateX(-4px); }
-//   40% { transform: translateX(4px); }
-//   60% { transform: translateX(-3px); }
-//   80% { transform: translateX(3px); }
-//   100% { transform: translateX(0); }
-// }
+
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
