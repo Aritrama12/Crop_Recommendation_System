@@ -92,7 +92,7 @@ const [signupData, setSignupData] = useState({
           to maximize your harvest and profits.
         </p>
         <div className="hero-buttons">
-          <a href="/login" className="btn primary">Get Started</a>
+          <a href="/#contact" className="btn primary">Get Started</a>
           <a href="#" className="btn secondary">Watch Demo</a>
         </div>
       </section>
