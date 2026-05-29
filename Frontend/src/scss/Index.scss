@@ -1,0 +1,36 @@
+:root[data-theme="light"] {
+  --bg: #f5f7fa;
+  --card: white;
+  --text: #111827;
+  --border: #f2f5f8;
+  --sidebar: #dddded;
+  --sidebar-text: #111827;
+  --settings-text: #0e0e0e;
+  --settings-tab-bg:#eeeef4;
+  --avtar-bg: #111;
+  --avtar-text:white;
+  --nav-active: black;
+  --nav-text: white;
+}
+
+:root[data-theme="dark"] {
+  --nav-active: white;
+  --nav-text: black;
+   --avtar-bg: white;
+  --avtar-text: #111;
+  --bg: #051530;
+  --card: #0f1011;
+  --text: #e4dada;
+  --border: #374151;
+  --sidebar: black;
+  --sidebar-text: #ffffff;
+   --settings-text: #f5eded;
+    --settings-tab-bg: #222231;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  transition: 0.3s;
+}
