@@ -122,9 +122,16 @@ const Dashboard = () => {
         <h2>Quick Actions</h2>
         <p>Access your most used tools and features quickly from your dashboard.</p>
         <div className="action-buttons">
-          <button className="primary-btn">Smart Crop Analysis</button>
+          <Link to='/recommendations'>
+           <button className="primary-btn" >Smart Crop Analysis</button>
+          </Link>
+          <Link to='/weather'>
           <button className="secondary-btn">Check Weather</button>
+          </Link>
+          <Link to='/soil-analysis'>
           <button className="tertiary-btn">Soil Testing</button>
+          </Link>
+         
         </div>
       </section>
     </div>

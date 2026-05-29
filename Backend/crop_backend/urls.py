@@ -29,7 +29,7 @@ urlpatterns = [
     path('api/auth/', include('users.urls')),   
     path('api/profiles/', include('profiles.urls')),
     path('api/weather/', include('weather.urls')),
-    path('api/notifications/', include('settings.urls')),
+    path('api/settings/', include('settings.urls')),
     #new code
     path('api/soil/', include('soil.urls')),
 

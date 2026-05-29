@@ -3,9 +3,13 @@ import Sidebar from "../components/Sidebar";
 import "../scss/settings.scss";
 import axios from "axios";
 import { useEffect } from "react";
-
+import { settingsAPI } from "../api/settingsAPI";
+import toast from "react-hot-toast";
+import { useTheme } from "../context/ThemeContext";
 export default function Settings() {
+
   const [activeTab, setActiveTab] = useState("notifications");
+
 
   const [notifications, setNotifications] = useState({
   weather_alerts: false,
@@ -17,8 +21,57 @@ export default function Settings() {
   share_analytics: false,
 });
 
+const { toggleTheme } = useTheme();
+//preferences default
+const [preferences, setPreferences] = useState({
+  theme: "light",
+  measurement_unit: "metric",
+  language: "english",
+  timezone: "Asia/Kolkata",
+  currency: "INR",
+});
+
+// preferences
+
+useEffect(() => {
+  loadPreferences();
+}, []);
+
+const loadPreferences = async () => {
+  try {
+    const res = await settingsAPI.getPreferences();
+    setPreferences(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const handlePreferenceChange = async (e) => {
+  const { name, value } = e.target;
+
+  const updated = {
+    ...preferences,
+    [name]: value,
+  };
+
+  setPreferences(updated);
+
+  // change theme instantly
+  if (name === "theme") {
+    toggleTheme(value);
+  }
+
+  try {
+    await settingsAPI.updatePreferences(updated);
+    toast.success("Updated");
+  } catch {
+    toast.error("Update failed");
+  }
+};
 
 
+
+//notification
 useEffect(() => {
   const token = localStorage.getItem("access");
 
@@ -205,62 +258,119 @@ const handleToggle = async (field) => {
             PREFERENCES
         =========================== */}
         {activeTab === "preferences" && (
-          <div className="settings-card fadeIn">
-            <h2 className="section-title">App Preferences</h2>
-            <p className="section-subtext">
-              Customize your app experience
-            </p>
+  <div className="settings-card fadeIn">
+    <h2 className="section-title">
+      App Preferences
+    </h2>
 
-            <div className="preferences-grid">
+    <p className="section-subtext">
+      Customize your app experience
+    </p>
 
-              {/* Theme */}
-              <div className="form-group">
-                <label>Theme</label>
-                <select>
-                  <option>System</option>
-                  <option>Light</option>
-                  <option>Dark</option>
-                </select>
-              </div>
+    <div className="preferences-grid">
 
-              {/* Units */}
-              <div className="form-group">
-                <label>Measurement Units</label>
-                <select>
-                  <option>Metric (kg, hectare, Celsius)</option>
-                  <option>Imperial (lbs, acres, Fahrenheit)</option>
-                </select>
-              </div>
+      {/* Theme */}
+      <div className="form-group">
+        <label>Theme</label>
+        <select
+          name="theme"
+          value={preferences.theme}
+          onChange={handlePreferenceChange}
+        >
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
 
-              {/* Language */}
-              <div className="form-group">
-                <label>Language</label>
-                <select>
-                  <option>English</option>
-                  <option>Hindi</option>
-                  <option>Bengali</option>
-                </select>
-              </div>
+      {/* Units */}
+      <div className="form-group">
+        <label>Measurement Units</label>
+        <select
+          name="measurement_unit"
+          value={preferences.measurement_unit}
+          onChange={handlePreferenceChange}
+        >
+          <option value="metric">
+            Metric (kg, hectare, Celsius)
+          </option>
 
-              {/* Timezone */}
-              <div className="form-group">
-                <label>Timezone</label>
-                <select>
-                  <option>Asia/Kolkata (GMT+5:30)</option>
-                </select>
-              </div>
+          <option value="imperial">
+            Imperial (lbs, acres, Fahrenheit)
+          </option>
+        </select>
+      </div>
 
-              {/* Currency */}
-              <div className="form-group">
-                <label>Currency</label>
-                <select>
-                  <option>₹ Indian Rupee (INR)</option>
-                </select>
-              </div>
+      {/* Language */}
+      <div className="form-group">
+        <label>Language</label>
+        <select
+          name="language"
+          value={preferences.language}
+          onChange={handlePreferenceChange}
+        >
+          <option value="english">
+            English
+          </option>
 
-            </div>
-          </div>
-        )}
+          <option value="hindi">
+            Hindi
+          </option>
+
+          <option value="bengali">
+            Bengali
+          </option>
+        </select>
+      </div>
+
+      {/* Timezone */}
+      <div className="form-group">
+        <label>Timezone</label>
+        <select
+          name="timezone"
+          value={preferences.timezone}
+          onChange={handlePreferenceChange}
+        >
+          <option value="Asia/Kolkata">
+            Asia/Kolkata
+          </option>
+
+          <option value="America/New_York">
+            America/New_York
+          </option>
+
+          <option value="Europe/London">
+            Europe/London
+          </option>
+        </select>
+      </div>
+
+      {/* Currency */}
+      <div className="form-group">
+        <label>Currency</label>
+        <select
+          name="currency"
+          value={preferences.currency}
+          onChange={handlePreferenceChange}
+        >
+          <option value="INR">
+            ₹ Indian Rupee (INR)
+          </option>
+
+          <option value="USD">
+            $ US Dollar
+          </option>
+
+          <option value="EUR">
+            € Euro
+          </option>
+        </select>
+      </div>
+
+    </div>
+  </div>
+)}
+
+
 
         {/* ==========================
             DATA & EXPORT
