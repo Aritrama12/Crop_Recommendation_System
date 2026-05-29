@@ -2,6 +2,7 @@
 from rest_framework import generics, status, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.utils import timezone
 
@@ -19,15 +20,12 @@ from .services import SoilAnalysisService, SoilImageAnalyzer
 # SOIL TEST CRUD
 # ==========================================================
 class SoilTestViewSet(viewsets.ModelViewSet):
-    serializer_class = SoilTestSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            return SoilTest.objects.filter(
-                user=self.request.user
-            ).order_by("-created_at")
-
-        return SoilTest.objects.all().order_by("-created_at")
+        return SoilTest.objects.filter(
+            user=self.request.user
+        ).order_by("-created_at")
 
     def get_serializer_class(self):
         if self.action in ["create", "update", "partial_update"]:
@@ -35,16 +33,10 @@ class SoilTestViewSet(viewsets.ModelViewSet):
         return SoilTestSerializer
 
     def perform_create(self, serializer):
-        # if logged in -> save user
-        if self.request.user.is_authenticated:
-            soil_test = serializer.save(
-                user=self.request.user,
-                status="completed"
-            )
-        else:
-            soil_test = serializer.save(
-                status="completed"
-            )
+        soil_test = serializer.save(
+            user=self.request.user,
+            status="completed"
+        )
 
         service = SoilAnalysisService()
         recommendations = service.analyze_soil_test(soil_test)
@@ -60,23 +52,18 @@ class SoilTestViewSet(viewsets.ModelViewSet):
 # CURRENT SOIL ANALYSIS
 # ==========================================================
 class CurrentSoilAnalysisView(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
-
-        if request.user.is_authenticated:
-            soil_test = SoilTest.objects.filter(
-                user=request.user,
-                status="completed"
-            ).order_by("-created_at").first()
-        else:
-            soil_test = SoilTest.objects.filter(
-                status="completed"
-            ).order_by("-created_at").first()
+        soil_test = SoilTest.objects.filter(
+            user=request.user,
+            status="completed"
+        ).order_by("-created_at").first()
 
         if not soil_test:
             return Response(
                 {"message": "No completed soil tests found"},
-                status=404
+                status=status.HTTP_404_NOT_FOUND
             )
 
         serializer = SoilTestSerializer(soil_test)
@@ -87,78 +74,51 @@ class CurrentSoilAnalysisView(APIView):
 # SOIL HISTORY
 # ==========================================================
 class SoilHistoryView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = SoilTestSerializer
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            return SoilTest.objects.filter(
-                user=self.request.user
-            ).order_by("-created_at")
-
-        return SoilTest.objects.all().order_by("-created_at")
+        return SoilTest.objects.filter(
+            user=self.request.user
+        ).order_by("-created_at")
 
 
-# # ==========================================================
-# # RECOMMENDATIONS
-# # ==========================================================
-# class SoilRecommendationsView(generics.ListAPIView):
-#     serializer_class = SoilRecommendationSerializer
-
-#     def get_queryset(self):
-#         if self.request.user.is_authenticated:
-#             return SoilRecommendation.objects.filter(
-#                 soil_test__user=self.request.user
-#             ).order_by("-priority", "-created_at")
-
-#         return SoilRecommendation.objects.all().order_by(
-#             "-priority",
-#             "-created_at"
-#         )
+# ==========================================================
+# RECOMMENDATIONS
+# ==========================================================
 class SoilRecommendationsView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = SoilRecommendationSerializer
 
     def list(self, request, *args, **kwargs):
-
-        if request.user.is_authenticated:
-            recommendations = SoilRecommendation.objects.filter(
-                soil_test__user=request.user
-            ).order_by("-priority", "-created_at")
-        else:
-            recommendations = SoilRecommendation.objects.all().order_by(
-                "-priority",
-                "-created_at"
-            )
+        recommendations = SoilRecommendation.objects.filter(
+            soil_test__user=request.user
+        ).order_by("-priority", "-created_at")
 
         data = []
 
         for r in recommendations:
-
-            # ---------------- CROP PARSE ----------------
             crop_name = None
             soil_reason = None
+            nutrient_notes = None
+            climate_notes = None
 
             if r.category == "crop":
                 crop_name = "Recommended Crop Selection"
                 soil_reason = r.description
 
-            # ---------------- NUTRIENT INSIGHT ----------------
-            nutrient_notes = None
             if r.category == "fertilizer":
                 nutrient_notes = r.description
 
-            # ---------------- CLIMATE / PH INSIGHT ----------------
-            climate_notes = None
             if r.category == "amendment":
                 climate_notes = r.description
 
             data.append({
                 "id": r.id,
                 "title": r.title,
-                "desc": r.description,
-                "action": r.action_required,
-                "severity": r.priority,
-
-                # NEW FRONTEND FIELDS
+                "description": r.description,
+                "action_required": r.action_required,
+                "priority": r.priority,
                 "crop_name": crop_name,
                 "soil_reason": soil_reason,
                 "nutrient_notes": nutrient_notes,
@@ -167,30 +127,24 @@ class SoilRecommendationsView(generics.ListAPIView):
 
         return Response(data)
 
+
 # ==========================================================
 # IMAGE ANALYSIS
 # ==========================================================
 class SoilImageUploadView(APIView):
+    permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]
 
     def post(self, request):
-        serializer = SoilImageUploadSerializer(
-            data=request.data
-        )
+        serializer = SoilImageUploadSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        if request.user.is_authenticated:
-            soil_image = SoilImage.objects.create(
-                user=request.user,
-                **serializer.validated_data
-            )
-        else:
-            soil_image = SoilImage.objects.create(
-                **serializer.validated_data
-            )
+        soil_image = SoilImage.objects.create(
+            user=request.user,
+            **serializer.validated_data
+        )
 
         analyzer = SoilImageAnalyzer()
-
         result = analyzer.analyze_image(
             soil_image.image.path
         )
@@ -210,25 +164,20 @@ class SoilImageUploadView(APIView):
                 soil_image.image.url
             ),
             "analysis": result
-        }, status=201)
+        }, status=status.HTTP_201_CREATED)
 
 
 # ==========================================================
 # HEALTH SUMMARY
 # ==========================================================
 class SoilHealthSummaryView(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
-
-        if request.user.is_authenticated:
-            latest_test = SoilTest.objects.filter(
-                user=request.user,
-                status="completed"
-            ).order_by("-created_at").first()
-        else:
-            latest_test = SoilTest.objects.filter(
-                status="completed"
-            ).order_by("-created_at").first()
+        latest_test = SoilTest.objects.filter(
+            user=request.user,
+            status="completed"
+        ).order_by("-created_at").first()
 
         if not latest_test:
             return Response({

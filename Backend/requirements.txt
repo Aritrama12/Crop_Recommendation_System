@@ -16,6 +16,9 @@ xgboost>=2.0
 
 # Image Processing (for soil analysis)
 Pillow>=10.0
+keras>=3.12.2
+tensorflow>=2.20.0
+opencv-python>=4.13.0.92
 # tensorflow>=2.15  # Uncomment for CNN soil analysis
 
 # API clients

@@ -51,6 +51,8 @@ function App() {
         <Route path='/analytics' element={<Analytics/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/settings' element={<Settings/>}/>
+        <Route path='/login' element={<Landing/>}/>
+
         </Route>
         
       </Routes>

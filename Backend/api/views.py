@@ -8,10 +8,13 @@ from .serializers import CropPredictionSerializer
 from .models import CropPrediction
 from .ml_service.crop_service import predict_crop_service
 from django.utils import timezone
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
 
 
 #predict crop
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def predict_crop(request):
     serializer = CropPredictionSerializer(data=request.data)
 
@@ -27,6 +30,7 @@ def predict_crop(request):
         crops = predict_crop_service(data)
 
         CropPrediction.objects.create(
+             user=request.user,
             **data,
             predicted_crop=crops[0]["name"]
         )
@@ -46,6 +50,7 @@ def predict_crop(request):
 
 # 🔥 NEW LOCATION BASED API
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def predict_crop_from_location(request):
     lat = request.data.get("latitude")
     lon = request.data.get("longitude")
@@ -109,6 +114,7 @@ def predict_crop_from_location(request):
 
         # Save best crop
         CropPrediction.objects.create(
+             user=request.user,
             **data,
             predicted_crop=top_crops[0]["name"]
         )
@@ -131,98 +137,6 @@ def predict_crop_from_location(request):
     
 
 
-#history
-
-# @api_view(["GET"])
-# def get_prediction_history(request):
-#     try:
-#         records = CropPrediction.objects.all().order_by("-created_at")
-
-#         data = []
-
-#         for item in records:
-#             try:
-#                 crop = str(item.predicted_crop)
-
-#                 # ❌ ignore null / empty
-#                 if not crop or crop.lower() in ["none", "null"]:
-#                     continue
-
-#                 # ❌ ignore corrupted numpy/string dumps
-#                 if "array" in crop or "Response" in crop:
-#                     continue
-
-#                 # 🧹 clean garbage patterns
-#                 crop = re.sub(r"\{.*?:\s*", "", crop)
-#                 crop = re.sub(r"array\(\['", "", crop)
-#                 crop = re.sub(r"'\], dtype=.*\)", "", crop)
-#                 crop = crop.replace("{'crop':", "").replace("}", "").strip()
-
-#                 # ❌ final safety check
-#                 if not crop:
-#                     continue
-
-#                 data.append({
-#                     "crop": crop,
-#                     "N": item.N,
-#                     "P": item.P,
-#                     "K": item.K,
-#                     "temperature": item.temperature,
-#                     "humidity": item.humidity,
-#                     "ph": item.ph,
-#                     "rainfall": item.rainfall,
-#                     "created_at": timezone.localtime(item.created_at).isoformat()
-#                 })
-
-#             except Exception:
-#                 # ✅ ignore single bad record (do NOT break whole API)
-#                 continue
-
-#         return Response(data, status=200)
-
-#     except Exception:
-#         # ✅ ignore total API failure safely
-#         return Response({
-#             "message": "History loaded with safe fallback",
-#             "data": []
-#         }, status=200)
-
-# ================================
-# 📁 api/views.py (HISTORY API)
-# ================================
-
-# @api_view(["GET"])
-# def get_prediction_history(request):
-#     records = CropPrediction.objects.all().order_by("-created_at")
-
-#     data = []
-
-#     for item in records:
-#         crop = str(item.predicted_crop).strip()
-
-#         # ❌ Skip bad data
-#         if (
-#             not crop or
-#             crop.lower() in ["none", "null"] or
-#             crop.isdigit() or
-#             "array" in crop.lower()
-#         ):
-#             continue
-
-#         data.append({
-#             "crop": crop,
-#             "N": item.N,
-#             "P": item.P,
-#             "K": item.K,
-#             "temperature": item.temperature,
-#             "humidity": item.humidity,
-#             "ph": item.ph,
-#             "rainfall": item.rainfall,
-#             "created_at": timezone.localtime(item.created_at).isoformat()
-#         })
-
-#     return Response(data, status=200)
-
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.utils import timezone
@@ -231,9 +145,13 @@ from api.models import CropPrediction
 
 
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def get_prediction_history(request):
     try:
-        records = CropPrediction.objects.all().order_by("-created_at")
+        records = CropPrediction.objects.filter(
+            user=request.user
+        ).order_by("-created_at")
+
         data = []
 
         for item in records:

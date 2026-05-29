@@ -1,7 +1,7 @@
 
-import React, { useState } from 'react'
-import LocationOnIcon from '@mui/icons-material/LocationOn';  // metirial ui
-import Sidebar from '../components/Sidebar'
+import React, { useState } from "react";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import Sidebar from "../components/Sidebar";
 import {
   BarChart,
   Bar,
@@ -13,13 +13,21 @@ import {
   ResponsiveContainer
 } from "recharts";
 
-import "../scss/recommendation.scss"
+import "../scss/recommendation.scss";
 
 const COLORS = ["#044306", "#ec9f2a", "#0a4676", "#e91058", "#7a058e"];
 
 export default function Recommendation() {
+  const token =
+  localStorage.getItem("access") ||
+  localStorage.getItem("token");
 
-  // 🔹 FORM DATA
+  const authHeaders = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+
+  // FORM DATA
   const [formData, setFormData] = useState({
     N: "",
     P: "",
@@ -30,17 +38,16 @@ export default function Recommendation() {
     rainfall: "",
   });
 
-  // 🔹 LOCATION STATE
+  // LOCATION STATE
   const [location, setLocation] = useState({
     state: "",
     district: "",
     latitude: "",
     longitude: "",
-   
   });
 
-  // 🔹 UI STATES
-  const [activeTab, setActiveTab] = useState('manual');
+  // UI STATES
+  const [activeTab, setActiveTab] = useState("manual");
   const [result, setResult] = useState(null);
   const [chartData, setChartData] = useState([]);
   const [error, setError] = useState("");
@@ -48,36 +55,54 @@ export default function Recommendation() {
   const [loading, setLoading] = useState(false);
   const [history, setHistory] = useState([]);
 
-
-  // history 
+  // FETCH HISTORY
   const fetchHistory = async () => {
-  try {
-    const res = await fetch("http://127.0.0.1:8000/api/history");
-    const data = await res.json();
-    setHistory(data);
-  } catch {
-    console.log("Failed to fetch history");
-  }
-};
+    try {
+      const res = await fetch(
+        "http://127.0.0.1:8000/api/history/",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-const handleTabChange = (tab) => {
-  setActiveTab(tab);
+      if (res.status === 401) {
+        console.log("Unauthorized");
+        return;
+      }
 
-  if (tab === "history") {
-    fetchHistory();
-  }
-};
-
-
-  // 🔹 INPUT CHANGE
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+      const data = await res.json();
+      setHistory(data);
+    } catch {
+      console.log("Failed to fetch history");
+    }
   };
-  //handle location change
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+
+    if (tab === "history") {
+      fetchHistory();
+    }
+  };
+
+  // INPUT CHANGE
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const handleLocationChange = (e) => {
-  setLocation({ ...location, [e.target.name]: e.target.value });
-};
-  // 🔹 CLEAR
+    setLocation({
+      ...location,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // CLEAR
   const handleClear = () => {
     setFormData({
       N: "",
@@ -94,8 +119,6 @@ const handleTabChange = (tab) => {
       district: "",
       latitude: "",
       longitude: "",
-      
-
     });
 
     setResult(null);
@@ -104,81 +127,73 @@ const handleTabChange = (tab) => {
     setChartData([]);
   };
 
-  // 🔹 GET LOCATION
+  // FETCH COORDINATES
+  const fetchCoordinatesFromAddress = async () => {
+    if (!location.state || !location.district) return;
 
-const fetchCoordinatesFromAddress = async () => {
-  if (!location.state || !location.district) return;
+    try {
+      const query = `${location.district}, ${location.state}`;
 
-  try {
-    const query = `${location.district}, ${location.state}`;
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${query}`
+      );
 
-    const res = await fetch(
-      `https://nominatim.openstreetmap.org/search?format=json&q=${query}`
-    );
+      const data = await res.json();
 
-    const data = await res.json();
+      if (data.length === 0) return;
 
-    if (data.length === 0) return;
+      const place = data[0];
 
-    const place = data[0];
-
-    setLocation((prev) => ({
-      ...prev,
-      latitude: Number(place.lat).toFixed(4),
-      longitude: Number(place.lon).toFixed(4),
-    }));
-  } catch {
-    console.log("Error fetching coordinates");
-  }
-};
-
-
-const handleGetLocation = () => {
-  if (!navigator.geolocation) {
-    alert("Geolocation not supported");
-    return;
-  }
-
-  navigator.geolocation.getCurrentPosition(
-    async (pos) => {
-      const lat = pos.coords.latitude;
-      const lon = pos.coords.longitude;
-
-      try {
-        // Reverse geocoding
-        const res = await fetch(
-          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
-        );
-
-        const data = await res.json();
-
-        setLocation({
-          latitude: lat.toFixed(4),
-          longitude: lon.toFixed(4),
-          state: data.address.state || "",
-          district:
-            data.address.state_district ||   // ✅ FIXED (important)
-            data.address.county ||
-            data.address.city ||
-            data.address.town ||
-            data.address.village ||
-            data.address.municipality ||
-            ""
-        });
-
-      } catch {
-        alert("Failed to fetch location details");
-      }
-    },
-    () => {
-      alert("Permission denied");
+      setLocation((prev) => ({
+        ...prev,
+        latitude: Number(place.lat).toFixed(4),
+        longitude: Number(place.lon).toFixed(4),
+      }));
+    } catch {
+      console.log("Error fetching coordinates");
     }
-  );
-};
+  };
 
+  // GET CURRENT LOCATION
+  const handleGetLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation not supported");
+      return;
+    }
 
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
 
-  // 🔹 MANUAL SUBMIT (EXISTING API)
+        try {
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+          );
+
+          const data = await res.json();
+
+          setLocation({
+            latitude: lat.toFixed(4),
+            longitude: lon.toFixed(4),
+            state: data.address.state || "",
+            district:
+              data.address.state_district ||
+              data.address.county ||
+              data.address.city ||
+              data.address.town ||
+              data.address.village ||
+              "",
+          });
+        } catch {
+          alert("Failed to fetch location details");
+        }
+      },
+      () => alert("Permission denied")
+    );
+  };
+
+  // MANUAL SUBMIT
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -189,19 +204,27 @@ const handleGetLocation = () => {
     setChartData([]);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/predict", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          N: Number(formData.N),
-          P: Number(formData.P),
-          K: Number(formData.K),
-          temperature: Number(formData.temperature),
-          humidity: Number(formData.humidity),
-          ph: Number(formData.ph),
-          rainfall: Number(formData.rainfall),
-        }),
-      });
+      const res = await fetch(
+        "http://127.0.0.1:8000/api/predict/",
+        {
+          method: "POST",
+          headers: authHeaders,
+          body: JSON.stringify({
+            N: Number(formData.N),
+            P: Number(formData.P),
+            K: Number(formData.K),
+            temperature: Number(formData.temperature),
+            humidity: Number(formData.humidity),
+            ph: Number(formData.ph),
+            rainfall: Number(formData.rainfall),
+          }),
+        }
+      );
+
+      if (res.status === 401) {
+        setError("Unauthorized");
+        return;
+      }
 
       const data = await res.json();
 
@@ -213,79 +236,80 @@ const handleGetLocation = () => {
 
       setResult(data.crops[0]?.name);
 
-      const maxScore = Math.max(...data.crops.map(c => c.score));
+      const maxScore = Math.max(...data.crops.map((c) => c.score));
 
       setChartData(
-        data.crops.map(item => ({
+        data.crops.map((item) => ({
           name: item.name,
-          score: Number(((item.score / maxScore) * 100).toFixed(2))
+          score: Number(((item.score / maxScore) * 100).toFixed(2)),
         }))
       );
-
-    } catch (err) {
+    } catch {
       setError("Server error! Try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  // predict by location
-
+  // LOCATION SUBMIT
   const handleLocationSubmit = async () => {
-  if (!location.latitude || !location.longitude) {
-    alert("Please fetch location first");
-    return;
-  }
-
-  setLoading(true);
-  setError("");
-  setResult(null);
-  setChartData([]);
-
-  try {
-    const res = await fetch("http://127.0.0.1:8000/api/predict/location", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        latitude: Number(location.latitude),
-        longitude: Number(location.longitude),
-      }),
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      setError(data.message || "Location prediction failed");
+    if (!location.latitude || !location.longitude) {
+      alert("Please fetch location first");
       return;
     }
 
-    // 🔥 BEST CROP
-    setResult(data.crop);
+    setLoading(true);
+    setError("");
+    setResult(null);
+    setChartData([]);
 
-    // 🔥 CHART (TOP 5 ONLY)
-    const maxScore = Math.max(...data.crops.map(c => c.score));
+    try {
+      const res = await fetch(
+        "http://127.0.0.1:8000/api/predict/location/",
+        {
+          method: "POST",
+          headers: authHeaders,
+          body: JSON.stringify({
+            latitude: Number(location.latitude),
+            longitude: Number(location.longitude),
+          }),
+        }
+      );
 
-    setChartData(
-      data.crops.map(item => ({
-        name: item.name,
-        score: Number(((item.score / maxScore) * 100).toFixed(2))  // normalization formula
-      }))
-    );
+      if (res.status === 401) {
+        setError("Unauthorized");
+        return;
+      }
 
-  } catch {
-    setError("Server error!");
-  } finally {
-    setLoading(false);
-  }
-};
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message || "Location prediction failed");
+        return;
+      }
+
+      setResult(data.crop);
+
+      const maxScore = Math.max(...data.crops.map((c) => c.score));
+
+      setChartData(
+        data.crops.map((item) => ({
+          name: item.name,
+          score: Number(((item.score / maxScore) * 100).toFixed(2)),
+        }))
+      );
+    } catch {
+      setError("Server error!");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
       <Sidebar />
-
-      <div className="recommendation-page">
+      {/* your existing JSX remains exactly same */}
+             <div className="recommendation-page">
         <h1>🌿 Crop Recommendation</h1>
         <p className="subtitle">
           Get AI-powered crop recommendations based on soil and climate data
@@ -491,52 +515,7 @@ const handleGetLocation = () => {
   </div>
 )}
 
-          {/* 🔹 RESULT */}
-          {/* <div  className="result-card">
-
-            {error ? (
-              <div className="">
-                <h2>⚠ Invalid Input</h2>
-                
-               
-
-                
-              </div>
-
-            ) : !result ? (
-
-              <div className="empty">
-                <div className="icon">🤖</div>
-                <h3>No prediction yet</h3>
-                <p>Enter your data and click "Get Recommendation"</p>
-              </div>
-
-            ) : (
-
-              <div className="result">
-                <h2>🌱 Top Crop Recommendation</h2>
-                <div className="crop-name">{result}</div>
-
-                <div style={{ width: "100%", height: 300 }}>
-                  <ResponsiveContainer>
-                    <BarChart data={chartData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" />
-                      <YAxis domain={[0, 100]} />
-                      <Tooltip formatter={(value) => `${value}%`} />
-
-                      <Bar dataKey="score">
-                        {chartData.map((entry, index) => (
-                          <Cell key={index} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Bar>
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-
-            )}
-          </div> */}
+     
 
           {/* 🔹 RESULT */}
 <div className={`result-card ${error ? "error-card" : ""}`}>
@@ -599,7 +578,9 @@ const handleGetLocation = () => {
 
         </div>
       </div>
-    </>
-  )
-}
 
+
+    
+    </>
+  );
+}
