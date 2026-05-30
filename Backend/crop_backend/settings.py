@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'weather',
     'settings',
     'soil',
+    "records",
     
 ]
 

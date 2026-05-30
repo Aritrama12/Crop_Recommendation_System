@@ -533,14 +533,44 @@ const FarmRecords = () => {
               {/* Resource Usage History */}
               <div className="farm-history-card">
                 <h2>Resource Usage History</h2>
-                <p className="history-subtitle">3 records</p>
+                <p className="history-subtitle">2 records</p>
+
                 {/* Item 1 */}
                 <div className="history-item">
-                    <div className="left">
+                  <div className="left">
                     <div className="icon resource-icon">💧</div>
+                    <div>
+                      <h3>Water</h3>
+                      <p>📍 North Field</p>
+                      <p>📅 5/15/2024</p>
+                    </div>
                   </div>
+
+                  <div className="right">
+                    <h3>10,000 liters</h3>
+                  </div>
+
+                  <div className="delete">🗑️</div>
                 </div>
-              </div>         
+
+                {/* Item 2 */}
+                <div className="history-item">
+                  <div className="left">
+                    <div className="icon resource-icon">💧</div>
+                    <div>
+                      <h3>Fertilizer</h3>
+                      <p>📍 East Field</p>
+                      <p>📅 6/20/2024</p>
+                    </div>
+                  </div>
+
+                  <div className="right">
+                    <h3>500 kg</h3>
+                  </div>
+
+                  <div className="delete">🗑️</div>
+                </div>
+              </div>        
 
           </>
         )}
