@@ -22,8 +22,7 @@ class NotificationPreference(models.Model):
 
     #  Notifications
     weather_alerts = models.BooleanField(default=True)
-    crop_recommendations = models.BooleanField(default=True)
-    soil_analysis = models.BooleanField(default=False)
+    systemknowledge_updates = models.BooleanField(default=False)
     market_prices = models.BooleanField(default=True)
 
     #  Privacy

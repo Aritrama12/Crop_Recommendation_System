@@ -181,14 +181,9 @@ const handleToggle = async (field) => {
                 text: "Get notified about weather changes that may affect your crops",
               },
               {
-                key: "crop_recommendations",
-                title: "Crop Recommendations",
-                text: "Notifications about new crop recommendations",
-              },
-              {
-                key: "soil_analysis",
-                title: "Soil Analysis",
-                text: "Get notified when soil test results are available",
+                key: "systemknowledge_updates",
+                title: "System Announcements",
+                text: "Get notified about new system features and updates",
               },
               {
                 key: "market_prices",
