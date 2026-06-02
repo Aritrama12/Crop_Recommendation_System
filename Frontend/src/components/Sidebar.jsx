@@ -198,8 +198,6 @@ export default function Sidebar() {
             Farm Records
           </NavLink>
 
-          
-
           <NavLink to="/weather" onClick={() => setMenuOpen(false)}>
             <CloudSun size={18} />
             Weather
@@ -208,6 +206,11 @@ export default function Sidebar() {
           <NavLink to="/soil-analysis" onClick={() => setMenuOpen(false)}>
             <FlaskConical size={18} />
             Soil Analysis
+          </NavLink>
+
+          <NavLink to="/markets" onClick={() => setMenuOpen(false)}>
+            <BarChart2 size={18} />
+            Markets
           </NavLink>
         </nav>
 

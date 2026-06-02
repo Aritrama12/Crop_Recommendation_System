@@ -9,6 +9,11 @@
   padding: 1.5rem 1rem;
   position: fixed;
   top: 0;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   .top-section {
     text-align: left;

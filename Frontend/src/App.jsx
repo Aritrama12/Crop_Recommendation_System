@@ -8,6 +8,7 @@ import FarmRecords from './pages/FarmRecords'
 import Weather from './pages/Weather'
 import Soilanalysis from './pages/Soilanalysis'
 import Analytics from './pages/Analytics'
+import Markets from './pages/Markets'
 import Profile from './pages/Profile'
 import Settings from './pages/Settings'
 import ProtectedRoute from './authMiddleware/protected'
@@ -49,6 +50,7 @@ function App() {
         <Route path='/weather' element={<Weather/>}/>
         <Route path='/soil-analysis' element={<Soilanalysis/>}/>
         <Route path='/analytics' element={<Analytics/>}/>
+        <Route path='/markets' element={<Markets/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/settings' element={<Settings/>}/>
         <Route path='/login' element={<Landing/>}/>
