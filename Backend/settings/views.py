@@ -16,6 +16,21 @@ class NotificationPreferenceView(generics.RetrieveUpdateAPIView):
         return obj
     
 
+# user location views
+from .models import UserLocation
+from .serializers import UserLocationSerializer
+
+class UserLocationView(generics.RetrieveUpdateAPIView):
+    serializer_class = UserLocationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        obj, created = UserLocation.objects.get_or_create(
+            user=self.request.user
+        )
+        return obj
+    
+
 # preferences views
 from rest_framework.views import APIView
 from rest_framework.response import Response

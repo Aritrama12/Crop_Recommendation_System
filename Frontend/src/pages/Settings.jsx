@@ -9,7 +9,7 @@ import { useTheme } from "../context/ThemeContext";
 export default function Settings() {
 
   const [activeTab, setActiveTab] = useState("notifications");
-
+  const [locationPermission, setLocationPermission] = useState("unknown");
 
   const [notifications, setNotifications] = useState({
   weather_alerts: false,
@@ -68,6 +68,71 @@ const handlePreferenceChange = async (e) => {
     toast.error("Update failed");
   }
 };
+
+
+
+// location permission status
+useEffect(() => {
+  if (!navigator.permissions) return;
+
+  navigator.permissions
+    .query({ name: "geolocation" })
+    .then((result) => {
+      setLocationPermission(result.state);
+
+      result.onchange = () => {
+        setLocationPermission(result.state);
+      };
+    });
+}, []);
+
+
+// gets user location and saves to database
+const saveLocation = async (latitude, longitude) => {
+  const token = localStorage.getItem("access");
+
+  try {
+    await axios.patch(
+      "http://127.0.0.1:8000/api/settings/location/",
+      {
+        latitude,
+        longitude,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+
+useEffect(() => {
+  if (!notifications.location_access) return;
+
+  if (!navigator.geolocation) {
+    toast.error("Geolocation not supported");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      saveLocation(
+        position.coords.latitude,
+        position.coords.longitude
+      );
+    },
+    () => {
+      toast.error(
+        "Location blocked in browser settings."
+      );
+    }
+  );
+}, [notifications.location_access]);
+
 
 
 
@@ -235,6 +300,29 @@ const handleToggle = async (field) => {
                   <div>
                     <h3>{item.title}</h3>
                     <p>{item.text}</p>
+                    
+                    {item.key === "location_access" && (
+                      <>
+                        {locationPermission === "granted" && (
+                          <small className="permission-success">
+                            ✓ Browser location permission granted
+                          </small>
+                        )}
+
+                        {locationPermission === "denied" && (
+                          <small className="permission-warning">
+                            ⚠ Browser location permission denied.
+                            Enable it from Chrome settings.
+                          </small>
+                        )}
+
+                        {locationPermission === "prompt" && (
+                          <small className="permission-info">
+                            Location permission has not been chosen yet.
+                          </small>
+                        )}
+                      </>
+                    )}
                   </div>
                   <label className="switch">
                     <input
