@@ -48,6 +48,40 @@ class UserLocation(models.Model):
         return self.user.username
 
 
+
+
+# schema of analytics events
+class AnalyticsEvent(models.Model):
+    EVENT_CHOICES = [
+        ("crop_prediction", "Crop Prediction"),
+        ("weather_check", "Weather Check"),
+        # ("market_trends", "Market Trends"),
+        ("soil_analysis", "Soil Analysis"),
+        # ("system_knowledge", "System Knowledge"),
+        ("soil_image_analysis", "Soil Image Analysis"),
+        ("soil_health_summary", "Soil Health Summary"),
+    ]
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+
+    event_name = models.CharField(
+        max_length=50,
+        choices=EVENT_CHOICES
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.event_name} - {self.created_at}"
+    
+
+
+
 # schema of preferences
 class UserPreference(models.Model):
     THEME_CHOICES = [

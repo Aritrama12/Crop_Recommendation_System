@@ -10,6 +10,7 @@ from .ml_service.crop_service import predict_crop_service
 from django.utils import timezone
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
+from settings.utils import log_analytics_event
 
 
 #predict crop
@@ -33,6 +34,12 @@ def predict_crop(request):
              user=request.user,
             **data,
             predicted_crop=crops[0]["name"]
+        )
+
+        # Analytics
+        log_analytics_event(
+            request.user,
+            "crop_prediction"
         )
 
         return Response({
@@ -117,6 +124,12 @@ def predict_crop_from_location(request):
              user=request.user,
             **data,
             predicted_crop=top_crops[0]["name"]
+        )
+
+        # Analytics
+        log_analytics_event(
+            request.user,
+            "crop_prediction"
         )
 
         return Response({

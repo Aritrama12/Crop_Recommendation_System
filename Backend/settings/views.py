@@ -1,6 +1,9 @@
 from rest_framework import generics, permissions
 from .models import NotificationPreference
 from .serializers import NotificationPreferenceSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
 
 class NotificationPreferenceView(generics.RetrieveUpdateAPIView):
     serializer_class = NotificationPreferenceSerializer
@@ -31,9 +34,48 @@ class UserLocationView(generics.RetrieveUpdateAPIView):
         return obj
     
 
+    
+# analytics views
+from .models import AnalyticsEvent
+
+class AnalyticsSummaryView(APIView):
+
+    def get(self, request):
+
+        data = {
+            "crop_prediction": AnalyticsEvent.objects.filter(
+                event_name="crop_prediction"
+            ).count(),
+
+            "weather_check": AnalyticsEvent.objects.filter(
+                event_name="weather_check"
+            ).count(),
+
+            # "market_trends": AnalyticsEvent.objects.filter(
+            #     event_name="market_trends"
+            # ).count(),
+
+            "soil_analysis": AnalyticsEvent.objects.filter(
+                event_name="soil_analysis"
+            ).count(),
+
+            # "system_knowledge": AnalyticsEvent.objects.filter(
+            #     event_name="system_knowledge"
+            # ).count(),
+
+            "soil_image_analysis": AnalyticsEvent.objects.filter(
+                event_name="soil_image_analysis"
+            ).count(),
+
+            "soil_health_summary": AnalyticsEvent.objects.filter(
+                event_name="soil_health_summary"
+            ).count(),
+        }
+
+        return Response(data)
+    
+
 # preferences views
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import UserPreference
 from .serializers import UserPreferenceSerializer

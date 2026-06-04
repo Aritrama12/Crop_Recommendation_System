@@ -3,8 +3,10 @@ import requests
 from datetime import datetime
 from dotenv import load_dotenv
 from django.core.cache import cache
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from rest_framework import permissions
+from settings.utils import log_analytics_event
 
 load_dotenv()
 
@@ -49,6 +51,7 @@ def weather_text(code):
     return WEATHER_CODE_MAP.get(code, "Unknown")
 
 @api_view(["GET"])
+@permission_classes([permissions.IsAuthenticated])
 def weather_now_and_forecast(request):
     city = request.GET.get("city")
 
@@ -60,6 +63,13 @@ def weather_now_and_forecast(request):
 
     # 1️⃣ Return fresh cache immediately
     if cached:
+
+        # Analytics
+        log_analytics_event(
+            request.user,
+            "weather_check"
+        )
+
         return Response({
             **cached["data"],
             "source": "cache",
@@ -193,6 +203,12 @@ def weather_now_and_forecast(request):
             "forecast": forecast
         }
 
+        # Analytics
+        log_analytics_event(
+            request.user,
+            "weather_check"
+        )
+
         # Cache for 30 minutes
         cache.set(
             cache_key,
@@ -213,6 +229,14 @@ def weather_now_and_forecast(request):
         stale = cache.get(cache_key, default=None)
 
         if stale:
+
+            # Analytics
+            log_analytics_event(
+                request.user,
+                "weather_check"
+            )
+
+
             return Response({
                 **stale["data"],
                 "source": "stale-cache",
