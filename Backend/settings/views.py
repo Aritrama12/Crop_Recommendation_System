@@ -1,10 +1,12 @@
 from rest_framework import generics, permissions
-from .models import NotificationPreference
-from .serializers import NotificationPreferenceSerializer
+from .models import Notification, NotificationPreference
+from .serializers import NotificationPreferenceSerializer, NotificationSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 
+# notification section ==========
+# notification preference view (it is used to get and update notification preferences of a user)
 class NotificationPreferenceView(generics.RetrieveUpdateAPIView):
     serializer_class = NotificationPreferenceSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -18,7 +20,76 @@ class NotificationPreferenceView(generics.RetrieveUpdateAPIView):
         )
         return obj
     
+# notification list view (in simple language it is used to show all
+#  notifications of a user in the notification center)
+class NotificationListView(APIView):
 
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+
+        notifications = Notification.objects.filter(
+            user=request.user
+        ).order_by('-created_at')
+
+        serializer = NotificationSerializer(
+            notifications,
+            many=True
+        )
+
+        return Response(serializer.data)
+    
+
+
+# mark notification as read
+from rest_framework import status
+class MarkNotificationReadView(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def patch(self, request, notification_id):
+
+        try:
+            notification = Notification.objects.get(
+                id=notification_id,
+                user=request.user
+            )
+
+            notification.is_read = True
+            notification.save()
+
+            return Response(
+                {"message": "Notification marked as read"},
+                status=status.HTTP_200_OK
+            )
+
+        except Notification.DoesNotExist:
+            return Response(
+                {"error": "Notification not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+
+
+# unread notification count
+class UnreadNotificationCountView(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+
+        count = Notification.objects.filter(
+            user=request.user,
+            is_read=False
+        ).count()
+
+        return Response({
+            "unread_count": count
+        })
+    
+
+
+# privacy section ==========
 # user location views
 from .models import UserLocation
 from .serializers import UserLocationSerializer
@@ -39,7 +110,7 @@ class UserLocationView(generics.RetrieveUpdateAPIView):
 from .models import AnalyticsEvent
 
 class AnalyticsSummaryView(APIView):
-
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
 
         data = {
@@ -75,12 +146,12 @@ class AnalyticsSummaryView(APIView):
         return Response(data)
     
 
-# preferences views
+# preferences views ==========
 from rest_framework.permissions import IsAuthenticated
 from .models import UserPreference
 from .serializers import UserPreferenceSerializer
 
-
+# user preference view (it is used to get and update user preferences like language, theme etc.)
 class UserPreferenceView(APIView):
     permission_classes = [IsAuthenticated]
 

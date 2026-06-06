@@ -141,7 +141,7 @@ useEffect(() => {
   const token = localStorage.getItem("access");
 
   axios
-    .get("http://127.0.0.1:8000/api/settings/notifications/", {
+    .get("http://127.0.0.1:8000/api/settings/notifications-settings/", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -167,11 +167,11 @@ const handleToggle = async (field) => {
 
   try {
     await axios.patch(
-      "http://127.0.0.1:8000/api/settings/notifications/",
+      "http://127.0.0.1:8000/api/settings/notifications-settings/",
       {
         [field]: updatedValue,
       },
-      {
+      { 
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

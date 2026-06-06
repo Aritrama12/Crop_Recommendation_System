@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import NotificationPreference
+from .models import Notification, NotificationPreference
 from .models import UserPreference
 from .models import UserLocation
 from .models import AnalyticsEvent
@@ -12,6 +12,11 @@ class NotificationPreferenceSerializer(serializers.ModelSerializer):
         read_only_fields = ['user']
 
 
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = "__all__"
+
 class UserLocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserLocation
@@ -23,6 +28,9 @@ class AnalyticsSerializer(serializers.ModelSerializer):
     class Meta:
         model = AnalyticsEvent
         fields = "__all__"
+
+
+
 
 #preferences
 class UserPreferenceSerializer(serializers.ModelSerializer):

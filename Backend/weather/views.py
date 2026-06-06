@@ -6,7 +6,11 @@ from django.core.cache import cache
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import permissions
-from settings.utils import log_analytics_event
+from settings.utils import(
+    check_weather_alerts,
+    log_analytics_event, 
+    create_notification, 
+)
 
 load_dotenv()
 
@@ -129,9 +133,18 @@ def weather_now_and_forecast(request):
             # Weather description
             "weather_code": realtime_values.get("weatherCode"),
             "weather": weather_text(realtime_values.get("weatherCode"))
+            
         }
+        
 
 
+
+        check_weather_alerts(
+            request.user,
+            city,
+            current
+        )
+        
        
         # FORECAST
       

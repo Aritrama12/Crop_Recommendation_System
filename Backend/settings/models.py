@@ -32,8 +32,37 @@ class NotificationPreference(models.Model):
     def __str__(self):
         return f"{self.user.username} settings"
 
+# notifications section =========
+# schema of notifications for weather , system knowledge updates and market prices
+class Notification(models.Model):
+    NOTIFICATION_TYPES = [
+        ("weather", "Weather"),
+        ("market", "Market"),
+        ("system", "System"),
+    ]
 
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="notifications"
+    )
 
+    notification_type = models.CharField(
+        max_length=20,
+        choices=NOTIFICATION_TYPES
+    )
+
+    title = models.CharField(max_length=100)
+    message = models.TextField()
+
+    is_read = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+#  privacy section ===========
 # schema of user location
 class UserLocation(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -46,8 +75,6 @@ class UserLocation(models.Model):
 
     def __str__(self):
         return self.user.username
-
-
 
 
 # schema of analytics events
@@ -81,8 +108,8 @@ class AnalyticsEvent(models.Model):
     
 
 
-
-# schema of preferences
+# preferences section ===========
+# schema of preferences for theme, measurement unit, language, timezone and currency(for now only theme)
 class UserPreference(models.Model):
     THEME_CHOICES = [
         ("light", "Light"),
