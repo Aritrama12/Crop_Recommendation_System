@@ -3,4 +3,40 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+
+/* for top bar design */
+.protected-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+    .top-header {
+        height: 70px;
+        width: 100%;
+
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        padding: 0 24px;
+
+        background: #ffffff;
+        border-bottom: 1px solid #e5e7eb;
+
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .page-content {
+        flex: 1;
+        padding: 20px;
+    }
 }

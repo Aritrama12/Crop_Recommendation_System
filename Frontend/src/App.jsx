@@ -12,9 +12,26 @@ import Markets from './pages/Markets'
 import Profile from './pages/Profile'
 import Settings from './pages/Settings'
 import ProtectedRoute from './authMiddleware/protected'
+import NotificationPanel from './components/NotificationPanel'
+import { Outlet } from 'react-router-dom';
 
 
 function App() {
+
+
+  function TopBarLayout() {
+    return (
+      <div className="protected-layout">
+        <header className="top-header">
+          <NotificationPanel />
+        </header>
+
+        <main className="page-content">
+          <Outlet />
+        </main>
+      </div>
+    );
+  }
 
   return (
    <div className="container">
@@ -44,17 +61,18 @@ function App() {
         <Route path='/' element={<Landing/>} />
         
         <Route element={<ProtectedRoute />}>
-        <Route path='/dashboard' element={<Dashboard/>} />
-        <Route path='/recommendations' element={<Recommendation/>} />
-        <Route path='/farm-records' element={<FarmRecords/>} />
-        <Route path='/weather' element={<Weather/>}/>
-        <Route path='/soil-analysis' element={<Soilanalysis/>}/>
-        <Route path='/analytics' element={<Analytics/>}/>
-        <Route path='/markets' element={<Markets/>}/>
-        <Route path='/profile' element={<Profile/>}/>
-        <Route path='/settings' element={<Settings/>}/>
+          <Route element={<TopBarLayout />}>
+            <Route path='/dashboard' element={<Dashboard/>} />
+            <Route path='/recommendations' element={<Recommendation/>} />
+            <Route path='/farm-records' element={<FarmRecords/>} />
+            <Route path='/weather' element={<Weather/>}/>
+            <Route path='/soil-analysis' element={<Soilanalysis/>}/>
+            <Route path='/analytics' element={<Analytics/>}/>
+            <Route path='/markets' element={<Markets/>}/>
+            <Route path='/profile' element={<Profile/>}/>
+            <Route path='/settings' element={<Settings/>}/>
+          </Route>
         <Route path='/login' element={<Landing/>}/>
-
         </Route>
         
       </Routes>
