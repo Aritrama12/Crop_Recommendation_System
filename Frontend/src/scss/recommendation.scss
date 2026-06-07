@@ -1,6 +1,6 @@
 
 .recommendation-page {
-  margin-left: 320px;
+  margin-left: 290px;
   padding: 40px;
   background: #F7F6F2;
   min-height: 100vh;
@@ -16,11 +16,10 @@
   }
 
   .main-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    align-items: stretch;
-  }
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
 }
 
 /* ===== TABS ===== */
@@ -274,16 +273,7 @@
 
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
-  .recommendation-page {
-    margin-left: 0;
-    padding: 20px;
-  }
 
-  .recommendation-page .main-layout {
-    grid-template-columns: 1fr;
-  }
-}
  /* 🔥 LOCATION BUTTON */
   .location-btn {
     display: flex;
@@ -2107,34 +2097,1279 @@
       box-shadow:
         0 12px 28px rgba(15,23,42,0.10);
     }
+  } 
+}
+
+
+
+
+/* =========================================================
+   🚀 PREMIUM RESPONSIVE - RECOMMENDATION PAGE
+========================================================= */
+
+/* =========================
+   LARGE TABLET / SMALL LAPTOP
+========================= */
+
+
+
+// @media (max-width: 1200px) {
+
+//   .recommendation-page {
+//     margin-left: 290px;
+//     width: calc(100% - 290px);
+//     padding: 1.5rem;
+//   }
+
+//   .main-layout {
+//     grid-template-columns: 1fr;
+//     gap: 24px;
+//   }
+
+//   /* ===== FORM CARD ===== */
+
+//   .form-card {
+//     padding: 32px;
+//     border-radius: 26px;
+//   }
+
+//   .form-card h2 {
+//     font-size: 2rem;
+//     margin-bottom: 24px;
+//   }
+
+//   .form-card .grid {
+//     grid-template-columns: repeat(2, 1fr);
+//     gap: 18px;
+//   }
+
+//   .form-card label {
+//     font-size: 14px;
+//     margin-bottom: 8px;
+//   }
+
+//   .form-card input {
+//     width: 100%;
+//     height: 54px;
+//     padding: 0 18px;
+//     font-size: 15px;
+//     border-radius: 14px;
+//   }
+
+//   /* ===== BUTTONS ===== */
+
+//   .button-group {
+//     gap: 14px;
+//     margin-top: 24px;
+//   }
+
+//   .predict-btn,
+//   .clear-btn,
+//   .location-btn {
+//     height: 54px;
+//     font-size: 15px;
+//     border-radius: 14px;
+//   }
+
+//   /* ===== RESULT CARD ===== */
+
+//   .result-card {
+//     padding: 32px;
+//     border-radius: 26px;
+//   }
+
+//   .result-card .empty .icon {
+//     width: 85px;
+//     height: 85px;
+//     font-size: 40px;
+//   }
+
+//   .result-card .empty h3 {
+//     font-size: 2rem;
+//   }
+
+//   .crop-name {
+//     font-size: 2.5rem !important;
+//   }
+
+//   /* ===== HISTORY ===== */
+
+//   .history-card {
+//     padding: 28px;
+//     border-radius: 26px;
+//   }
+// }
+
+
+// /* =========================================================
+//    💎 PREMIUM LAPTOP RESPONSIVE (1400px)
+// ========================================================= */
+
+// @media (max-width: 1400px) {
+
+//   .recommendation-page {
+//     padding: 2rem;
+//   }
+
+//   .main-layout {
+//     gap: 20px;
+//   }
+
+//   .form-card {
+//     padding: 32px;
+
+//     h2 {
+//       font-size: 2rem;
+//       margin-bottom: 24px;
+//     }
+
+//     .grid {
+//       gap: 18px;
+//     }
+
+//     input {
+//       height: 56px;
+//       padding: 0 18px;
+//       font-size: 15px;
+//       border-radius: 14px;
+//     }
+
+//     .button-group {
+//       gap: 12px;
+//     }
+
+//     .predict-btn,
+//     .clear-btn,
+//     .location-btn {
+//       height: 54px;
+//       font-size: 15px;
+//       border-radius: 14px;
+//     }
+//   }
+
+//   .result-card {
+//     padding: 30px;
+//     min-height: 500px;
+
+//     .empty {
+//       .icon {
+//         width: 85px;
+//         height: 85px;
+//         font-size: 40px;
+//       }
+
+//       h3 {
+//         font-size: 2rem;
+//       }
+//     }
+
+//     .crop-name {
+//       font-size: 2.5rem;
+//     }
+//   }
+
+//   .history-card {
+//     padding: 28px;
+
+//     .history-item {
+//       padding: 14px;
+//     }
+//   }
+// }
+
+// /* =========================
+//    TABLET
+// ========================= */
+// @media (max-width: 992px) {
+
+//   .recommendation-page {
+//     margin-left: 0;
+//     width: 100%;
+   
+//   }
+
+//   .recommendation-page .main-layout {
+//     grid-template-columns: 1fr;
+//   }
+
+//   .form-card .grid {
+//     grid-template-columns: 1fr;
+//   }
+
+//   .button-group {
+//     flex-direction: column;
+//   }
+
+//   .predict-btn,
+//   .clear-btn,
+//   .location-btn {
+//     width: 100%;
+//   }
+
+//   .recommendation-page h1 {
+//     font-size: 2.2rem;
+//   }
+
+//   .subtitle {
+//     font-size: 14px;
+//   }
+
+//   .form-card,
+//   .result-card,
+//   .history-card {
+//     padding: 24px;
+//     border-radius: 24px;
+//   }
+
+//   .result-card {
+//     min-height: 400px;
+//   }
+
+//   .crop-name {
+//     font-size: 2rem !important;
+//   }
+
+//   .result-card .empty .icon {
+//     width: 75px;
+//     height: 75px;
+//     font-size: 34px;
+//   }
+
+//   .result-card .empty h3 {
+//     font-size: 1.6rem;
+//   }
+
+//   .tabs {
+//     overflow-x: auto;
+//     white-space: nowrap;
+//     gap: 15px;
+
+//     &::-webkit-scrollbar {
+//       display: none;
+//     }
+//   }
+// }
+
+// /* =========================
+//    MOBILE
+// ========================= */
+// @media (max-width: 576px) {
+
+//   .recommendation-page {
+//     padding: 1rem;
+//   }
+
+//   .recommendation-page h1 {
+//     font-size: 1.9rem;
+//     line-height: 1.2;
+//   }
+
+//   .subtitle {
+//     font-size: 13px;
+//   }
+
+//   .form-card,
+//   .result-card,
+//   .history-card {
+//     padding: 18px;
+//     border-radius: 20px;
+//   }
+
+//   .form-card h2 {
+//     font-size: 1.8rem;
+//     line-height: 1.2;
+//   }
+
+//   .form-card .grid {
+//     gap: 14px;
+//   }
+
+//   input {
+//     padding: 13px;
+//     font-size: 14px;
+//   }
+
+//   .predict-btn,
+//   .clear-btn,
+//   .location-btn {
+//     padding: 13px;
+//     font-size: 14px;
+//   }
+
+//   .result-card {
+//     min-height: 320px;
+//   }
+
+//   .result-card .empty .icon {
+//     width: 70px;
+//     height: 70px;
+//     font-size: 30px;
+//     margin-bottom: 15px;
+//   }
+
+//   .result-card .empty h3 {
+//     font-size: 1.4rem;
+//   }
+
+//   .result-card .empty p {
+//     font-size: 13px;
+//   }
+
+//   .crop-name {
+//     font-size: 1.8rem !important;
+//     word-break: break-word;
+//   }
+// }
+
+// @media (max-width: 768px) {
+
+//   .recommendation-page {
+//     margin-left: 0;
+//     width: 100%;
+   
+//   }
+
+//   .recommendation-page .main-layout {
+//     grid-template-columns: 1fr;
+//   }
+
+//   .form-card .grid {
+//     grid-template-columns: 1fr;
+//   }
+
+//   .button-group {
+//     flex-direction: column;
+//   }
+
+//   .predict-btn,
+//   .clear-btn,
+//   .location-btn {
+//     width: 100%;
+//   }
+
+//   .recommendation-page h1 {
+//     font-size: 2.2rem;
+//   }
+
+//   .subtitle {
+//     font-size: 14px;
+//   }
+
+//   .form-card,
+//   .result-card,
+//   .history-card {
+//     padding: 24px;
+//     border-radius: 24px;
+//   }
+
+//   .result-card {
+//     min-height: 400px;
+//   }
+
+//   .crop-name {
+//     font-size: 2rem !important;
+//   }
+
+//   .result-card .empty .icon {
+//     width: 75px;
+//     height: 75px;
+//     font-size: 34px;
+//   }
+
+//   .result-card .empty h3 {
+//     font-size: 1.6rem;
+//   }
+
+//   .tabs {
+//     overflow-x: auto;
+//     white-space: nowrap;
+//     gap: 15px;
+
+//     &::-webkit-scrollbar {
+//       display: none;
+//     }
+//   }
+// }
+
+
+
+// /* =========================
+//    EXTRA SMALL DEVICES
+// ========================= */
+// @media (max-width: 380px) {
+
+//   .recommendation-page {
+//     padding: 0.8rem;
+//   }
+
+//   .form-card,
+//   .result-card,
+//   .history-card {
+//     padding: 15px;
+//     border-radius: 18px;
+//   }
+
+//   .recommendation-page h1 {
+//     font-size: 1.6rem;
+//   }
+
+//   .form-card h2 {
+//     font-size: 1.5rem;
+//   }
+
+//   .crop-name {
+//     font-size: 1.5rem !important;
+//   }
+
+//   .tabs {
+//     gap: 10px;
+//   }
+// }
+
+:root[data-theme="dark"] {
+  /* =========================
+   LARGE TABLET / SMALL LAPTOP
+========================= */
+
+
+
+@media (max-width: 1200px) {
+
+  .recommendation-page {
+    margin-left: 290px;
+    width: calc(100% - 290px);
+    padding: 1.5rem;
   }
 
-  /* =========================================================
-     MOBILE
-     ========================================================= */
+  .main-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
 
-  @media (max-width: 768px) {
+  /* ===== FORM CARD ===== */
 
-    .form-card,
-    .result-card {
-      padding: 24px;
-      border-radius: 22px;
+  .form-card {
+    padding: 32px;
+    border-radius: 26px;
+  }
+
+  .form-card h2 {
+    font-size: 2rem;
+    margin-bottom: 24px;
+  }
+
+  .form-card .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+
+  .form-card label {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .form-card input {
+    width: 100%;
+    height: 54px;
+    padding: 0 18px;
+    font-size: 15px;
+    border-radius: 14px;
+  }
+
+  /* ===== BUTTONS ===== */
+
+  .button-group {
+    gap: 14px;
+    margin-top: 24px;
+  }
+
+  .predict-btn,
+  .clear-btn,
+  .location-btn {
+    height: 54px;
+    font-size: 15px;
+    border-radius: 14px;
+  }
+
+  /* ===== RESULT CARD ===== */
+
+  .result-card {
+    padding: 32px;
+    border-radius: 26px;
+  }
+
+  .result-card .empty .icon {
+    width: 85px;
+    height: 85px;
+    font-size: 40px;
+  }
+
+  .result-card .empty h3 {
+    font-size: 2rem;
+  }
+
+  .crop-name {
+    font-size: 2.5rem !important;
+  }
+
+  /* ===== HISTORY ===== */
+
+  .history-card {
+    padding: 28px;
+    border-radius: 26px;
+  }
+}
+
+
+/* =========================================================
+   💎 PREMIUM LAPTOP RESPONSIVE (1400px)
+========================================================= */
+
+@media (max-width: 1400px) {
+
+  .recommendation-page {
+    padding: 1rem;
+  }
+
+  .main-layout {
+    gap: 20px;
+  }
+
+  .form-card {
+    padding: 32px;
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 24px;
     }
 
-    .form-card .grid {
-      grid-template-columns: 1fr;
+    .grid {
+      gap: 18px;
+    }
+
+    input {
+      height: 56px;
+      padding: 0 18px;
+      font-size: 15px;
+      border-radius: 14px;
+      width:100%;
     }
 
     .button-group {
-      flex-direction: column;
+      gap: 12px;
     }
 
-    .result .crop-name {
-      font-size: 34px !important;
+    .predict-btn,
+    .clear-btn,
+    .location-btn {
+      height: 54px;
+      font-size: 15px;
+      border-radius: 14px;
+    }
+  }
+
+  .result-card {
+    padding: 30px;
+    min-height: 500px;
+
+    .empty {
+      .icon {
+        width: 85px;
+        height: 85px;
+        font-size: 40px;
+      }
+
+      h3 {
+        font-size: 2rem;
+      }
+    }
+
+    .crop-name {
+      font-size: 2.5rem;
+    }
+  }
+
+  .history-card {
+    padding: 28px;
+
+    .history-item {
+      padding: 14px;
+    }
+  }
+}
+
+/* =========================
+   TABLET
+========================= */
+@media (max-width: 992px) {
+
+  .recommendation-page {
+    margin-left: 290px;
+    width: calc(100% - 290px);
+   
+  }
+
+  .recommendation-page .main-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .form-card .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .predict-btn,
+  .clear-btn,
+  .location-btn {
+    width: 100%;
+  }
+
+  .recommendation-page h1 {
+    font-size: 2.2rem;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .form-card,
+  .result-card,
+  .history-card {
+    padding: 24px;
+    border-radius: 24px;
+  }
+
+  .result-card {
+    min-height: 400px;
+  }
+
+  .crop-name {
+    font-size: 2rem !important;
+  }
+
+  .result-card .empty .icon {
+    width: 75px;
+    height: 75px;
+    font-size: 34px;
+  }
+
+  .result-card .empty h3 {
+    font-size: 1.6rem;
+  }
+
+  .tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 15px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 576px) {
+
+  .recommendation-page {
+    padding: 1rem;
+  }
+
+  .recommendation-page h1 {
+    font-size: 1.9rem;
+    line-height: 1.2;
+    margin-top: 10px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    margin-top: 10px;
+  }
+
+  .form-card,
+  .result-card,
+  .history-card {
+    padding: 18px;
+    border-radius: 60px;
+  }
+
+  .form-card h2 {
+    font-size: 1.8rem;
+    line-height: 1.2;
+  }
+
+  .form-card .grid {
+    gap: 14px;
+  }
+
+  input {
+    padding: 13px;
+    font-size: 14px;
+  }
+
+  .predict-btn,
+  .clear-btn,
+  .location-btn {
+    padding: 13px;
+    font-size: 14px;
+  }
+
+  .result-card {
+    min-height: 320px;
+  }
+
+  .result-card .empty .icon {
+    width: 70px;
+    height: 70px;
+    font-size: 30px;
+    margin-bottom: 15px;
+  }
+
+  .result-card .empty h3 {
+    font-size: 1.4rem;
+  }
+
+  .result-card .empty p {
+    font-size: 13px;
+  }
+
+  .crop-name {
+    font-size: 1.8rem !important;
+    word-break: break-word;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .recommendation-page {
+    margin-left: 0;
+    width: 100%;
+   
+  }
+
+  .recommendation-page .main-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .form-card .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .predict-btn,
+  .clear-btn,
+  .location-btn {
+    width: 100%;
+  }
+
+  .recommendation-page h1 {
+    font-size: 2.2rem;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .form-card,
+  .result-card,
+  .history-card {
+    padding: 24px;
+    border-radius: 24px;
+  }
+
+  .result-card {
+    min-height: 400px;
+  }
+
+  .crop-name {
+    font-size: 2rem !important;
+  }
+
+  .result-card .empty .icon {
+    width: 75px;
+    height: 75px;
+    font-size: 34px;
+  }
+
+  .result-card .empty h3 {
+    font-size: 1.6rem;
+  }
+
+  .tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 15px;
+
+    &::-webkit-scrollbar {
+      display: none;
     }
   }
 }
 
 
 
+/* =========================
+   EXTRA SMALL DEVICES
+========================= */
+@media (max-width: 380px) {
 
+  .recommendation-page {
+    padding: 0.8rem;
+  }
+
+  .form-card,
+  .result-card,
+  .history-card {
+    padding: 15px;
+    border-radius: 18px;
+  }
+
+  .recommendation-page h1 {
+    font-size: 1.6rem;
+  }
+
+  .form-card h2 {
+    font-size: 1.5rem;
+  }
+
+  .crop-name {
+    font-size: 1.5rem !important;
+  }
+
+  .tabs {
+    gap: 10px;
+  }
+}
+}
+
+
+:root[data-theme="light"] {
+  /* =========================
+   LARGE TABLET / SMALL LAPTOP
+========================= */
+
+
+
+@media (max-width: 1200px) {
+
+  .recommendation-page {
+    margin-left: 290px;
+    width: calc(100% - 290px);
+    padding: 1.5rem;
+  }
+
+  .main-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  /* ===== FORM CARD ===== */
+
+  .form-card {
+    padding: 32px;
+    border-radius: 26px;
+  }
+
+  .form-card h2 {
+    font-size: 2rem;
+    margin-bottom: 24px;
+  }
+
+  .form-card .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+
+  .form-card label {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .form-card input {
+    width: 100%;
+    height: 54px;
+    padding: 0 18px;
+    font-size: 15px;
+    border-radius: 14px;
+  }
+
+  /* ===== BUTTONS ===== */
+
+  .button-group {
+    gap: 14px;
+    margin-top: 24px;
+  }
+
+  .predict-btn,
+  .clear-btn,
+  .location-btn {
+    height: 54px;
+    font-size: 15px;
+    border-radius: 14px;
+  }
+
+  /* ===== RESULT CARD ===== */
+
+  .result-card {
+    padding: 32px;
+    border-radius: 26px;
+  }
+
+  .result-card .empty .icon {
+    width: 85px;
+    height: 85px;
+    font-size: 40px;
+  }
+
+  .result-card .empty h3 {
+    font-size: 2rem;
+  }
+
+  .crop-name {
+    font-size: 2.5rem !important;
+  }
+
+  /* ===== HISTORY ===== */
+
+  .history-card {
+    padding: 28px;
+    border-radius: 26px;
+  }
+}
+
+
+/* =========================================================
+   💎 PREMIUM LAPTOP RESPONSIVE (1400px)
+========================================================= */
+
+@media (max-width: 1400px) {
+
+  .recommendation-page {
+    padding: 1rem;
+  }
+
+  .main-layout {
+    gap: 20px;
+  }
+
+  .form-card {
+    padding: 32px;
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 24px;
+    }
+
+    .grid {
+      gap: 18px;
+    }
+
+    input {
+      height: 56px;
+      padding: 0 18px;
+      font-size: 15px;
+      border-radius: 14px;
+      width: 100%;
+    }
+
+    .button-group {
+      gap: 12px;
+    }
+
+    .predict-btn,
+    .clear-btn,
+    .location-btn {
+      height: 54px;
+      font-size: 15px;
+      border-radius: 14px;
+    }
+  }
+
+  .result-card {
+    padding: 30px;
+    min-height: 500px;
+
+    .empty {
+      .icon {
+        width: 85px;
+        height: 85px;
+        font-size: 40px;
+      }
+
+      h3 {
+        font-size: 2rem;
+      }
+    }
+
+    .crop-name {
+      font-size: 2.5rem;
+    }
+  }
+
+  .history-card {
+    padding: 28px;
+
+    .history-item {
+      padding: 14px;
+    }
+  }
+}
+
+/* =========================
+   TABLET
+========================= */
+@media (max-width: 992px) {
+
+  .recommendation-page {
+    margin-left: 0;
+    width: 100%;
+   
+  }
+
+  .recommendation-page .main-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .form-card .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .predict-btn,
+  .clear-btn,
+  .location-btn {
+    width: 100%;
+  }
+
+  .recommendation-page h1 {
+    font-size: 2.2rem;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .form-card,
+  .result-card,
+  .history-card {
+    padding: 24px;
+    border-radius: 24px;
+  }
+
+  .result-card {
+    min-height: 400px;
+  }
+
+  .crop-name {
+    font-size: 2rem !important;
+  }
+
+  .result-card .empty .icon {
+    width: 75px;
+    height: 75px;
+    font-size: 34px;
+  }
+
+  .result-card .empty h3 {
+    font-size: 1.6rem;
+  }
+
+  .tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 15px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 576px) {
+
+  .recommendation-page {
+    padding: 1rem;
+  }
+
+  .recommendation-page h1 {
+    font-size: 1.9rem;
+    line-height: 1.2;
+    margin-top: 60px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  .form-card,
+  .result-card,
+  .history-card {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .form-card h2 {
+    font-size: 1.8rem;
+    line-height: 1.2;
+  }
+
+  .form-card .grid {
+    gap: 14px;
+  }
+
+  input {
+    padding: 13px;
+    font-size: 14px;
+  }
+
+  .predict-btn,
+  .clear-btn,
+  .location-btn {
+    padding: 13px;
+    font-size: 14px;
+  }
+
+  .result-card {
+    min-height: 320px;
+  }
+
+  .result-card .empty .icon {
+    width: 70px;
+    height: 70px;
+    font-size: 30px;
+    margin-bottom: 15px;
+  }
+
+  .result-card .empty h3 {
+    font-size: 1.4rem;
+  }
+
+  .result-card .empty p {
+    font-size: 13px;
+  }
+
+  .crop-name {
+    font-size: 1.8rem !important;
+    word-break: break-word;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .recommendation-page {
+    margin-left: 0;
+    width: 100%;
+   
+  }
+
+  .recommendation-page .main-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .form-card .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .predict-btn,
+  .clear-btn,
+  .location-btn {
+    width: 100%;
+  }
+
+  .recommendation-page h1 {
+    font-size: 2.2rem;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .form-card,
+  .result-card,
+  .history-card {
+    padding: 24px;
+    border-radius: 24px;
+  }
+
+  .result-card {
+    min-height: 400px;
+  }
+
+  .crop-name {
+    font-size: 2rem !important;
+  }
+
+  .result-card .empty .icon {
+    width: 75px;
+    height: 75px;
+    font-size: 34px;
+  }
+
+  .result-card .empty h3 {
+    font-size: 1.6rem;
+  }
+
+  .tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 15px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+
+
+/* =========================
+   EXTRA SMALL DEVICES
+========================= */
+@media (max-width: 380px) {
+
+  .recommendation-page {
+    padding: 0.8rem;
+  }
+
+  .form-card,
+  .result-card,
+  .history-card {
+    padding: 15px;
+    border-radius: 18px;
+  }
+
+  .recommendation-page h1 {
+    font-size: 1.6rem;
+  }
+
+  .form-card h2 {
+    font-size: 1.5rem;
+  }
+
+  .crop-name {
+    font-size: 1.5rem !important;
+  }
+
+  .tabs {
+    gap: 10px;
+  }
+}
+}

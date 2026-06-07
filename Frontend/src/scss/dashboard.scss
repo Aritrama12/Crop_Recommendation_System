@@ -320,7 +320,7 @@
 
 
 .dashboard-container {
-  margin-left: 17rem; // space for sidebar
+   // space for sidebar
   padding: 1rem 2rem;
   background: #f5f7fa;
   min-height: 100vh;
@@ -340,6 +340,7 @@
   margin-bottom: 32px;
 
   h1 {
+   
     font-size: 32px;
     margin-bottom: 12px;
 
@@ -621,17 +622,6 @@
   }
 }
 
-/*  RESPONSIVE  */
-@media (max-width: 768px) {
-  .dashboard-container {
-    margin-left: 0;
-    padding: 16px;
-  }
-
-  .dashboard-header h1 {
-    font-size: 26px;
-  }
-}
 
 
 
@@ -647,7 +637,7 @@
      ========================================================= */
 
   .dashboard-container {
-    margin-left: 17rem;
+    
     padding: 2rem;
     min-height: 100vh;
     position: relative;
@@ -1163,10 +1153,330 @@
     }
   }
 
-  @media (max-width: 768px) {
+  
+}
+
+
+:root[data-theme="light"] {
+
+  .dashboard-container {
+    // margin-left: 17rem;
+    padding: 2rem;
+    min-height: 100vh;
+
+    background:
+      radial-gradient(circle at top left, rgba(76,175,80,0.08), transparent 25%),
+      radial-gradient(circle at bottom right, rgba(129,199,132,0.08), transparent 30%),
+      linear-gradient(
+        135deg,
+        #f4f8f4 0%,
+        #f8fafc 50%,
+        #eef7ee 100%
+      );
+
+    color: #1e293b;
+  }
+
+  /* Glass Cards */
+  .dashboard-header,
+  .overview-card,
+  .activity-card,
+  .tool-card,
+  .quick-actions,
+  .dashboard-banner img {
+
+    background: rgba(255,255,255,0.9);
+
+    border: 1px solid rgba(0,0,0,0.05);
+
+    backdrop-filter: blur(14px);
+
+    box-shadow:
+      0 10px 30px rgba(0,0,0,0.06),
+      0 2px 8px rgba(0,0,0,0.03);
+
+    transition: all 0.3s ease;
+  }
+
+  .dashboard-header:hover,
+  .overview-card:hover,
+  .activity-card:hover,
+  .tool-card:hover,
+  .quick-actions:hover {
+
+    transform: translateY(-6px);
+
+    box-shadow:
+      0 20px 40px rgba(0,0,0,0.08);
+  }
+
+  /* Header */
+  .dashboard-header {
+    border-radius: 28px;
+    padding: 50px;
+
+    background:
+      linear-gradient(
+        135deg,
+        #2e7d32,
+        #43a047,
+        #66bb6a
+      );
+
+    color: white;
+
+    h1 {
+      color: white;
+
+      span {
+        color: #dcedc8;
+      }
+    }
+
+    p {
+      color: rgba(255,255,255,0.9);
+    }
+  }
+
+  /* Overview Cards */
+  .overview-card {
+    border-radius: 24px;
+    text-align: center;
+    padding: 30px;
+
+    h3 {
+      font-size: 2.2rem;
+      color: #2e7d32;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #64748b;
+    }
+  }
+
+  /* Section Titles */
+  .farm-overview h2,
+  .recent-activity h2,
+  .smart-farming h2,
+  .quick-actions h2 {
+    color: #2e7d32;
+    font-weight: 800;
+  }
+
+  /* Activity */
+  .activity-card {
+    border-radius: 24px;
+
+    h4 {
+      color: #1e293b;
+    }
+
+    p,
+    li {
+      color: #64748b;
+    }
+
+    .link-btn {
+      color: #2e7d32;
+
+      &:hover {
+        color: #1b5e20;
+      }
+    }
+  }
+
+  /* Tool Cards */
+  .tool-card {
+    border-radius: 24px;
+    text-align: center;
+
+    .icon {
+      font-size: 3rem;
+    }
+
+    h4 {
+      color: #1e293b;
+    }
+
+    p {
+      color: #64748b;
+    }
+
+    .learn-btn {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border: none;
+
+      &:hover {
+        background: #c8e6c9;
+      }
+    }
+  }
+
+  /* Buttons */
+  .primary-btn {
+    background: #2e7d32;
+    color: white;
+
+    &:hover {
+      background: #1b5e20;
+    }
+  }
+
+  .secondary-btn {
+    background: white;
+    color: #2e7d32;
+    border: 2px solid #2e7d32;
+
+    &:hover {
+      background: #f1f8e9;
+    }
+  }
+
+  .tertiary-btn {
+    background: #f1f5f9;
+    color: #475569;
+
+    &:hover {
+      background: #e2e8f0;
+    }
+  }
+
+  /* Quick Actions */
+  .quick-actions {
+    border-radius: 28px;
+
+    p {
+      color: #64748b;
+    }
+  }
+
+  /* Banner */
+  .dashboard-banner img {
+    border-radius: 28px;
+    height: 360px;
+    object-fit: cover;
+  }
+
+  /* Responsive */
+  
+}
+
+
+/* =========================================================
+   🚀 ULTRA RESPONSIVE DARK DASHBOARD
+========================================================= */
+
+/* =========================
+   LARGE DESKTOP (1600px)
+========================= */
+@media (max-width: 1600px) {
+
+  :root[data-theme="dark"] {
 
     .dashboard-container {
-      margin-left: 0;
+      padding: 1.8rem;
+    }
+
+    .overview-grid,
+    .tools-grid {
+      gap: 24px;
+    }
+
+    .dashboard-header {
+      padding: 45px;
+    }
+
+    .dashboard-banner img {
+      height: 330px;
+    }
+  }
+}
+
+/* =========================
+   LAPTOP (1400px)
+========================= */
+@media (max-width: 1400px) {
+
+  :root[data-theme="dark"] {
+
+    .dashboard-container {
+      padding: 1.5rem;
+    }
+
+    .overview-grid,
+    .tools-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .dashboard-header {
+      padding: 40px;
+
+      h1 {
+        font-size: 2.3rem;
+      }
+    }
+
+    .dashboard-banner img {
+      height: 300px;
+    }
+
+    .overview-card,
+    .tool-card,
+    .activity-card {
+      padding: 28px;
+    }
+  }
+}
+
+/* =========================
+   SMALL LAPTOP (1200px)
+========================= */
+@media (max-width: 1200px) {
+
+  :root[data-theme="dark"] {
+
+    .dashboard-container {
+      margin-left: 18rem;
+      width: calc(100% - 18rem);
+      padding: 1.3rem;
+    }
+
+    .overview-grid,
+    .tools-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .dashboard-header {
+      padding: 36px;
+
+      h1 {
+        font-size: 2.1rem;
+      }
+    }
+
+    .quick-actions {
+      padding: 36px;
+    }
+
+    .dashboard-banner img {
+      height: 280px;
+    }
+  }
+}
+
+/* =========================
+   TABLET (992px)
+========================= */
+@media (max-width: 992px) {
+
+  :root[data-theme="dark"] {
+
+    .dashboard-container {
+      margin-left: 18rem;
       padding: 1rem;
     }
 
@@ -1180,21 +1490,493 @@
       padding: 32px;
 
       h1 {
-        font-size: 2.2rem;
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 15px;
       }
     }
 
-    .overview-card,
-    .activity-card,
-    .tool-card,
-    .quick-actions {
-      border-radius: 24px;
+    .overview-card h3 {
+      font-size: 2rem;
+    }
+
+    .tool-card {
+      padding: 30px;
     }
 
     .dashboard-banner img {
-      height: 240px;
+      height: 250px;
+    }
+
+    .quick-actions {
+      padding: 30px;
     }
   }
 }
 
+
+@media(max-width: 1024px){
+
+  :root[data-theme="dark"]{
+    .dashboard-container {
+      margin-left: 18rem;
+      padding: 1rem;
+    }
+
+  }
+}
+
+/* =========================
+   MOBILE (768px)
+========================= */
+@media (max-width: 768px) {
+
+  :root[data-theme="dark"] {
+
+    .dashboard-container {
+      margin-left: 0;
+      width: 100%;
+      padding: 1rem;
+    }
+
+    .dashboard-header {
+      padding: 28px;
+      border-radius: 24px;
+
+      h1 {
+        margin-top: 20px;
+        font-size: 1.8rem;
+        text-align: center;
+      }
+
+      p {
+        font-size: 14px;
+      }
+
+      .header-buttons {
+        flex-direction: column;
+      }
+    }
+    h2{
+      text-align: center;
+    }
+
+    .primary-btn,
+    .secondary-btn,
+    .tertiary-btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .overview-card,
+    .tool-card,
+    .activity-card,
+    .quick-actions {
+      border-radius: 24px;
+      text-align: center;
+
+      ul{
+        list-style: none;
+      }
+    }
+
+    .dashboard-banner img {
+      height: 220px;
+      border-radius: 24px;
+    }
+
+    .overview-card {
+      padding: 24px;
+
+      h3 {
+        text-align: center;
+        font-size: 1.8rem;
+      }
+    }
+
+    .tool-card {
+      padding: 24px;
+
+      .icon {
+        font-size: 2.5rem;
+      }
+    }
+
+    .quick-actions {
+      padding: 24px;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+/* =========================
+   SMALL MOBILE (576px)
+========================= */
+@media (max-width: 576px) {
+
+  :root[data-theme="dark"] {
+
+    .dashboard-container {
+      padding: 0.8rem;
+    }
+
+    .dashboard-header {
+      padding: 22px;
+
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      p {
+        font-size: 13px;
+      }
+    }
+
+    .farm-overview h2,
+    .recent-activity h2,
+    .smart-farming h2,
+    .quick-actions h2 {
+      font-size: 1.6rem;
+    }
+
+    .overview-card,
+    .tool-card,
+    .activity-card,
+    .quick-actions {
+      padding: 20px;
+      border-radius: 20px;
+    }
+
+    .overview-card h3 {
+      font-size: 1.7rem;
+    }
+
+    .dashboard-banner img {
+      height: 190px;
+    }
+
+    .tool-card .icon {
+      font-size: 2.2rem;
+    }
+  }
+}
+
+/* =========================
+   EXTRA SMALL DEVICES
+========================= */
+@media (max-width: 380px) {
+
+  :root[data-theme="dark"] {
+
+    .dashboard-container {
+      padding: 0.6rem;
+    }
+
+    .dashboard-header {
+      padding: 18px;
+
+      h1 {
+        font-size: 1.4rem;
+      }
+    }
+
+    .overview-card,
+    .tool-card,
+    .activity-card,
+    .quick-actions {
+      padding: 16px;
+      border-radius: 18px;
+    }
+
+    .overview-card h3 {
+      font-size: 1.5rem;
+    }
+
+    .dashboard-banner img {
+      height: 170px;
+    }
+  }
+}
+
+
+
+/* =========================================================
+   ☀️ ULTRA RESPONSIVE LIGHT DASHBOARD
+========================================================= */
+
+@media (max-width: 1600px) {
+
+  :root[data-theme="light"] {
+
+    .dashboard-container {
+      padding: 1.8rem;
+    }
+
+    .overview-grid,
+    .tools-grid {
+      gap: 24px;
+    }
+
+    .dashboard-header {
+      padding: 45px;
+    }
+
+    .dashboard-banner img {
+      height: 330px;
+    }
+  }
+}
+
+@media (max-width: 1400px) {
+
+  :root[data-theme="light"] {
+
+    .dashboard-container {
+      padding: 1.5rem;
+    }
+
+    .overview-grid,
+    .tools-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .dashboard-header {
+      padding: 40px;
+
+      h1 {
+        font-size: 2.3rem;
+      }
+    }
+
+    .dashboard-banner img {
+      height: 300px;
+    }
+
+    .overview-card,
+    .tool-card,
+    .activity-card {
+      padding: 28px;
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+
+  :root[data-theme="light"] {
+
+    .dashboard-container {
+      margin-left: 18rem;
+      width: calc(100% - 18rem);
+      padding: 1.3rem;
+    }
+
+    .overview-grid,
+    .tools-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .dashboard-header {
+      padding: 36px;
+
+      h1 {
+        font-size: 2.1rem;
+      }
+    }
+
+    .dashboard-banner img {
+      height: 280px;
+    }
+
+    .quick-actions {
+      padding: 36px;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+
+  :root[data-theme="light"] {
+
+    .dashboard-container {
+      margin-left: 0;
+      width:100%;
+      padding: 1rem;
+    }
+
+    .overview-grid,
+    .tools-grid,
+    .activity-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .dashboard-header {
+      padding: 32px;
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 15px;
+      }
+    }
+
+    .overview-card h3 {
+      font-size: 2rem;
+    }
+
+    .dashboard-banner img {
+      height: 250px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+
+  :root[data-theme="light"] {
+
+    .dashboard-container {
+      margin-left: 0;
+      width: 100%;
+      padding: 1rem;
+    }
+
+    .dashboard-header {
+      padding: 28px;
+      border-radius: 24px;
+
+      h1 {
+        margin-top: 20px;
+        font-size: 1.8rem;
+        text-align: center;
+      }
+
+      p {
+        text-align: center;
+        font-size: 14px;
+      }
+
+      .header-buttons {
+        flex-direction: column;
+      }
+    }
+     h2{
+      text-align: center;
+     }
+     
+    .primary-btn,
+    .secondary-btn,
+    .tertiary-btn {
+      width: 100%;
+    }
+
+    .overview-card,
+    .tool-card,
+    .activity-card,
+    .quick-actions {
+      border-radius: 24px;
+      text-align: center;
+
+      ul{
+        list-style: none;
+      }
+
+    }
+
+    .dashboard-banner img {
+      height: 220px;
+      border-radius: 24px;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+
+  :root[data-theme="light"] {
+
+    .dashboard-container {
+      padding: 0.8rem;
+    }
+
+    .dashboard-header {
+      padding: 22px;
+
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      p {
+        font-size: 13px;
+      }
+    }
+
+    .farm-overview h2,
+    .recent-activity h2,
+    .smart-farming h2,
+    .quick-actions h2 {
+      font-size: 1.6rem;
+    }
+
+    .overview-card,
+    .tool-card,
+    .activity-card,
+    .quick-actions {
+      padding: 20px;
+      border-radius: 20px;
+    }
+
+    .dashboard-banner img {
+      height: 190px;
+    }
+  }
+}
+
+@media (max-width: 380px) {
+
+  :root[data-theme="light"] {
+
+    .dashboard-container {
+      padding: 0.6rem;
+    }
+
+    .dashboard-header {
+      padding: 18px;
+
+      h1 {
+        font-size: 1.4rem;
+      }
+    }
+
+    .overview-card,
+    .tool-card,
+    .activity-card,
+    .quick-actions {
+      padding: 16px;
+      border-radius: 18px;
+    }
+
+    .dashboard-banner img {
+      height: 170px;
+    }
+  }
+}
 

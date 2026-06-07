@@ -1,115 +1,248 @@
-// import { NavLink } from "react-router-dom";
+// // import { NavLink } from "react-router-dom";
+// // import "../scss/sidebar.scss";
+// // import {
+  
+// //   Home,
+// //   Lightbulb,
+// //   CloudSun,
+// //   FlaskConical,
+// //   BarChart2,
+// //   User,
+// //   Settings,
+// //   LogOut,
+// // } from "lucide-react"; 
+// // import axios from "axios";
+// // import { useNavigate } from "react-router-dom";
+
+// // export default function Sidebar() {
+
+
+// //   const navigate = useNavigate();
+
+// //   const handleLogout = async () => {
+// //   try {
+// //     await axios.post(
+// //       'http://127.0.0.1:8000/api/auth/logout',
+// //       {
+// //         refresh: localStorage.getItem("refresh"),
+// //       },
+// //       {
+// //         headers: {
+// //           Authorization: `Bearer ${localStorage.getItem("access")}`,
+// //         },
+// //       }
+// //     );
+// //   } catch (error) {
+// //     console.error("Logout failed:", error);
+// //   } finally {
+// //     // Always clear local state
+// //     localStorage.removeItem("access");
+// //     localStorage.removeItem("refresh");
+
+// //     navigate("/",{ replace: true });
+// //   }
+// // };
+
+
+
+
+
+// //   return (
+// //     <aside className="sidebar">
+// //       {/* Logo Section */}
+// //       <div className="top-section">
+// //         <h2 className="logo">🌱 CropWise</h2>
+// //         <p className="subtitle">Smart Agriculture</p>
+// //       </div>
+
+// //       {/* User Info */}
+// //       <div className="user">
+// //         <div className="avatar">A</div>
+// //         <div className="userinfo">
+// //           <p className="name">a</p>
+// //           <p className="email">a@gmail.com</p>
+// //         </div>
+// //       </div>
+
+// //       {/* Navigation */}
+// //       <nav className="nav-links">
+// //         <NavLink to="/dashboard" end>
+// //           <Home size={18} />
+// //           Dashboard
+// //         </NavLink>
+// //         <NavLink to="/recommendations">
+// //           <Lightbulb size={18} />
+// //           Recommendations
+// //         </NavLink>
+// //         <NavLink to="/weather">
+// //           <CloudSun size={18} />
+// //           Weather
+// //         </NavLink>
+// //         <NavLink to="/soil-analysis">
+// //           <FlaskConical size={18} />
+// //           Soil Analysis
+// //         </NavLink>
+// //         {/* <NavLink to="/analytics">
+// //           <BarChart2 size={18} />
+// //           Analytics
+// //         </NavLink> */} 
+// //       </nav>
+
+// //       {/* Bottom Section */}
+// //       <nav className="bottom-links">
+// //         <NavLink to="/profile">
+// //           <User size={18} />
+// //           Profile
+// //         </NavLink>
+// //         <NavLink to="/settings">
+// //           <Settings size={18} />
+// //           Settings
+// //         </NavLink>
+// //          <div className="logout" onClick={handleLogout}>
+// //           <LogOut size={18} />
+// //            Logout
+// //         </div>
+// //       </nav>
+// //     </aside>
+// //   );
+// // }
+
+// import { NavLink, useNavigate } from "react-router-dom";
+// import { useState } from "react";
 // import "../scss/sidebar.scss";
 // import {
-  
 //   Home,
 //   Lightbulb,
 //   CloudSun,
 //   FlaskConical,
-//   BarChart2,
 //   User,
 //   Settings,
 //   LogOut,
-// } from "lucide-react"; 
+//   Menu,
+//   X,
+//   BarChart2
+// } from "lucide-react";
 // import axios from "axios";
-// import { useNavigate } from "react-router-dom";
 
 // export default function Sidebar() {
-
-
 //   const navigate = useNavigate();
+//   const [menuOpen, setMenuOpen] = useState(false);
 
 //   const handleLogout = async () => {
-//   try {
-//     await axios.post(
-//       'http://127.0.0.1:8000/api/auth/logout',
-//       {
-//         refresh: localStorage.getItem("refresh"),
-//       },
-//       {
-//         headers: {
-//           Authorization: `Bearer ${localStorage.getItem("access")}`,
+//     try {
+//       await axios.post(
+//         "http://127.0.0.1:8000/api/auth/logout",
+//         {
+//           refresh: localStorage.getItem("refresh"),
 //         },
-//       }
-//     );
-//   } catch (error) {
-//     console.error("Logout failed:", error);
-//   } finally {
-//     // Always clear local state
-//     localStorage.removeItem("access");
-//     localStorage.removeItem("refresh");
-
-//     navigate("/",{ replace: true });
-//   }
-// };
-
-
-
-
+//         {
+//           headers: {
+//             Authorization: `Bearer ${localStorage.getItem("access")}`,
+//           },
+//         }
+//       );
+//     } catch (error) {
+//       console.error("Logout failed:", error);
+//     } finally {
+//       localStorage.removeItem("access");
+//       localStorage.removeItem("refresh");
+//       navigate("/", { replace: true });
+//     }
+//   };
 
 //   return (
-//     <aside className="sidebar">
-//       {/* Logo Section */}
-//       <div className="top-section">
-//         <h2 className="logo">🌱 CropWise</h2>
-//         <p className="subtitle">Smart Agriculture</p>
-//       </div>
+//     <>
+//       {/* mobile menu button */}
+//       <button
+//         className="menu-toggle"
+//         onClick={() => setMenuOpen(!menuOpen)}
+//       >
+//         {menuOpen ? <X size={28} /> : <Menu size={28} />}
+//       </button>
 
-//       {/* User Info */}
-//       <div className="user">
-//         <div className="avatar">A</div>
-//         <div className="userinfo">
-//           <p className="name">a</p>
-//           <p className="email">a@gmail.com</p>
+//       {/* overlay */}
+//       {menuOpen && (
+//         <div
+//           className="sidebar-overlay"
+//           onClick={() => setMenuOpen(false)}
+//         />
+//       )}
+
+//       <aside className={`sidebar ${menuOpen ? "open" : ""}`}>
+//         <div className="top-section">
+//           <h2 className="logo">🌱 CropWise</h2>
+//           <p className="subtitle">Smart Agriculture</p>
 //         </div>
-//       </div>
 
-//       {/* Navigation */}
-//       <nav className="nav-links">
-//         <NavLink to="/dashboard" end>
-//           <Home size={18} />
-//           Dashboard
-//         </NavLink>
-//         <NavLink to="/recommendations">
-//           <Lightbulb size={18} />
-//           Recommendations
-//         </NavLink>
-//         <NavLink to="/weather">
-//           <CloudSun size={18} />
-//           Weather
-//         </NavLink>
-//         <NavLink to="/soil-analysis">
-//           <FlaskConical size={18} />
-//           Soil Analysis
-//         </NavLink>
-//         {/* <NavLink to="/analytics">
-//           <BarChart2 size={18} />
-//           Analytics
-//         </NavLink> */} 
-//       </nav>
-
-//       {/* Bottom Section */}
-//       <nav className="bottom-links">
-//         <NavLink to="/profile">
-//           <User size={18} />
-//           Profile
-//         </NavLink>
-//         <NavLink to="/settings">
-//           <Settings size={18} />
-//           Settings
-//         </NavLink>
-//          <div className="logout" onClick={handleLogout}>
-//           <LogOut size={18} />
-//            Logout
+//         <div className="user">
+//           <div className="avatar">A</div>
+//           <div className="userinfo">
+//             <p className="name">Aritra</p>
+//             <p className="email">a@gmail.com</p>
+//           </div>
 //         </div>
-//       </nav>
-//     </aside>
+
+//         <nav className="nav-links">
+//           <NavLink to="/dashboard" onClick={() => setMenuOpen(false)}>
+//             <Home size={18} />
+//             Dashboard
+//           </NavLink>
+
+//           <NavLink to="/recommendations" onClick={() => setMenuOpen(false)}>
+//             <Lightbulb size={18} />
+//             Recommendations
+//           </NavLink>
+
+//           <NavLink to="/farm-records" onClick={() => setMenuOpen(false)}>
+//             <BarChart2 size={18} />
+//             Farm Records
+//           </NavLink>
+
+//           <NavLink to="/weather" onClick={() => setMenuOpen(false)}>
+//             <CloudSun size={18} />
+//             Weather
+//           </NavLink>
+
+//           <NavLink to="/soil-analysis" onClick={() => setMenuOpen(false)}>
+//             <FlaskConical size={18} />
+//             Soil Analysis
+//           </NavLink>
+
+//           <NavLink to="/markets" onClick={() => setMenuOpen(false)}>
+//             <BarChart2 size={18} />
+//             Markets
+//           </NavLink>
+//         </nav>
+
+//         <nav className="bottom-links">
+//           <NavLink to="/profile" onClick={() => setMenuOpen(false)}>
+//             <User size={18} />
+//             Profile
+//           </NavLink>
+
+//           <NavLink to="/settings" onClick={() => setMenuOpen(false)}>
+//             <Settings size={18} />
+//             Settings
+//           </NavLink>
+
+//           <div className="logout" onClick={handleLogout}>
+//             <LogOut size={18} />
+//             Logout
+//           </div>
+//         </nav>
+//       </aside>
+//     </>
 //   );
 // }
 
-import { NavLink, useNavigate } from "react-router-dom";
-import { useState } from "react";
+
+
+
+
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 import "../scss/sidebar.scss";
+
 import {
   Home,
   Lightbulb,
@@ -120,15 +253,38 @@ import {
   LogOut,
   Menu,
   X,
-  BarChart2
+  BarChart2,
 } from "lucide-react";
+
 import axios from "axios";
 
 export default function Sidebar() {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [menuOpen, setMenuOpen] = useState(false);
 
+  /* Close sidebar when route changes */
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
+
+  /* Prevent background scroll */
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [menuOpen]);
+
   const handleLogout = async () => {
+    setMenuOpen(false);
+
     try {
       await axios.post(
         "http://127.0.0.1:8000/api/auth/logout",
@@ -146,21 +302,26 @@ export default function Sidebar() {
     } finally {
       localStorage.removeItem("access");
       localStorage.removeItem("refresh");
-      navigate("/", { replace: true });
+
+      navigate("/", {
+        replace: true,
+      });
     }
   };
 
   return (
     <>
-      {/* mobile menu button */}
+      {/* MOBILE MENU BUTTON */}
+
       <button
         className="menu-toggle"
-        onClick={() => setMenuOpen(!menuOpen)}
+        onClick={() => setMenuOpen((prev) => !prev)}
       >
-        {menuOpen ? <X size={28} /> : <Menu size={28} />}
+        {menuOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      {/* overlay */}
+      {/* OVERLAY */}
+
       {menuOpen && (
         <div
           className="sidebar-overlay"
@@ -168,65 +329,89 @@ export default function Sidebar() {
         />
       )}
 
+      {/* SIDEBAR */}
+
       <aside className={`sidebar ${menuOpen ? "open" : ""}`}>
+        {/* LOGO */}
+
         <div className="top-section">
           <h2 className="logo">🌱 CropWise</h2>
-          <p className="subtitle">Smart Agriculture</p>
+
+          <p className="subtitle">
+            Smart Agriculture
+          </p>
         </div>
 
+        {/* USER */}
+
         <div className="user">
-          <div className="avatar">A</div>
+          <div className="avatar">
+            A
+          </div>
+
           <div className="userinfo">
-            <p className="name">Aritra</p>
-            <p className="email">a@gmail.com</p>
+            <p className="name">
+              Aritra
+            </p>
+
+            <p className="email">
+              a@gmail.com
+            </p>
           </div>
         </div>
 
+        {/* NAVIGATION */}
+
         <nav className="nav-links">
-          <NavLink to="/dashboard" onClick={() => setMenuOpen(false)}>
-            <Home size={18} />
+          <NavLink to="/dashboard">
+            <Home size={20} />
             Dashboard
           </NavLink>
 
-          <NavLink to="/recommendations" onClick={() => setMenuOpen(false)}>
-            <Lightbulb size={18} />
+          <NavLink to="/recommendations">
+            <Lightbulb size={20} />
             Recommendations
           </NavLink>
 
-          <NavLink to="/farm-records" onClick={() => setMenuOpen(false)}>
-            <BarChart2 size={18} />
+          <NavLink to="/farm-records">
+            <BarChart2 size={20} />
             Farm Records
           </NavLink>
 
-          <NavLink to="/weather" onClick={() => setMenuOpen(false)}>
-            <CloudSun size={18} />
+          <NavLink to="/weather">
+            <CloudSun size={20} />
             Weather
           </NavLink>
 
-          <NavLink to="/soil-analysis" onClick={() => setMenuOpen(false)}>
-            <FlaskConical size={18} />
+          <NavLink to="/soil-analysis">
+            <FlaskConical size={20} />
             Soil Analysis
           </NavLink>
 
-          <NavLink to="/markets" onClick={() => setMenuOpen(false)}>
-            <BarChart2 size={18} />
+          <NavLink to="/markets">
+            <BarChart2 size={20} />
             Markets
           </NavLink>
         </nav>
 
+        {/* BOTTOM LINKS */}
+
         <nav className="bottom-links">
-          <NavLink to="/profile" onClick={() => setMenuOpen(false)}>
-            <User size={18} />
+          <NavLink to="/profile">
+            <User size={20} />
             Profile
           </NavLink>
 
-          <NavLink to="/settings" onClick={() => setMenuOpen(false)}>
-            <Settings size={18} />
+          <NavLink to="/settings">
+            <Settings size={20} />
             Settings
           </NavLink>
 
-          <div className="logout" onClick={handleLogout}>
-            <LogOut size={18} />
+          <div
+            className="logout"
+            onClick={handleLogout}
+          >
+            <LogOut size={20} />
             Logout
           </div>
         </nav>

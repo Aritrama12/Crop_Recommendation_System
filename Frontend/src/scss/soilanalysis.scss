@@ -256,37 +256,7 @@
 }
 
 /* RESPONSIVE TABLE */
-@media (max-width: 768px) {
-  .content-box table,
-  .content-box thead,
-  .content-box tbody,
-  .content-box th,
-  .content-box td,
-  .content-box tr {
-    display: block;
-  }
 
-  .content-box thead {
-    display: none;
-  }
-
-  .content-box tbody tr {
-    margin-bottom: 12px;
-    padding: 10px;
-  }
-
-  .content-box td {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-  }
-
-  .content-box td::before {
-    content: attr(data-label);
-    font-weight: 600;
-    color: #6b7280;
-  }
-}
 
 .status {
   background: #dff5e8;
@@ -348,61 +318,10 @@
 }
 
 /* TABLET */
-@media (max-width: 1200px) {
-  .summary-grid,
-  .metric-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
+
 
 /* MOBILE */
-@media (max-width: 768px) {
-  .soil-analysis-page {
-    margin-left: 0;
-    width: 100%;
-    padding: 15px;
-  }
 
-  .top-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-
-    h1 {
-      font-size: 30px;
-    }
-
-    p {
-      font-size: 16px;
-    }
-  }
-
-  .summary-grid,
-  .metric-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .tabs {
-    gap: 20px;
-
-    button {
-      font-size: 16px;
-    }
-  }
-
-  .content-box {
-    padding: 20px;
-
-    h2 {
-      font-size: 26px;
-    }
-  }
-
-  table {
-    display: block;
-    overflow-x: auto;
-  }
-}
 
 .image-box {
   .upload-wrapper {
@@ -578,17 +497,6 @@ input[type="date"] {
 }
 
 /* responsive */
-@media (max-width: 992px) {
-  .form-grid.two,
-  .form-grid.three,
-  .field {
-    grid-template-columns: 1fr;
-  }
-
-  .manual-form-box {
-    padding: 24px;
-  }
-}
 
 /* =========================
    PRO IMAGE ANALYSIS DESIGN
@@ -813,153 +721,6 @@ input[type="date"] {
   }
 }
 
-/* mobile */
-@media (max-width: 768px) {
-  .image-box {
-    padding: 24px;
-    border-radius: 18px;
-
-    h3 {
-      font-size: 26px;
-    }
-
-    p {
-      font-size: 15px;
-    }
-  }
-
-  .upload-wrapper {
-    padding: 40px 20px;
-
-    &::before {
-      font-size: 45px;
-    }
-
-    &::after {
-      font-size: 14px;
-    }
-  }
-
-  .analyze-btn {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-/* mobile */
-@media (max-width: 768px) {
-  .image-box {
-    padding: 24px;
-
-    h3 {
-      font-size: 24px;
-    }
-  }
-
-  .upload-wrapper {
-    padding: 30px 15px;
-  }
-
-  .analyze-btn {
-    width: 100%;
-  }
-}
-// /* popup overlay */
-// .popup-overlay {
-//   position: fixed;
-//   inset: 0;
-//   background: rgba(0, 0, 0, 0.55);
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   z-index: 9999;
-// }
-
-// /* popup box */
-// .analysis-popup {
-//   width: 800px;
-//   height: 400px;
-//   max-width: 95%;
-//   background: white;
-//   border-radius: 20px;
-//   padding: 30px;
-//   position: relative;
-//   text-align: center;
-//   animation: popupScale 0.3s ease;
-//   box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-
-//   h2 {
-//     margin-bottom: 25px;
-//     color: #1f7a3d;
-//   }
-// }
-
-// @keyframes popupScale {
-//   from {
-//     transform: scale(.7);
-//     opacity: 0;
-//   }
-//   to {
-//     transform: scale(1);
-//     opacity: 1;
-//   }
-// }
-
-// .close-popup {
-//   position: absolute;
-//   right: 20px;
-//   top: 20px;
-//   border: none;
-//   background: none;
-//   font-size: 22px;
-//   cursor: pointer;
-// }
-
-// .popup-result-grid {
-//   display: grid;
-//   grid-template-columns: repeat(2, 1fr);
-//   gap: 10px;
-//   margin-bottom: 20px;
-//   height: 300px;
-// }
-
-// .result-card {
-//   background: #f5faf6;
-//   padding: 10px;
-//   border-radius: 14px;
-//   border: 1px solid #dbe8dd;
-//   width: 400px;
-//   height: 300px;
-
-//   h3 {
-//     color: #1f7a3d;
-//     margin-bottom: 8px;
-//     font-size: 20px;
-//   }
-
-//   p {
-//     color: #666;
-//     font-size: 19px;
-//   }
-// }
-
-// .ok-btn {
-//   background: #1f7a3d;
-//   color: white;
-//   border: none;
-//   padding: 12px 35px;
-//   border-radius: 10px;
-//   cursor: pointer;
-//   font-weight: 600;
-
-//   &:hover {
-//     background: #16602f;
-//   }
-// }
-
-/* =========================
-   POPUP OVERLAY
-========================= */
 
 .popup-overlay {
   position: fixed;
@@ -1106,42 +867,6 @@ input[type="date"] {
   }
 }
 
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 768px) {
-
-  .analysis-popup {
-    padding: 22px;
-    border-radius: 18px;
-
-    h2 {
-      font-size: 24px;
-    }
-  }
-
-  .popup-result-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .result-card {
-    min-height: 80px;
-    padding: 22px;
-
-    h3 {
-      font-size: 20px;
-    }
-
-    p {
-      font-size: 17px;
-    }
-  }
-
-  .ok-btn {
-    width: 100%;
-  }
-}
 
 .content-box {
   
@@ -1278,21 +1003,7 @@ input[type="date"] {
 }
 
 /* mobile */
-@media (max-width: 768px) {
-  .content-box {
-    overflow-x: auto;
-  }
 
-  .content-box table {
-    min-width: 750px;
-  }
-
-  .content-box td,
-  .content-box th {
-    padding: 16px;
-    font-size: 14px;
-  }
-}
 /* ===============================
    CURRENT ANALYSIS WITH PIE CHART
 ================================= */
@@ -1361,26 +1072,6 @@ input[type="date"] {
 }
 
 /* responsive */
-@media (max-width: 1100px) {
-  .current-analysis-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .metric-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .metric-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .pie-chart-box {
-    padding: 15px;
-  }
-}
-
 /* ===============================
    MODERN CURRENT ANALYSIS
 ================================ */
@@ -1564,17 +1255,7 @@ input[type="date"] {
 }
 
 /* responsive */
-@media(max-width:1200px){
-  .modern-current-box{
-    grid-template-columns:1fr;
-  }
 
-  .current-left{
-    border-right:none;
-    border-bottom:2px solid #eee;
-    padding-bottom:30px;
-  }
-}
 
 .empty-state {
   background: white;
@@ -1681,23 +1362,7 @@ input[type="date"] {
 }
 
 //responsive ness
-@media (max-width: 1400px) {
-  .summary-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
 
-@media (max-width: 768px) {
-  .summary-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 500px) {
-  .summary-grid {
-    grid-template-columns: 1fr;
-  }
-}
 
 
 
@@ -1708,162 +1373,14 @@ input[type="date"] {
    RESPONSIVE FIX
 ========================= */
 
-/* laptop */
-@media (max-width: 1400px) {
-  .summary-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
 
-  .modern-current-box {
-    grid-template-columns: 1fr;
-  }
-
-  .current-left {
-    border-right: none;
-    border-bottom: 2px solid #eee;
-    padding-right: 0;
-    padding-bottom: 30px;
-  }
-}
 
 /* tablet */
-@media (max-width: 992px) {
-  .soil-analysis-page {
-    margin-left: 0;
-    width: 100%;
-    padding: 20px;
-  }
 
-  .top-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-  }
-
-  .header-btns {
-    width: 100%;
-    flex-wrap: wrap;
-
-    button {
-      flex: 1;
-    }
-  }
-
-  .summary-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .metric-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .form-grid.two,
-  .form-grid.three {
-    grid-template-columns: 1fr;
-  }
-
-  .popup-result-grid {
-    grid-template-columns: 1fr;
-  }
-}
 
 /* mobile */
-@media (max-width: 768px) {
-  .soil-analysis-page {
-    padding: 15px;
-  }
 
-  .top-header h1 {
-    font-size: 24px;
-  }
 
-  .top-header p {
-    font-size: 14px;
-  }
-
-  .header-btns {
-    flex-direction: column;
-
-    button {
-      width: 100%;
-    }
-  }
-
-  .tabs {
-    gap: 10px;
-    overflow-x: auto;
-    white-space: nowrap;
-
-    button {
-      font-size: 14px;
-      padding: 12px 0;
-    }
-  }
-
-  .summary-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .metric-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .modern-current-box {
-    grid-template-columns: 1fr;
-  }
-
-  .content-box,
-  .manual-form-box,
-  .image-box {
-    padding: 18px;
-    border-radius: 14px;
-  }
-
-  .analysis-popup {
-    width: 95%;
-    height: auto;
-    padding: 20px;
-  }
-
-  .popup-result-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* table scroll */
-  .content-box {
-    overflow-x: auto;
-  }
-
-  .content-box table {
-    min-width: 600px;
-  }
-}
-
-/* very small phones */
-@media (max-width: 480px) {
-  .soil-analysis-page {
-    padding: 10px;
-  }
-
-  .summary-grid .card {
-    padding: 18px;
-  }
-
-  .metric-card {
-    padding: 18px;
-  }
-
-  .manual-form-box,
-  .image-box {
-    padding: 15px;
-  }
-
-  .analyze-btn,
-  .save-btn {
-    width: 100%;
-    justify-content: center;
-  }
-}
 
 /* =========================
    SIDEBAR RESPONSIVE FIX
@@ -1876,23 +1393,9 @@ input[type="date"] {
   transition: all 0.3s ease;
 }
 
-/* large tablet */
-@media (max-width: 1024px) {
-  .soil-analysis-page {
-    margin-left: 80px;   // collapsed sidebar width
-    width: calc(100% - 80px);
-    padding: 20px;
-  }
-}
 
-/* mobile */
-@media (max-width: 768px) {
-  .soil-analysis-page {
-    margin-left: 0;
-    width: 100%;
-    padding: 15px;
-  }
-}
+
+
 
 
 
@@ -2620,49 +2123,802 @@ input[type="date"] {
     font-size: 15px;
   }
 
-  /* ===============================
+
+  
+}
+
+
+
+
+/* =========================================================
+   ☀️ SOIL ANALYSIS - LIGHT THEME
+   Modern AgriTech SaaS UI
+   ========================================================= */
+
+:root[data-theme="light"] {
+
+  .soil-analysis-page {
+    background: #f8fafc;
+    color: #111827;
+  }
+
+  /* =========================================================
+     PAGE HEADER
+     ========================================================= */
+
+  .soil-header {
+    background: linear-gradient(
+      135deg,
+      #ffffff,
+      #f0fdf4
+    );
+
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+
+    box-shadow:
+      0 10px 30px rgba(15,23,42,0.05);
+
+    h1 {
+      color: #0f172a;
+      font-weight: 800;
+    }
+
+    p {
+      color: #64748b;
+    }
+  }
+
+  /* =========================================================
+     ANALYSIS CARD
+     ========================================================= */
+
+  .analysis-card {
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+
+    box-shadow:
+      0 10px 30px rgba(15,23,42,0.05);
+
+    h2 {
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    .card-subtitle {
+      color: #64748b;
+    }
+
+    &:hover {
+      transform: translateY(-3px);
+
+      box-shadow:
+        0 20px 40px rgba(15,23,42,0.08);
+    }
+  }
+
+  /* =========================================================
+     FORM
+     ========================================================= */
+
+  .form-group {
+
+    label {
+      color: #334155;
+      font-weight: 600;
+    }
+
+    input,
+    select,
+    textarea {
+      background: #ffffff;
+      border: 1px solid #d1d5db;
+      color: #111827;
+
+      border-radius: 14px;
+
+      transition: all .3s ease;
+
+      &::placeholder {
+        color: #94a3b8;
+      }
+
+      &:focus {
+        outline: none;
+
+        border-color: #22c55e;
+
+        box-shadow:
+          0 0 0 4px rgba(34,197,94,.12);
+      }
+    }
+  }
+
+  /* =========================================================
+     SUBMIT BUTTON
+     ========================================================= */
+
+  .submit-btn {
+    background: linear-gradient(
+      135deg,
+      #16a34a,
+      #22c55e
+    );
+
+    color: #fff;
+    border: none;
+
+    font-weight: 700;
+
+    box-shadow:
+      0 10px 25px rgba(34,197,94,.2);
+
+    &:hover {
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 15px 35px rgba(34,197,94,.3);
+    }
+  }
+
+  /* =========================================================
+     RESULT SECTION
+     ========================================================= */
+
+  .result-card {
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+
+    box-shadow:
+      0 10px 30px rgba(15,23,42,0.05);
+
+    h3 {
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    p {
+      color: #475569;
+    }
+  }
+
+  /* =========================================================
+     NPK CARDS
+     ========================================================= */
+
+  .metric-card {
+    background: linear-gradient(
+      180deg,
+      #ffffff,
+      #f8fafc
+    );
+
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+
+    text-align: center;
+
+    transition: .3s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+
+      box-shadow:
+        0 12px 25px rgba(15,23,42,.08);
+    }
+
+    h4 {
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    p {
+      color: #64748b;
+    }
+
+    .value {
+      font-size: 28px;
+      font-weight: 800;
+      color: #16a34a;
+    }
+  }
+
+  /* =========================================================
+     STATUS BADGES
+     ========================================================= */
+
+  .status-badge {
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .status-good {
+    background: #dcfce7;
+    color: #15803d;
+  }
+
+  .status-medium {
+    background: #fef9c3;
+    color: #ca8a04;
+  }
+
+  .status-low {
+    background: #fee2e2;
+    color: #dc2626;
+  }
+
+  /* =========================================================
+     RECOMMENDATION BOX
+     ========================================================= */
+
+  .recommendation-box {
+    background: linear-gradient(
+      135deg,
+      #f0fdf4,
+      #ecfdf5
+    );
+
+    border-left: 5px solid #22c55e;
+
+    border-radius: 18px;
+
+    h4 {
+      color: #166534;
+      font-weight: 700;
+    }
+
+    p {
+      color: #475569;
+    }
+  }
+
+  /* =========================================================
+     CHART CONTAINER
+     ========================================================= */
+
+  .chart-card {
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+
+    box-shadow:
+      0 10px 30px rgba(15,23,42,.05);
+  }
+
+  /* =========================================================
+     TABLE
+     ========================================================= */
+
+  table {
+    background: white;
+
+    th {
+      background: #f8fafc;
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    td {
+      color: #475569;
+    }
+
+    tr {
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    tr:hover {
+      background: #f8fafc;
+    }
+  }
+
+  /* =========================================================
      RESPONSIVE
-  ================================= */
+     ========================================================= */
 
-  @media (max-width: 1200px) {
-    .modern-current-box {
-      grid-template-columns: 1fr;
-    }
+ 
+}
 
-    .current-left {
-      border-right: none;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      padding-right: 0;
-      padding-bottom: 28px;
-    }
+
+
+.recommendation-box {
+  position: relative;
+  overflow: hidden;
+
+  background: linear-gradient(
+    135deg,
+    #f0fdf4,
+    #ecfdf5
+  );
+
+  border-left: 5px solid #22c55e;
+  border-radius: 20px;
+
+  padding: 24px;
+
+  transition: all 0.35s ease;
+
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.05);
+
+  h4 {
+    color: #166534;
+    font-weight: 700;
+    margin-bottom: 12px;
   }
 
-  @media (max-width: 768px) {
+  p {
+    color: #475569;
+    line-height: 1.7;
+  }
 
-    .modern-current-box {
-      padding: 20px;
-      border-radius: 20px;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+      135deg,
+      rgba(34,197,94,0.08),
+      rgba(34,197,94,0)
+    );
+
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+  }
+
+  &:hover {
+    transform: translateY(-6px);
+
+    border-left-color: #16a34a;
+
+    box-shadow:
+      0 20px 35px rgba(34,197,94,0.15),
+      0 10px 20px rgba(0,0,0,0.08);
+
+    &::before {
+      opacity: 1;
     }
 
-    .chart-side {
-      padding: 20px;
-      border-radius: 18px;
-    }
-
-    .pie-chart-box {
-      padding: 16px;
-    }
-
-    .chart-side h2 {
-      font-size: 22px;
-    }
-
-    .metric-card h3 {
-      font-size: 22px;
-    }
-
-    .chart-note {
-      font-size: 14px;
+    h4 {
+      color: #15803d;
     }
   }
+}
+
+.recommendation-box:hover {
+  transform: translateY(-8px) scale(1.01);
+
+  box-shadow:
+    0 25px 50px rgba(34,197,94,0.18),
+    0 0 30px rgba(34,197,94,0.12);
+
+  background: linear-gradient(
+    135deg,
+    #f7fff8,
+    #ecfdf5
+  );
+}
+
+.recommendation-box .icon {
+  transition: all .35s ease;
+}
+
+.recommendation-box:hover .icon {
+  transform: rotate(-8deg) scale(1.15);
+  color: #16a34a;
+}
+
+.recommendation-box::after {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: -120%;
+  width: 60%;
+  height: 250%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.5),
+    transparent
+  );
+
+  transform: rotate(25deg);
+}
+
+.recommendation-box:hover::after {
+  left: 150%;
+  transition: 0.8s ease;
+}
+
+
+
+
+
+
+
+:root[data-theme="light"]{
+  /* ========================= PROFESSIONAL RESPONSIVE ========================= */
+
+@media (max-width:1600px){
+  // .soil-analysis-page{
+  //   margin-left: 17rem;
+  //   width: calc(100% - 18rem);
+
+  // }
+  // .summary-grid{grid-template-columns:repeat(2,1fr);}
+
+   .soil-analysis-page{margin-left:18rem;width:calc(100% - 18rem);padding:24px;}
+  .modern-current-box{
+    grid-template-columns:repeat(3,1fr);
+  }
+   .summary-grid{
+    grid-template-columns:repeat(3,1fr);
+    gap: 5px;
+  }
+  .current-left{border-right:none;padding-right:0;border-bottom:1px solid #e5e7eb;padding-bottom:25px;}
+  .pie-chart-box{padding:15px;overflow-x:auto;}
+}
+
+@media (max-width:1400px){
+  .soil-analysis-page{margin-left:270px;width:calc(100% - 270px);padding:24px;}
+  .modern-current-box{grid-template-columns:1fr;}
+  .current-left{border-right:none;padding-right:0;border-bottom:1px solid #e5e7eb;padding-bottom:25px;}
+  .pie-chart-box{padding:15px;overflow-x:auto; margin-left: 50px;}
+   .popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+/* =========================
+   POPUP BOX
+========================= */
+
+.analysis-popup {
+  width: 100%;
+  max-width: 650px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 35px;
+  position: relative;
+  animation: popupScale 0.3s ease;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+
+  max-height: 90vh;
+  overflow-y: auto;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #1f7a3d;
+    font-size: 30px;
+    font-weight: 700;
+  }
+}
+
+.result-card {
+  margin-left: 1rem;
+  width: 240px;
+  height: 150px;
+  background: linear-gradient(145deg, #f8faf8, #ffffff);
+  border: 1px solid #dbe8dd;
+  border-radius: 18px;
+
+  padding: 14px 16px;
+  min-height: auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  transition: 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  }
+
+  h3 {
+    color: #1f7a3d;
+    margin-bottom: 6px;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  p {
+    color: #475569;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    word-break: break-word;
+    margin: 0;
+    line-height: 1.3;
+  }
+}
+
+}
+
+@media (max-width:1200px){
+  .soil-analysis-page{
+    margin-left: 17rem;
+    width:calc(100% - 17rem);
+  }
+  .summary-grid{grid-template-columns:repeat(3,1fr);}
+  .metric-grid{grid-template-columns:repeat(2,1fr);}
+  .chart-side{width:100%;min-width:0;}
+}
+
+@media (max-width:992px){
+  .soil-analysis-page{margin-left:0!important;width:100%!important;padding:20px;}
+  .top-header{flex-direction:column;align-items:flex-start;gap:20px;}
+  .header-btns{width:100%;display:flex;flex-wrap:wrap;gap:12px;}
+  .header-btns button{flex:1;min-width:180px;}
+  .form-grid.two,.form-grid.three,.field{grid-template-columns:1fr;}
+  .modern-current-box{grid-template-columns:1fr;}
+  .metric-grid{grid-template-columns:repeat(2,1fr);}
+  
+  .tabs{overflow-x:auto;white-space:nowrap;scrollbar-width:none;}
+  .tabs::-webkit-scrollbar{display:none;}
+}
+
+@media (max-width:768px){
+  .soil-analysis-page{padding:18px;}
+  .summary-grid{grid-template-columns:repeat(2,1fr);}
+  .metric-grid{grid-template-columns:repeat(2,1fr);}
+  .recommend-card{flex-direction:column;align-items:flex-start;gap:15px;}
+  .recommend-card span{align-self:flex-start;}
+  .analysis-popup{padding:20px;}
+  .analysis-popup h2{font-size:24px;}
+  .image-box{padding:24px;}
+  .upload-wrapper{padding:40px 20px;}
+  .upload-wrapper::after{font-size:14px;}
+  .analyze-btn,.save-btn{width:100%;justify-content:center;}
+  .content-box{padding:20px;}
+  .current-left h2,.chart-side h2{font-size:20px;}
+  .chart-note{font-size:14px;}
+  .chart-side{width:100%;padding:20px;}
+  .pie-chart-box{padding:15px;overflow-x:auto;}
+}
+
+@media (max-width:576px){
+  .soil-analysis-page{padding:14px;}
+  .summary-grid{grid-template-columns:1fr;}
+  .metric-grid{grid-template-columns:1fr;}
+  .header-btns{flex-direction:column;}
+  .header-btns button{width:100%;}
+  .top-header h1{font-size:24px;}
+  .top-header p{font-size:14px;}
+  .card,.metric-card,.recommend-card,.manual-form-box,.image-box,.analysis-popup{padding:18px!important;}
+  .content-box table{min-width:850px;}
+  .table-wrapper{overflow-x:auto;width:100%;}
+  h1{font-size:24px!important;}
+  h2{font-size:20px!important;}
+  h3{font-size:18px!important;}
+  p,span,td,th,label,input,textarea,button{font-size:14px!important;}
+}
+
+@media (max-width:480px){
+  .soil-analysis-page{padding:12px;}
+  .summary-grid .card{padding:16px;}
+  .icon{width:50px!important;height:50px!important;min-width:50px!important;font-size:20px!important;}
+  .metric-card h3{font-size:18px!important;}
+  .analysis-popup{padding:15px;}
+  .popup-result-grid{gap:12px;}
+  .upload-wrapper{padding:30px 15px;}
+}
+
+@media (max-width:360px){
+  .soil-analysis-page{padding:10px;}
+  .top-header h1{font-size:20px!important;}
+  .summary-grid .card{padding:14px;}
+  .metric-card,.recommend-card,.result-card{padding:14px!important;}
+  .chart-side,.pie-chart-box{padding:12px!important;}
+}
+}
+
+
+:root[data-theme="dark"]{
+  /* ========================= PROFESSIONAL RESPONSIVE ========================= */
+
+@media (max-width:1600px){
+  .summary-grid{grid-template-columns:repeat(3,1fr);}
+}
+
+@media (max-width:1400px){
+  .soil-analysis-page{margin-left:270px;width:calc(100% - 270px);padding:24px;}
+  .modern-current-box{grid-template-columns:1fr;}
+  .current-left{border-right:none;padding-right:0;border-bottom:1px solid #e5e7eb;padding-bottom:25px;}
+   .popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+/* =========================
+   POPUP BOX
+========================= */
+
+.analysis-popup {
+  width: 100%;
+  max-width: 650px;
+ 
+  border-radius: 24px;
+  padding: 35px;
+  position: relative;
+  animation: popupScale 0.3s ease;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+
+  max-height: 90vh;
+  overflow-y: auto;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #1f7a3d;
+    font-size: 30px;
+    font-weight: 700;
+  }
+}
+
+
+
+.result-card {
+  margin-left: 1rem;
+  background-color: #0d1539;
+  width: 240px;
+  height: 150px;
+  background: #0f172a;
+    border: 1px solid #1e293b;
+
+    h3 {
+      color: #4ade80;
+    }
+
+    p {
+      color: #cbd5e1;
+    }
+ 
+  border-radius: 18px;
+
+  padding: 14px 16px;
+  min-height: auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  transition: 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  }
+
+  h3 {
+    color: #1f7a3d;
+    margin-bottom: 6px;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  p {
+    color: #475569;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    word-break: break-word;
+    margin: 0;
+    line-height: 1.3;
+  }
+}
+
+}
+
+@media (max-width:1200px){
+  .summary-grid{grid-template-columns:repeat(3,1fr);}
+  .metric-grid{grid-template-columns:repeat(2,1fr);}
+  .chart-side{width:100%;min-width:0;}
+}
+
+// @media (max-width:992px){
+//   .soil-analysis-page{margin-left:18rem!important;width:calc(100% -  18rem)!important;padding:20px;}
+//   .top-header{flex-direction:column;align-items:flex-start;gap:20px;}
+//   .header-btns{width:100%;display:flex;flex-wrap:wrap;gap:12px;}
+//   .header-btns button{flex:1;min-width:180px;}
+//   .form-grid.two,.form-grid.three,.field{grid-template-columns:1fr;}
+//   .modern-current-box{grid-template-columns:1fr;}
+//   .metric-grid{grid-template-columns:repeat(2,1fr);}
+//   .popup-result-grid{grid-template-columns:1fr;}
+//   .tabs{overflow-x:auto;white-space:nowrap;scrollbar-width:none;}
+//   .tabs::-webkit-scrollbar{display:none;}
+// }
+
+ @media (max-width : 992px){
+   .soil-analysis-page{
+    margin-left: 17rem;
+    width: calc(100% - 17rem);
+   }
+ }
+
+
+@media (max-width:768px){
+  .soil-analysis-page{padding:18px; margin-left: 0; width: 100%;}
+  .summary-grid{grid-template-columns:repeat(2,1fr);}
+  .metric-grid{grid-template-columns:repeat(2,1fr);}
+  .recommend-card{flex-direction:column;align-items:flex-start;gap:15px;}
+  .recommend-card span{align-self:flex-start;}
+  .analysis-popup{padding:20px;}
+  .analysis-popup h2{font-size:24px;}
+  .image-box{padding:24px;}
+  .upload-wrapper{padding:40px 20px;}
+  .upload-wrapper::after{font-size:14px;}
+  .analyze-btn,.save-btn{width:100%;justify-content:center;}
+  .content-box{padding:20px;}
+  .current-left h2,.chart-side h2{font-size:20px;}
+  .chart-note{font-size:14px;}
+  .chart-side{width:100%;padding:20px;}
+  .pie-chart-box{padding:15px;overflow-x:auto;}
+}
+
+@media (max-width:576px){
+  .soil-analysis-page{padding:14px;}
+  .summary-grid{grid-template-columns:1fr;}
+  .metric-grid{grid-template-columns:1fr;}
+  .header-btns{flex-direction:column;}
+  .header-btns button{width:100%;}
+  .top-header h1{font-size:24px;}
+  .top-header p{font-size:14px;}
+  .card,.metric-card,.recommend-card,.manual-form-box,.image-box,.analysis-popup{padding:18px!important;}
+  .content-box table{min-width:850px;}
+  .table-wrapper{overflow-x:auto;width:100%;}
+  h1{font-size:24px!important;}
+  h2{font-size:20px!important;}
+  h3{font-size:18px!important;}
+  p,span,td,th,label,input,textarea,button{font-size:14px!important;}
+}
+
+@media (max-width:480px){
+  .soil-analysis-page{padding:12px;}
+  .summary-grid .card{padding:16px;}
+  .icon{width:50px!important;height:50px!important;min-width:50px!important;font-size:20px!important;}
+  .metric-card h3{font-size:18px!important;}
+  .analysis-popup{padding:15px;}
+  .popup-result-grid{gap:12px;}
+  .upload-wrapper{padding:30px 15px;}
+}
+
+@media (max-width:360px){
+  .soil-analysis-page{padding:10px;}
+  .top-header h1{font-size:20px!important;}
+  .summary-grid .card{padding:14px;}
+  .metric-card,.recommend-card,.result-card{padding:14px!important;}
+  .chart-side,.pie-chart-box{padding:12px!important;}
+}
 }
