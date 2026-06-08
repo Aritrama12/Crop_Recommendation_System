@@ -21,12 +21,12 @@ function App() {
 
   function TopBarLayout() {
     return (
-      <div className="protected-layout">
-        <header className="top-header">
+      <div className="protectedd-layout">
+        <header className="topp-header">
           <NotificationPanel />
         </header>
 
-        <main className="page-content">
+        <main className="pagee-content">
           <Outlet />
         </main>
       </div>

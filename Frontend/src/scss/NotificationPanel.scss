@@ -4,7 +4,7 @@
   ::-webkit-scrollbar {
     display: none;
   }
-}
+
 
 .notification-btn {
   position: relative;
@@ -39,17 +39,17 @@
   top: 50px;
   right: 0;
   width: 480px;
-  max-height: 990px;
+  max-height: 550px;
   background: white;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
-  overflow: hidden;
+  overflow-y: hidden;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
   z-index: 1000;
 
   display: flex;
   flex-direction: column;
-}
+
 
 .panel-header {
   padding: 16px;
@@ -192,4 +192,6 @@
   &.info {
     color: #f59e0b;
   }
+}
+}
 }

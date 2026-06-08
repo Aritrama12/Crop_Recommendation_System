@@ -12,12 +12,12 @@
 
 
 /* for top bar design */
-.protected-layout {
+.protectedd-layout {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 
-    .top-header {
+    .topp-header {
         height: 70px;
         width: 100%;
 
@@ -35,8 +35,7 @@
         z-index: 1000;
     }
 
-    .page-content {
+    .pagee-content {
         flex: 1;
-        padding: 20px;
     }
 }
