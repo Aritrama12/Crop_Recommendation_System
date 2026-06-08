@@ -946,8 +946,12 @@
     .section-subtext,
     .setting-item p,
     .stat-card p,
-    .export-box p {
+    .export-box p{
       color: #94a3b8;
+      gap:6px;
+    }
+    h3{
+      color: white;
     }
 
     .form-group {
@@ -1016,31 +1020,645 @@
   }
 }
 
-/* =========================================================
-   📱 RESPONSIVE
-   ========================================================= */
 
-@media (max-width: 768px) {
 
-  .settings {
-    margin-left: 0;
-    padding: 1rem;
+//responsive 
 
-    .preferences-grid,
-    .export-grid,
-    .stats-grid {
-      grid-template-columns: 1fr;
-    }
+:root[data-theme="light"]{
+  /* =========================================================
+   PREMIUM RESPONSIVE SETTINGS PAGE
+========================================================= */
 
-    .settings-tabs {
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+/* 1600px */
+@media (max-width:1600px){
 
-    .setting-item {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1rem;
-    }
+  .settings{
+    margin-left:18rem;
+    width: calc(100% - 18rem);
+    padding:1.8rem;
   }
+
+  .stats-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+
+/* 1400px */
+@media (max-width:1400px){
+
+  .settings{
+    margin-left:18rem;
+    width: calc(100% - 18rem);
+    padding:1.7rem;
+  }
+
+  .settings-title{
+    font-size:2.6rem !important;
+  }
+
+  .settings-card{
+    padding:2rem !important;
+  }
+
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+/* 1200px */
+@media (max-width:1200px){
+
+  .settings{
+    margin-left:18rem;
+    width: calc(100% - 18rem);
+    padding:1.5rem;
+  }
+
+  .preferences-grid,
+  .export-grid{
+    grid-template-columns:1fr;
+  }
+
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .settings-tabs{
+    width:100% !important;
+    overflow-x:auto;
+    white-space:nowrap;
+    justify-content:flex-start;
+    scrollbar-width:none;
+  }
+
+  .settings-tabs::-webkit-scrollbar{
+    display:none;
+  }
+
+  .tab{
+    flex-shrink:0;
+  }
+}
+
+/* 992px */
+@media (max-width:992px){
+
+  .settings{
+    margin-left:0;
+    width:100%;
+    padding:1.3rem;
+  }
+
+  .settings-title{
+    font-size:2.3rem !important;
+  }
+
+  .settings-subtitle{
+    font-size:1rem !important;
+  }
+
+  .settings-card{
+    padding:1.8rem !important;
+    border-radius:24px !important;
+  }
+
+  .setting-item{
+    padding:1rem 1.2rem !important;
+  }
+
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:1rem;
+  }
+
+  .preferences-grid,
+  .export-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+/* 768px */
+@media (max-width:768px){
+
+  .settings{
+    padding:1rem;
+  }
+
+  .settings-title{
+    font-size:2rem !important;
+  }
+
+  .settings-subtitle{
+    font-size:.95rem !important;
+    margin-bottom:2rem !important;
+  }
+
+  .settings-tabs{
+    width:100%;
+    padding:.5rem;
+    gap:.5rem;
+    flex-wrap:nowrap;
+    overflow-x:auto;
+  }
+
+  .settings-tabs .tab{
+    padding:.8rem 1rem;
+    font-size:.9rem;
+  }
+
+  .setting-item{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:1rem;
+  }
+
+  .switch{
+    align-self:flex-end;
+  }
+
+  .settings-card{
+    padding:1.5rem !important;
+  }
+
+  .section-title{
+    font-size:1.5rem !important;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr;
+  }
+
+  .stat-card{
+    padding:1.5rem !important;
+  }
+
+  .stat-card h1{
+    font-size:2rem !important;
+  }
+
+  .danger-zone{
+    padding:1.5rem !important;
+  }
+}
+
+/* 576px */
+@media (max-width:576px){
+
+  .settings{
+    padding:.9rem;
+  }
+
+  .settings-title{
+    font-size:1.8rem !important;
+    line-height:1.2;
+  }
+
+  .settings-subtitle{
+    font-size:.9rem !important;
+  }
+
+  .settings-card{
+    padding:1.2rem !important;
+    border-radius:20px !important;
+  }
+
+  .setting-item{
+    padding:1rem !important;
+    border-radius:16px;
+  }
+
+  .setting-item h3{
+    font-size:.95rem;
+  }
+
+  .setting-item p{
+    font-size:.85rem;
+  }
+
+  .form-group label{
+    font-size:.9rem;
+  }
+
+  .form-group input,
+  .form-group select{
+    padding:.9rem 1rem !important;
+    font-size:.9rem !important;
+  }
+
+  .primary-btn,
+  .secondary-btn,
+  .danger-btn{
+    width:100%;
+    justify-content:center;
+    text-align:center;
+    padding:1rem;
+  }
+
+  .export-box{
+    padding:1.2rem !important;
+  }
+
+  .stat-card h1{
+    font-size:1.8rem !important;
+  }
+}
+
+/* 480px */
+@media (max-width:480px){
+
+  .settings{
+    padding:.8rem;
+  }
+
+  .settings-title{
+    font-size:1.6rem !important;
+  }
+
+  .settings-tabs{
+    border-radius:14px;
+  }
+
+  .settings-tabs .tab{
+    font-size:.85rem;
+    padding:.75rem .9rem;
+  }
+
+  .section-title{
+    font-size:1.3rem !important;
+  }
+
+  .section-subtext{
+    font-size:.85rem;
+  }
+
+  .stat-card{
+    padding:1.2rem !important;
+  }
+
+  .stat-card h1{
+    font-size:1.6rem !important;
+  }
+
+  .danger-zone{
+    padding:1.2rem !important;
+  }
+
+  .danger-zone h2{
+    font-size:1.2rem;
+  }
+}
+
+/* 360px */
+@media (max-width:360px){
+
+  .settings{
+    padding:.7rem;
+  }
+
+  .settings-title{
+    font-size:1.4rem !important;
+  }
+
+  .settings-card{
+    padding:1rem !important;
+  }
+
+  .setting-item{
+    padding:.9rem !important;
+  }
+
+  .settings-tabs .tab{
+    padding:.7rem .8rem;
+    font-size:.8rem;
+  }
+
+  .stat-card h1{
+    font-size:1.4rem !important;
+  }
+
+  .switch{
+    transform:scale(.9);
+  }
+}
+}
+
+
+:root[data-theme="dark"]{
+  /* =========================================================
+   PREMIUM RESPONSIVE SETTINGS PAGE
+========================================================= */
+
+/* 1600px */
+@media (max-width:1600px){
+
+  .settings{
+    margin-left:18rem;
+    width: calc(100% - 18rem);
+    padding:1.8rem;
+  }
+
+  .stats-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+
+/* 1400px */
+@media (max-width:1400px){
+
+  .settings{
+    margin-left:18rem;
+    width: calc(100% - 18rem);
+    padding:1.7rem;
+  }
+
+  .settings-title{
+    font-size:2.6rem !important;
+  }
+
+  .settings-card{
+    padding:2rem !important;
+  }
+
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+/* 1200px */
+@media (max-width:1200px){
+
+  .settings{
+    margin-left:18rem;
+    width: calc(100% - 18rem);
+    padding:1.5rem;
+  }
+
+  .preferences-grid,
+  .export-grid{
+    grid-template-columns:1fr;
+  }
+
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .settings-tabs{
+    width:100% !important;
+    overflow-x:auto;
+    white-space:nowrap;
+    justify-content:flex-start;
+    scrollbar-width:none;
+  }
+
+  .settings-tabs::-webkit-scrollbar{
+    display:none;
+  }
+
+  .tab{
+    flex-shrink:0;
+  }
+}
+
+/* 992px */
+@media (max-width:992px){
+
+  .settings{
+    margin-left:18rem;
+    width:calc(100% - 18rem);
+    padding:1.3rem;
+  }
+
+  .settings-title{
+    font-size:2.3rem !important;
+  }
+
+  .settings-subtitle{
+    font-size:1rem !important;
+  }
+
+  .settings-card{
+    padding:1.8rem !important;
+    border-radius:24px !important;
+  }
+
+  .setting-item{
+    padding:1rem 1.2rem !important;
+  }
+
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:1rem;
+  }
+
+  .preferences-grid,
+  .export-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+/* 768px */
+@media (max-width:768px){
+
+  .settings{
+    margin-left: 0;
+    width: 100%;
+    padding:1rem;
+  }
+
+  .settings-title{
+    font-size:2rem !important;
+  }
+
+  .settings-subtitle{
+    font-size:.95rem !important;
+    margin-bottom:2rem !important;
+  }
+
+  .settings-tabs{
+    width:100%;
+    padding:.5rem;
+    gap:.5rem;
+    flex-wrap:nowrap;
+    overflow-x:auto;
+  }
+
+  .settings-tabs .tab{
+    padding:.8rem 1rem;
+    font-size:.9rem;
+  }
+
+  .setting-item{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:1rem;
+  }
+
+  .switch{
+    align-self:flex-end;
+  }
+
+  .settings-card{
+    padding:1.5rem !important;
+  }
+
+  .section-title{
+    font-size:1.5rem !important;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr;
+  }
+
+  .stat-card{
+    padding:1.5rem !important;
+  }
+
+  .stat-card h1{
+    font-size:2rem !important;
+  }
+
+  .danger-zone{
+    padding:1.5rem !important;
+  }
+}
+
+/* 576px */
+@media (max-width:576px){
+
+  .settings{
+    padding:.9rem;
+  }
+
+  .settings-title{
+    font-size:1.8rem !important;
+    line-height:1.2;
+  }
+
+  .settings-subtitle{
+    font-size:.9rem !important;
+  }
+
+  .settings-card{
+    padding:1.2rem !important;
+    border-radius:20px !important;
+  }
+
+  .setting-item{
+    padding:1rem !important;
+    border-radius:16px;
+  }
+
+  .setting-item h3{
+    font-size:.95rem;
+  }
+
+  .setting-item p{
+    font-size:.85rem;
+  }
+
+  .form-group label{
+    font-size:.9rem;
+  }
+
+  .form-group input,
+  .form-group select{
+    padding:.9rem 1rem !important;
+    font-size:.9rem !important;
+  }
+
+  .primary-btn,
+  .secondary-btn,
+  .danger-btn{
+    width:100%;
+    justify-content:center;
+    text-align:center;
+    padding:1rem;
+  }
+
+  .export-box{
+    padding:1.2rem !important;
+  }
+
+  .stat-card h1{
+    font-size:1.8rem !important;
+  }
+}
+
+/* 480px */
+@media (max-width:480px){
+
+  .settings{
+    padding:.8rem;
+  }
+
+  .settings-title{
+    font-size:1.6rem !important;
+  }
+
+  .settings-tabs{
+    border-radius:14px;
+  }
+
+  .settings-tabs .tab{
+    font-size:.85rem;
+    padding:.75rem .9rem;
+  }
+
+  .section-title{
+    font-size:1.3rem !important;
+  }
+
+  .section-subtext{
+    font-size:.85rem;
+  }
+
+  .stat-card{
+    padding:1.2rem !important;
+  }
+
+  .stat-card h1{
+    font-size:1.6rem !important;
+  }
+
+  .danger-zone{
+    padding:1.2rem !important;
+  }
+
+  .danger-zone h2{
+    font-size:1.2rem;
+  }
+}
+
+/* 360px */
+@media (max-width:360px){
+
+  .settings{
+    padding:.7rem;
+  }
+
+  .settings-title{
+    font-size:1.4rem !important;
+  }
+
+  .settings-card{
+    padding:1rem !important;
+  }
+
+  .setting-item{
+    padding:.9rem !important;
+  }
+
+  .settings-tabs .tab{
+    padding:.7rem .8rem;
+    font-size:.8rem;
+  }
+
+  .stat-card h1{
+    font-size:1.4rem !important;
+  }
+
+  .switch{
+    transform:scale(.9);
+  }
+}
 }

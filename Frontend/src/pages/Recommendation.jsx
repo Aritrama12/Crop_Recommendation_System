@@ -518,7 +518,7 @@ export default function Recommendation() {
      
 
           {/* 🔹 RESULT */}
-<div className={`result-card ${error ? "error-card" : ""}`}>
+<div className={`result-Card ${error ? "error-card" : ""}`}>
 
   {error ? (
     <div className="error-box">
