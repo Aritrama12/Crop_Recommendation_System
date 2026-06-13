@@ -40,10 +40,8 @@ The crop recommendation engine trains 7 models and selects the best:
 
 The crop recommendation engine trains 4 Deep Learning models and selects the best and also image processing:
 
-1. Long Short Term Memory(LSTM)
-2. Binary Long Short Term Memory(BLSTM)
-3. Recurrent Nural Network(RNN)
-4. Convolutional Nural Network(CNN)
+
+1. Convolutional Nural Network(CNN)
 
 Input features: Nitrogen, Phosphorus, Potassium, Temperature, Humidity, pH, Rainfall
 

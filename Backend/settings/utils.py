@@ -114,7 +114,7 @@ def check_weather_alerts(user, city, current):
             f"Thunderstorm conditions detected in {city}."
         )
 
-    if current["temperature"] >= 20:
+    if current["temperature"] >= 40:
         create_notification(
             user,
             "weather",
@@ -122,7 +122,7 @@ def check_weather_alerts(user, city, current):
             f"High temperatures detected in {city}."
         )
     
-    if current["temperature"] <= 45:
+    if current["temperature"] <= 5:
         create_notification(
             user,
             "weather",
