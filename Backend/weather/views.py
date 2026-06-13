@@ -139,11 +139,11 @@ def weather_now_and_forecast(request):
 
 
 
-        check_weather_alerts(
-            request.user,
-            city,
-            current
-        )
+        # check_weather_alerts(
+        #     request.user,
+        #     city,
+        #     current
+        # )
         
        
         # FORECAST

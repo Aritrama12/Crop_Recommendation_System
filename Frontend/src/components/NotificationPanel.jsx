@@ -8,65 +8,55 @@ import {
   CheckCircle,
   Info,
 } from "lucide-react";
+import { settingsAPI } from "../api/settingsAPI";
 
 import "../scss/NotificationPanel.scss";
 
 const NotificationPanel = () => {
-  const [isOpen, setIsOpen] = useState(false);
+ const [isOpen, setIsOpen] = useState(false);
 
-  const [notifications, setNotifications] = useState([
-    {
-      id: "1",
-      type: "alert",
-      title: "Weather Alert",
-      message:
-        "Heavy rainfall expected in your region for next 48 hours. Consider delaying pesticide application.",
-      timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-      read: false,
-    },
-    {
-      id: "2",
-      type: "market",
-      title: "Market Price Update",
-      message:
-        "Rice prices increased by 12% in your local market. Good time to sell stored produce.",
-      timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000),
-      read: false,
-    },
-    {
-      id: "3",
-      type: "weather",
-      title: "Optimal Planting Conditions",
-      message:
-        "Weather conditions are ideal for wheat planting this week. Soil moisture levels are optimal.",
-      timestamp: new Date(Date.now() - 12 * 60 * 60 * 1000),
-      read: false,
-    },
-    {
-      id: "4",
-      type: "success",
-      title: "Farm Record Added",
-      message:
-        "Your cotton harvest record has been successfully saved to the system.",
-      timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000),
-      read: true,
-    },
-    {
-      id: "5",
-      type: "info",
-      title: "New Crop Recommendation",
-      message:
-        "Based on current soil analysis, maize is now highly recommended for your farm.",
-      timestamp: new Date(Date.now() - 36 * 60 * 60 * 1000),
-      read: true,
-    },
-  ]);
+ const [notifications, setNotifications] = useState([]);
+ const [unreadCount, setUnreadCount] = useState(0);
 
+// Fetch notifications from API
+const fetchNotifications = async () => {
+  try {
+    const notificationsRes =
+      await settingsAPI.getNotifications();
+
+    const unreadRes =
+      await settingsAPI.getUnreadCount();
+
+    const formattedNotifications =
+      notificationsRes.data.map((n) => ({
+        id: n.id,
+        title: n.title,
+        message: n.message,
+        type: n.notification_type,
+        read: n.is_read,
+        timestamp: new Date(n.created_at),
+      }));
+
+    setNotifications(formattedNotifications);
+
+    setUnreadCount(
+      unreadRes.data.unread_count
+    );
+
+  } catch (error) {
+    console.error(
+      "Failed to load notifications",
+      error
+    );
+  }
+};  
+
+
+// Refs for detecting outside clicks
   const panelRef = useRef(null);
   const buttonRef = useRef(null);
 
-  const unreadCount = notifications.filter((n) => !n.read).length;
-
+// Close panel when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -87,12 +77,137 @@ const NotificationPanel = () => {
     };
   }, [isOpen]);
 
-  const markAsRead = (id) => {
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
+
+
+  // Fetch notifications on component mount
+  useEffect(() => {
+  fetchNotifications();
+}, []); 
+
+
+
+// WebSocket for real-time updates
+useEffect(() => {
+
+  const token = localStorage.getItem("access");
+
+  if (!token) {
+    console.log("No token found");
+    return;
+  }
+
+  let socket = null;
+  let reconnectTimeout = null;
+  let isUnmounted = false;
+
+  const connectWebSocket = () => {
+
+    socket = new WebSocket(
+      `ws://127.0.0.1:8000/ws/notifications/?token=${token}`
     );
+
+    socket.onopen = () => {
+      console.log("WS Connected");
+    };
+
+    socket.onmessage = (event) => {
+
+      console.log("MESSAGE RECEIVED");
+
+      const data = JSON.parse(event.data);
+
+      const newNotification = {
+        id: data.id,
+        title: data.title,
+        message: data.message,
+        type: data.notification_type,
+        read: false,
+        timestamp: new Date(data.created_at),
+      };
+
+      setNotifications((prev) => {
+
+        const exists = prev.some(
+          (n) => n.id === newNotification.id
+        );
+
+        if (exists) {
+          return prev;
+        }
+
+        return [
+          newNotification,
+          ...prev,
+        ];
+      });
+
+      setUnreadCount((prev) => prev + 1);
+    };
+
+    socket.onerror = (error) => {
+      console.error(
+        "WebSocket Error:",
+        error
+      );
+    };
+
+    socket.onclose = () => {
+
+      console.log("WS Closed");
+
+      if (!isUnmounted) {
+
+        console.log(
+          "Reconnecting in 2 seconds..."
+        );
+
+        reconnectTimeout = setTimeout(
+          () => {
+            connectWebSocket();
+          },
+          2000
+        );
+      }
+    };
   };
 
+  connectWebSocket();
+
+  return () => {
+
+    isUnmounted = true;
+
+    if (reconnectTimeout) {
+      clearTimeout(reconnectTimeout);
+    }
+
+    if (socket) {
+      socket.close();
+    }
+  };
+
+}, []);
+
+
+// Mark a single notification as read
+ const markAsRead = async (id) => {
+  try {
+
+    await settingsAPI.markNotificationRead(id);
+
+    await fetchNotifications();
+
+  } catch (error) {
+    console.error(
+      "Failed to mark notification read",
+      error
+    );
+  }
+};
+
+
+
+// Mark all notifications as read
   const markAllAsRead = () => {
     setNotifications((prev) =>
       prev.map((n) => ({
@@ -102,26 +217,41 @@ const NotificationPanel = () => {
     );
   };
 
+
+
+  // Clear a notification from the list
   const clearNotification = (id) => {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
   };
 
+
+
+
+  // Get icon based on notification type
   const getIcon = (type) => {
-    switch (type) {
-      case "alert":
-        return <AlertTriangle className="icon alert" />;
-      case "market":
-        return <TrendingUp className="icon market" />;
-      case "weather":
-        return <Cloud className="icon weather" />;
-      case "success":
-        return <CheckCircle className="icon success" />;
-      case "info":
-        return <Info className="icon info" />;
-      default:
-        return <Bell className="icon" />;
-    }
-  };
+  switch (type) {
+
+    case "weather":
+      return (
+        <Cloud className="icon weather" />
+      );
+
+    case "market":
+      return (
+        <TrendingUp className="icon market" />
+      );
+
+    case "system":
+      return (
+        <Info className="icon info" />
+      );
+
+    default:
+      return (
+        <Bell className="icon" />
+      );
+  }
+};
 
   const formatTimestamp = (date) => {
     const now = new Date();

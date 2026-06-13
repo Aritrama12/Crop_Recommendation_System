@@ -66,12 +66,19 @@ def create_notification(
     if already_exists:
         return None
 
-    return Notification.objects.create(
+    notification = Notification.objects.create(
         user=user,
         notification_type=notification_type,
         title=title,
         message=message
     )
+
+    send_notification_ws(
+        user,
+        notification
+    )
+
+    return notification
 
 
 
@@ -107,7 +114,7 @@ def check_weather_alerts(user, city, current):
             f"Thunderstorm conditions detected in {city}."
         )
 
-    if current["temperature"] >= 40:
+    if current["temperature"] >= 20:
         create_notification(
             user,
             "weather",
@@ -115,10 +122,63 @@ def check_weather_alerts(user, city, current):
             f"High temperatures detected in {city}."
         )
     
-    if current["temperature"] <= 5:
+    if current["temperature"] <= 45:
         create_notification(
             user,
             "weather",
             "Cold Wave Alert",
             f"Low temperatures detected in {city}."
         )
+
+
+
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+def send_notification_ws(
+    user,
+    notification
+):
+    
+
+    print("==========")
+    print("SEND_NOTIFICATION_WS CALLED")
+    print("USER:", user.username)
+    print("GROUP:", f"user_{user.id}")
+    print("TITLE:", notification.title)
+
+
+    channel_layer = (
+        get_channel_layer()
+    )
+
+    print("CHANNEL_LAYER:", channel_layer)
+
+    async_to_sync(
+        channel_layer.group_send
+    )(
+        f"user_{user.id}",
+        {
+            "type":
+            "notification_message",
+
+            "data": {
+                "id":
+                notification.id,
+
+                "title":
+                notification.title,
+
+                "message":
+                notification.message,
+
+                "notification_type":
+                notification.notification_type,
+
+                "created_at":
+                notification.created_at.isoformat()
+            }
+        }
+    )
+
+    print("GROUP_SEND COMPLETE")
+    print("==========")

@@ -55,9 +55,21 @@ API.interceptors.response.use(
 );
 
 export const settingsAPI = {
+  // Preferences
   getPreferences: () => API.get("preferences/"),
+
   updatePreferences: (data) =>
     API.put("preferences/", data),
+
+  // Notifications
+  getNotifications: () =>
+    API.get("notifications/"),
+
+  getUnreadCount: () =>
+    API.get("notifications/unread-count/"),
+
+  markNotificationRead: (id) =>
+    API.patch(`notifications/${id}/read/`),
 };
 
 export default API;
