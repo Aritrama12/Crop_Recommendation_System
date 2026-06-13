@@ -3,7 +3,7 @@ from .models import Notification, NotificationPreference
 from .serializers import NotificationPreferenceSerializer, NotificationSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
+from .utils import reverse_geocode
 
 # notification section ==========
 # notification preference view (it is used to get and update notification preferences of a user)
@@ -103,6 +103,22 @@ class UserLocationView(generics.RetrieveUpdateAPIView):
             user=self.request.user
         )
         return obj
+    
+    def perform_update(self, serializer):
+
+        latitude = serializer.validated_data.get("latitude")
+        longitude = serializer.validated_data.get("longitude")
+
+        geo = reverse_geocode(
+            latitude,
+            longitude
+        )
+
+        serializer.save(
+            city=geo["city"],
+            state=geo["state"],
+            country=geo["country"]
+        )
     
 
     

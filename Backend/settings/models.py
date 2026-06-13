@@ -71,6 +71,10 @@ class UserLocation(models.Model):
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
 
+    city = models.CharField(max_length=100, blank=True)
+    state = models.CharField(max_length=100, blank=True)
+    country = models.CharField(max_length=100, blank=True)
+
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):

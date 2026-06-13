@@ -6,6 +6,7 @@ from django.core.cache import cache
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import permissions
+from settings.models import UserLocation
 from settings.utils import(
     check_weather_alerts,
     log_analytics_event, 
@@ -57,12 +58,41 @@ def weather_text(code):
 @api_view(["GET"])
 @permission_classes([permissions.IsAuthenticated])
 def weather_now_and_forecast(request):
+
+    # this endpoint can be called with ?city=CityName or it will use 
+    # saved location from user profile.
     city = request.GET.get("city")
 
-    if not city:
-        return Response({"error": "City is required"}, status=400)
+    location = city
 
-    cache_key = f"weather:{city.lower()}"
+    if not city:
+        try:
+            user_location = UserLocation.objects.get(
+                user=request.user
+            )
+
+            if (
+                user_location.latitude is None or
+                user_location.longitude is None
+            ):
+                return Response(
+                    {"error": "No saved location found"},
+                    status=400
+                )
+
+            location = (
+                f"{user_location.latitude},"
+                f"{user_location.longitude}"
+            )
+
+        except UserLocation.DoesNotExist:
+            return Response(
+                {"error": "No saved location found"},
+                status=400
+            )
+
+
+    cache_key = f"weather:{str(location).lower().replace(',', '_')}"
     cached = cache.get(cache_key)
 
     # 1️⃣ Return fresh cache immediately
@@ -88,7 +118,7 @@ def weather_now_and_forecast(request):
   
         realtime_res = requests.get(
             f"{BASE_URL}/realtime",
-            params={"location": city, "apikey": API_KEY},
+            params={"location": location, "apikey": API_KEY},
             headers=headers,
             timeout=5
         )
@@ -150,7 +180,7 @@ def weather_now_and_forecast(request):
       
         forecast_res = requests.get(
             f"{BASE_URL}/forecast",
-            params={"location": city, "timesteps": "1d", "apikey": API_KEY},
+            params={"location": location, "timesteps": "1d", "apikey": API_KEY},
             headers=headers,
             timeout=5
         )
@@ -210,8 +240,13 @@ def weather_now_and_forecast(request):
                 "weather": weather_text(v.get("weatherCodeMax"))
             })
 
+        location_name = city
+
+        if not city:
+            location_name = user_location.city
+
         response_data = {
-            "location": city,
+            "location": location_name,
             "current": current,
             "forecast": forecast
         }

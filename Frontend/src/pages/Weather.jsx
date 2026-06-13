@@ -345,8 +345,8 @@ const WeatherDashboard = () => {
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [city, setCity] = useState("kolkata");
-  const [query, setQuery] = useState("kolkata");
+  const [city, setCity] = useState("");
+  const [query, setQuery] = useState("");
 
 const [testMode, setTestMode] = useState(null); 
 
@@ -356,14 +356,16 @@ const [testMode, setTestMode] = useState(null);
       setError("");
       try {
         const token = localStorage.getItem("access");
-        const res = await axios.get(
-          `http://127.0.0.1:8000/api/weather/forecast?city=${city}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const url = city
+        ? `http://127.0.0.1:8000/api/weather/forecast?city=${city}`
+        : `http://127.0.0.1:8000/api/weather/forecast`;
+
+
+        const res = await axios.get(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setWeather(res.data);
 
       } catch (err) {
@@ -578,7 +580,13 @@ if (loading)
           </div>
 
           <div className="city-name">
-            <h4>Showing results for {city}</h4>
+            <h4>
+            {
+              city
+              ? `Showing results for ${city}`
+              : "Showing weather for your current location"
+            }
+            </h4>
           </div>
         </header>
 

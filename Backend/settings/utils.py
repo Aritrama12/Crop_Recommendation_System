@@ -1,6 +1,48 @@
 from .models import NotificationPreference, AnalyticsEvent, Notification
 from datetime import timedelta
 from django.utils import timezone
+import requests
+
+
+
+
+
+
+# it is to reverse geocode lat and lon to city state country using nominatim api
+def reverse_geocode(lat, lon):
+    url = "https://nominatim.openstreetmap.org/reverse"
+
+    response = requests.get(
+        url,
+        params={
+            "lat": lat,
+            "lon": lon,
+            "format": "json"
+        },
+        headers={
+            "User-Agent": "CropWise"
+        },
+        timeout=5
+    )
+
+    data = response.json()
+
+    address = data.get("address", {})
+
+    return {
+        "city": (
+            address.get("city")
+            or address.get("town")
+            or address.get("village")
+            or ""
+        ),
+        "state": address.get("state", ""),
+        "country": address.get("country", "")
+    }
+
+
+
+
 
 def log_analytics_event(user, event_name):
     try:
