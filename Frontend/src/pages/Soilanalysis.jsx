@@ -1102,6 +1102,21 @@ const loadAllData = async () => {
            <h3>Confidence: {(analysisResult.confidence * 100).toFixed(2)}%</h3>
           
          </div>
+         <div className="result-card crop-card">
+  <div className="crop-header">
+    <span className="crop-icon">🌾</span>
+    <h3>Suggested Crops</h3>
+  </div>
+
+  <div className="crop-list">
+    {analysisResult.recommended_crops?.map((crop, index) => (
+      <div key={index} className="crop-chip">
+        <span>🌱</span>
+        {crop}
+      </div>
+    ))}
+  </div>
+</div>
             </div>
           </div>
         </div>

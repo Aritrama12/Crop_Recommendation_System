@@ -131,6 +131,41 @@ class SoilRecommendationsView(generics.ListAPIView):
 # ==========================================================
 # IMAGE ANALYSIS
 # ==========================================================
+# class SoilImageUploadView(APIView):
+#     permission_classes = [IsAuthenticated]
+#     parser_classes = [MultiPartParser, FormParser]
+
+#     def post(self, request):
+#         serializer = SoilImageUploadSerializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+
+#         soil_image = SoilImage.objects.create(
+#             user=request.user,
+#             **serializer.validated_data
+#         )
+
+#         analyzer = SoilImageAnalyzer()
+#         result = analyzer.analyze_image(
+#             soil_image.image.path
+#         )
+
+#         soil_image.analyzed = True
+#         soil_image.predicted_soil_type = result["soil_type"]
+#         soil_image.predicted_moisture = result["moisture"]
+#         soil_image.predicted_fertility = result["fertility"]
+#         soil_image.confidence = result["confidence"]
+#         soil_image.analysis_data = result["analysis_data"]
+#         soil_image.analyzed_at = timezone.now()
+#         soil_image.save()
+
+#         return Response({
+#             "id": soil_image.id,
+#             "image_url": request.build_absolute_uri(
+#                 soil_image.image.url
+#             ),
+#             "analysis": result
+#         }, status=status.HTTP_201_CREATED)
+
 class SoilImageUploadView(APIView):
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]
@@ -139,33 +174,61 @@ class SoilImageUploadView(APIView):
         serializer = SoilImageUploadSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
+        # Save image first
         soil_image = SoilImage.objects.create(
             user=request.user,
             **serializer.validated_data
         )
 
+        # Run AI analysis
         analyzer = SoilImageAnalyzer()
         result = analyzer.analyze_image(
             soil_image.image.path
         )
 
+        # Safety check (important for production)
+        if "error" in result:
+            return Response(
+                {
+                    "status": "failed",
+                    "message": "Image analysis failed",
+                    "error": result["error"]
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+        # Update DB fields
         soil_image.analyzed = True
-        soil_image.predicted_soil_type = result["soil_type"]
-        soil_image.predicted_moisture = result["moisture"]
-        soil_image.predicted_fertility = result["fertility"]
-        soil_image.confidence = result["confidence"]
-        soil_image.analysis_data = result["analysis_data"]
+        soil_image.predicted_soil_type = result.get("soil_type")
+        soil_image.predicted_moisture = result.get("moisture")
+        soil_image.predicted_fertility = result.get("fertility")
+        soil_image.confidence = result.get("confidence", 0)
+        soil_image.analysis_data = result.get("analysis_data", {})
         soil_image.analyzed_at = timezone.now()
+
         soil_image.save()
 
-        return Response({
-            "id": soil_image.id,
-            "image_url": request.build_absolute_uri(
-                soil_image.image.url
-            ),
-            "analysis": result
-        }, status=status.HTTP_201_CREATED)
+        # FINAL RESPONSE (INCLUDES CROPS)
+        return Response(
+            {
+                "id": soil_image.id,
+                "image_url": request.build_absolute_uri(
+                    soil_image.image.url
+                ),
 
+                "analysis": {
+                    "soil_type": result.get("soil_type"),
+                    "moisture": result.get("moisture"),
+                    "fertility": result.get("fertility"),
+                    "recommended_crops": result.get("recommended_crops", []),
+                    "confidence": result.get("confidence"),
+                    "analysis_data": result.get("analysis_data"),
+                    "all_probabilities": result.get("all_probabilities"),
+                    "analyzed_at": result.get("analyzed_at")
+                }
+            },
+            status=status.HTTP_201_CREATED
+        )
 
 # ==========================================================
 # HEALTH SUMMARY
@@ -210,7 +273,8 @@ class SoilHealthSummaryView(APIView):
             "last_test_date":
                 latest_test.test_date
         })
-
+    
+#threshold calculation
     def _calculate_health_score(self, test):
         score = 100
 

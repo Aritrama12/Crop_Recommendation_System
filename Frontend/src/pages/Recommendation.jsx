@@ -55,6 +55,42 @@ export default function Recommendation() {
   const [loading, setLoading] = useState(false);
   const [history, setHistory] = useState([]);
 
+
+  //analysis
+  const [aiAnalysis, setAiAnalysis] = useState("");
+  const [locationAnalysis, setLocationAnalysis] = useState(null);
+
+  const generateAnalysis = (crop) => {
+  return `${crop} is recommended because the current soil nutrient levels, pH balance, temperature, humidity, and rainfall conditions closely match the optimal growth requirements for ${crop}. The recommendation engine found ${crop} to be the most suitable crop among all available options based on the provided environmental and soil parameters.`;
+};
+
+const getReasons = () => {
+  const reasons = [];
+
+  if (Number(formData.N) > 50)
+    reasons.push("Nitrogen level supports healthy vegetative growth.");
+
+  if (Number(formData.P) > 30)
+    reasons.push("Phosphorus content promotes strong root development.");
+
+  if (Number(formData.K) > 30)
+    reasons.push("Potassium level improves crop productivity and resistance.");
+
+  if (Number(formData.ph) >= 6 && Number(formData.ph) <= 7.5)
+    reasons.push("Soil pH is within the optimal range.");
+
+  if (Number(formData.temperature) >= 20 && Number(formData.temperature) <= 35)
+    reasons.push("Temperature conditions are favorable.");
+
+  if (Number(formData.humidity) >= 50)
+    reasons.push("Humidity level supports crop growth.");
+
+  if (Number(formData.rainfall) >= 50)
+    reasons.push("Rainfall availability is sufficient.");
+
+  return reasons;
+};
+
   // FETCH HISTORY
   const fetchHistory = async () => {
     try {
@@ -236,6 +272,9 @@ export default function Recommendation() {
 
       setResult(data.crops[0]?.name);
 
+      //analysis section added for batter approch
+      setAiAnalysis(generateAnalysis(data.crops[0]?.name));
+
       const maxScore = Math.max(...data.crops.map((c) => c.score));
 
       setChartData(
@@ -282,14 +321,46 @@ export default function Recommendation() {
       }
 
       const data = await res.json();
-
+      console.log(data)
       if (!res.ok) {
         setError(data.message || "Location prediction failed");
         return;
       }
 
       setResult(data.crop);
+      
+      //analysis
+//       setLocationAnalysis({
+//   state: location.state,
+//   district: location.district,
+//   latitude: location.latitude,
+//   longitude: location.longitude,
+//   temperature: data.temperature,
+//   humidity: data.humidity,
+//   rainfall: data.rainfall,
 
+
+// });
+
+setLocationAnalysis({
+  state: location.state,
+  district: location.district,
+  latitude: location.latitude,
+  longitude: location.longitude,
+
+  temperature: data.weather.temperature,
+  humidity: data.weather.humidity,
+  rainfall: data.weather.rainfall,
+});
+ 
+//set ai analysis
+setAiAnalysis(
+  generateLocationAnalysis(
+    data.crop,
+    location.district,
+    location.state
+  )
+);
       const maxScore = Math.max(...data.crops.map((c) => c.score));
 
       setChartData(
@@ -304,6 +375,42 @@ export default function Recommendation() {
       setLoading(false);
     }
   };
+
+  //get location wise crop reson
+  const getLocationReasons = () => {
+  const reasons = [];
+
+  if (!locationAnalysis) return reasons;
+
+  if (locationAnalysis.temperature >= 20 &&
+      locationAnalysis.temperature <= 35) {
+    reasons.push(
+      "Temperature conditions are favorable for crop growth."
+    );
+  }
+
+  if (locationAnalysis.humidity >= 50) {
+    reasons.push(
+      "Humidity level supports healthy crop development."
+    );
+  }
+
+  if (locationAnalysis.rainfall >= 50) {
+    reasons.push(
+      "Rainfall availability is sufficient for cultivation."
+    );
+  }
+
+  reasons.push(
+    `${result} is suitable for the climatic conditions of ${locationAnalysis.district}.`
+  );
+
+  return reasons;
+};
+const generateLocationAnalysis = (crop, district, state) => {
+  return `${crop} is recommended for ${district}, ${state} because the local temperature, humidity, and rainfall conditions closely match the environmental requirements of ${crop}. Based on the weather profile and regional agricultural suitability, ${crop} has the highest recommendation score among all candidate crops.`;
+};
+
 
   return (
     <>
@@ -568,6 +675,109 @@ export default function Recommendation() {
             </Bar>
           </BarChart>
         </ResponsiveContainer>
+
+        {/* Soil Summary */}
+
+
+
+
+
+
+{activeTab === "manual" ? (
+  <>
+    {/* Existing Soil Summary */}
+    <div className="soil-summary1">
+  <h3>📊 Soil & Climate Summary</h3>
+
+  <div className="summary-grid1">
+    <div><span>Nitrogen :</span><strong>{formData.N}kg</strong></div>
+    <div><span>Phosphorus :</span><strong>{formData.P}kg</strong></div>
+    <div><span>Potassium :</span><strong>{formData.K}kg</strong></div>
+    <div><span>Temperature :</span><strong>{formData.temperature}°C</strong></div>
+    <div><span>Humidity :</span><strong>{formData.humidity}%</strong></div>
+    <div><span>pH :</span><strong>{formData.ph}</strong></div>
+    <div className="full">
+      <span>Rainfall</span>
+      <strong>{formData.rainfall} mm</strong>
+    </div>
+  </div>
+</div>
+
+    <div className="crop-reasons">
+      <h3>🌱 Why {result}?</h3>
+
+      <ul>
+        {getReasons().map((reason, index) => (
+          <li key={index}>{reason}</li>
+        ))}
+      </ul>
+    </div>
+    <div className="ai-analysis">
+  <h3>🤖 AI Analysis</h3>
+
+  <p>{aiAnalysis}</p>
+</div>
+  </>
+) : (
+  <>
+    {/* Location Summary */}
+    <div className="soil-summary1">
+      <h3>📍 Location & Climate Summary</h3>
+
+      <div className="summary-grid1">
+        <div>
+          <span>State :</span>
+          <strong>{locationAnalysis?.state}</strong>
+        </div>
+
+        <div>
+          <span>District :</span>
+          <strong>{locationAnalysis?.district}</strong>
+        </div>
+
+        <div>
+          <span>Latitude :</span>
+          <strong>{locationAnalysis?.latitude}</strong>
+        </div>
+
+        <div>
+          <span>Longitude :</span>
+          <strong>{locationAnalysis?.longitude}</strong>
+        </div>
+
+        <div>
+          <span>Temperature :</span>
+          <strong>{locationAnalysis?.temperature}°C</strong>
+        </div>
+
+        <div>
+          <span>Humidity :</span>
+          <strong>{locationAnalysis?.humidity}%</strong>
+        </div>
+
+        <div className="full">
+          <span>Rainfall :</span>
+          <strong>{locationAnalysis?.rainfall} mm</strong>
+        </div>
+      </div>
+    </div>
+
+    <div className="crop-reasons">
+      <h3>🌱 Why {result}?</h3>
+
+      <ul>
+        {getLocationReasons().map((reason, index) => (
+          <li key={index}>{reason}</li>
+        ))}
+      </ul>
+    </div>
+
+
+  </>
+)}
+
+
+
       </div>
     </div>
 

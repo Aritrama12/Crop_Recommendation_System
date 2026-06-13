@@ -48,53 +48,387 @@ def predict_crop(request):
             "message": "prediction failed but ignored"
         }, status=200)
 
-# 🔥 NEW LOCATION BASED API
+
+import requests
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
+from .models import CropPrediction
+
+
+
+# @api_view(["POST"])
+# @permission_classes([IsAuthenticated])
+# def predict_crop_from_location(request):
+
+#     lat = request.data.get("latitude")
+#     lon = request.data.get("longitude")
+
+#     if not lat or not lon:
+#         return Response(
+#             {"message": "Latitude and Longitude required"},
+#             status=400
+#         )
+
+#     try:
+#         lat = float(lat)
+#         lon = float(lon)
+
+#         # ==================================================
+#         # 1. WEATHER DATA FROM OPEN-METEO
+#         # ==================================================
+
+#         weather_url = (
+#             "https://api.open-meteo.com/v1/forecast"
+#             f"?latitude={lat}"
+#             f"&longitude={lon}"
+#             "&current=temperature_2m,relative_humidity_2m"
+#             "&daily=precipitation_sum"
+#             "&forecast_days=1"
+#             "&timezone=auto"
+#         )
+
+#         weather_response = requests.get(
+#             weather_url,
+#             timeout=15
+#         )
+
+#         weather_json = weather_response.json()
+
+#         current = weather_json.get("current", {})
+
+#         temperature = current.get(
+#             "temperature_2m",
+#             25
+#         )
+
+#         humidity = current.get(
+#             "relative_humidity_2m",
+#             60
+#         )
+
+#         daily = weather_json.get("daily", {})
+
+#         rainfall = daily.get(
+#             "precipitation_sum",
+#             [0]
+#         )[0]
+
+#         # Avoid zero rainfall problem
+#         if rainfall == 0:
+#             rainfall = 50
+
+#         # ==================================================
+#         # 2. SOIL DATA FROM SOILGRIDS
+#         # ==================================================
+
+#         soil_url = (
+#             "https://rest.isric.org/soilgrids/v2.0/properties/query"
+#             f"?lat={lat}"
+#             f"&lon={lon}"
+#             "&property=phh2o"
+#             "&property=nitrogen"
+#         )
+
+#         soil_response = requests.get(
+#             soil_url,
+#             timeout=20
+#         )
+
+#         soil_json = soil_response.json()
+
+#         ph = 6.5
+#         nitrogen = 80
+
+#         try:
+
+#             layers = soil_json["properties"]["layers"]
+
+#             for layer in layers:
+
+#                 # pH
+#                 if layer["name"] == "phh2o":
+
+#                     ph = (
+#                         layer["depths"][0]["values"]["mean"]
+#                         / 10
+#                     )
+
+#                 # Nitrogen
+#                 elif layer["name"] == "nitrogen":
+
+#                     nitrogen = int(
+#                         layer["depths"][0]["values"]["mean"]
+#                     )
+
+#         except Exception:
+#             pass
+
+#         # ==================================================
+#         # 3. NORMALIZE SOIL VALUES
+#         # ==================================================
+
+#         N = max(20, min(nitrogen, 140))
+
+#         # Deterministic estimation
+#         P = int(N * 0.55)
+#         K = int(N * 0.75)
+
+#         P = max(5, min(P, 145))
+#         K = max(5, min(K, 205))
+
+#         ph = round(ph, 1)
+
+#         # ==================================================
+#         # 4. MODEL INPUT
+#         # ==================================================
+
+#         input_data = {
+#             "N": N,
+#             "P": P,
+#             "K": K,
+#             "temperature": temperature,
+#             "humidity": humidity,
+#             "ph": ph,
+#             "rainfall": rainfall
+#         }
+
+#         print("MODEL INPUT:", input_data)
+
+#         # ==================================================
+#         # 5. CROP PREDICTION
+#         # ==================================================
+
+#         crops = predict_crop_service(input_data)
+
+#         top_crops = crops[:5]
+
+#         # ==================================================
+#         # 6. SAVE HISTORY
+#         # ==================================================
+
+#         CropPrediction.objects.create(
+#             user=request.user,
+#             N=N,
+#             P=P,
+#             K=K,
+#             temperature=temperature,
+#             humidity=humidity,
+#             ph=ph,
+#             rainfall=rainfall,
+#             predicted_crop=top_crops[0]["name"]
+#         )
+
+#         # ==================================================
+#         # 7. RESPONSE
+#         # ==================================================
+
+#         return Response({
+
+#             "crop": top_crops[0]["name"],
+
+#             "crops": top_crops,
+
+#             "soil": {
+#                 "N": N,
+#                 "P": P,
+#                 "K": K,
+#                 "ph": ph
+#             },
+
+#             "weather": {
+#                 "temperature": temperature,
+#                 "humidity": humidity,
+#                 "rainfall": rainfall
+#             },
+
+#             "location": {
+#                 "latitude": lat,
+#                 "longitude": lon
+#             }
+#         })
+
+#     except Exception as e:
+
+#         print("LOCATION PREDICTION ERROR:", str(e))
+
+#         return Response(
+#             {
+#                 "message": "Internal server error",
+#                 "error": str(e)
+#             },
+#             status=500
+#         )
+
+
+import random
+import requests
+
+from rest_framework.decorators import (
+    api_view,
+    permission_classes
+)
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
+from .models import CropPrediction
+
+
+
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def predict_crop_from_location(request):
+
     lat = request.data.get("latitude")
     lon = request.data.get("longitude")
 
     if not lat or not lon:
-        return Response({"message": "Latitude and Longitude required"}, status=400)
+        return Response(
+            {"message": "Latitude and Longitude required"},
+            status=400
+        )
 
     try:
+
         lat = float(lat)
         lon = float(lon)
 
-        # 🌦 WEATHER API
-        weather_url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true"
-        res = requests.get(weather_url)
-        weather = res.json()
+        # ==================================================
+        # 1. WEATHER DATA
+        # ==================================================
 
-        temperature = weather.get("current_weather", {}).get("temperature", 25)
+        weather_url = (
+            "https://api.open-meteo.com/v1/forecast"
+            f"?latitude={lat}"
+            f"&longitude={lon}"
+            "&current=temperature_2m,relative_humidity_2m"
+            "&daily=precipitation_sum"
+            "&forecast_days=1"
+            "&timezone=auto"
+        )
 
-        # 🔥 REGION BASED SOIL (MAIN FIX)
-        if lat > 25:  # North India
-            N = random.randint(80, 140)
-            P = random.randint(40, 90)
-            K = random.randint(40, 100)
+        weather_response = requests.get(
+            weather_url,
+            timeout=15
+        )
 
-        elif lat > 15:  # Central India
-            N = random.randint(50, 100)
-            P = random.randint(30, 70)
-            K = random.randint(30, 80)
+        weather_json = weather_response.json()
 
-        else:  # South India
-            N = random.randint(20, 60)
-            P = random.randint(20, 50)
-            K = random.randint(20, 60)
+        current = weather_json.get("current", {})
 
-        # 🌧 Rainfall variation
-        rainfall = abs((lat * 3) % 300)
+        temperature = current.get(
+            "temperature_2m",
+            25
+        )
 
-        # 💧 Humidity variation
-        humidity = 50 + abs(int(lat) % 50)
+        humidity = current.get(
+            "relative_humidity_2m",
+            60
+        )
 
-        # 🌱 pH variation
-        ph = round(5.5 + random.uniform(0, 2), 1)
+        daily = weather_json.get("daily", {})
 
-        data = {
+        rainfall = daily.get(
+            "precipitation_sum",
+            [0]
+        )[0]
+
+        # Better fallback
+        if rainfall <= 0:
+            rainfall = 10
+
+        # ==================================================
+        # 2. SOIL DATA FROM SOILGRIDS
+        # ==================================================
+
+        soil_url = (
+            "https://rest.isric.org/soilgrids/v2.0/properties/query"
+            f"?lat={lat}"
+            f"&lon={lon}"
+            "&property=phh2o"
+            "&property=nitrogen"
+        )
+
+        soil_response = requests.get(
+            soil_url,
+            timeout=20
+        )
+
+        soil_json = soil_response.json()
+
+        ph = 6.5
+        nitrogen = 80
+
+        try:
+
+            layers = soil_json["properties"]["layers"]
+
+            for layer in layers:
+
+                if layer["name"] == "phh2o":
+
+                    ph = (
+                        layer["depths"][0]["values"]["mean"]
+                        / 10
+                    )
+
+                elif layer["name"] == "nitrogen":
+
+                    nitrogen = int(
+                        layer["depths"][0]["values"]["mean"]
+                    )
+
+        except Exception:
+            pass
+
+        # ==================================================
+        # 3. NORMALIZE SOIL VALUES
+        # ==================================================
+
+        N = max(
+            20,
+            min(
+                int(nitrogen),
+                140
+            )
+        )
+
+        # Dynamic P & K estimation
+        P = max(
+            5,
+            min(
+                int(
+                    N * random.uniform(
+                        0.45,
+                        0.70
+                    )
+                ),
+                145
+            )
+        )
+
+        K = max(
+            5,
+            min(
+                int(
+                    N * random.uniform(
+                        0.60,
+                        1.00
+                    )
+                ),
+                205
+            )
+        )
+
+        ph = round(ph, 1)
+
+        # ==================================================
+        # 4. MODEL INPUT
+        # ==================================================
+
+        input_data = {
             "N": N,
             "P": P,
             "K": K,
@@ -104,24 +438,119 @@ def predict_crop_from_location(request):
             "rainfall": rainfall
         }
 
-        print("🔍 INPUT DATA:", data)  # DEBUG
+        print("MODEL INPUT:", input_data)
 
-        # 🤖 ML Prediction
-        crops = predict_crop_service(data)
+        # ==================================================
+        # 5. PREDICT CROPS
+        # ==================================================
 
-        # 🔥 TOP 5 ONLY
-        top_crops = crops[:5]
+        crops = predict_crop_service(input_data)
 
-        # Save best crop
+        # ==================================================
+        # 6. CLIMATE FILTERING
+        # ==================================================
+
+        def climate_filter(
+            crops,
+            temperature,
+            rainfall
+        ):
+
+            filtered = []
+
+            for crop in crops:
+
+                crop_name = (
+                    crop["name"]
+                    .lower()
+                    .strip()
+                )
+
+                # Cool climate fruits
+                if crop_name in [
+                    "apple",
+                    "pear",
+                    "peach",
+                    "plum",
+                    "cherry"
+                ]:
+                    if temperature > 22:
+                        continue
+
+                # Tea
+                if crop_name == "tea":
+                    if temperature > 28:
+                        continue
+
+                # Rice
+                if crop_name == "rice":
+                    if rainfall < 80:
+                        continue
+
+                # Wheat
+                if crop_name == "wheat":
+                    if temperature > 32:
+                        continue
+
+                filtered.append(crop)
+
+            return filtered
+
+        filtered_crops = climate_filter(
+            crops,
+            temperature,
+            rainfall
+        )
+
+        if len(filtered_crops) == 0:
+            filtered_crops = crops
+
+        top_crops = filtered_crops[:5]
+
+        print(
+            "TOP CROPS:",
+            [c["name"] for c in top_crops]
+        )
+
+        # ==================================================
+        # 7. SAVE HISTORY
+        # ==================================================
+
         CropPrediction.objects.create(
-             user=request.user,
-            **data,
+            user=request.user,
+            N=N,
+            P=P,
+            K=K,
+            temperature=temperature,
+            humidity=humidity,
+            ph=ph,
+            rainfall=rainfall,
             predicted_crop=top_crops[0]["name"]
         )
 
+        # ==================================================
+        # 8. RESPONSE
+        # ==================================================
+
         return Response({
+
             "crop": top_crops[0]["name"],
+
             "crops": top_crops,
+
+            "soil": {
+                "N": N,
+                "P": P,
+                "K": K,
+                "ph": ph
+            },
+
+            "weather": {
+                "temperature": temperature,
+                "humidity": humidity,
+                "rainfall": rainfall
+            },
+
             "location": {
                 "latitude": lat,
                 "longitude": lon
@@ -129,12 +558,19 @@ def predict_crop_from_location(request):
         })
 
     except Exception as e:
-        print("❌ ERROR:", str(e))
-        return Response({
-            "message": "Internal server error",
-            "error": str(e)
-        }, status=500)
-    
+
+        print(
+            "LOCATION PREDICTION ERROR:",
+            str(e)
+        )
+
+        return Response(
+            {
+                "message": "Internal server error",
+                "error": str(e)
+            },
+            status=500
+        )
 
 
 from rest_framework.decorators import api_view
