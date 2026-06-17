@@ -16,6 +16,13 @@ import NotificationPanel from './components/NotificationPanel'
 import { Outlet } from 'react-router-dom';
 
 
+import AdminAnalytics from './admin/AdminAnalytics'
+import AdminDashboard from './admin/AdminDashboard'
+import Users from './admin/Users'
+import AdminNotification from './admin/AdminNotification'
+import Feedback from './admin/Feedback'
+import SystemStatus from './admin/SystemStatus'
+
 function App() {
 
 
@@ -59,7 +66,7 @@ function App() {
     <Router>
       <Routes>
         <Route path='/' element={<Landing/>} />
-        
+        <Route path='/login' element={<Landing/>}/>
         <Route element={<ProtectedRoute />}>
           <Route element={<TopBarLayout />}>
             <Route path='/dashboard' element={<Dashboard/>} />
@@ -72,7 +79,15 @@ function App() {
             <Route path='/profile' element={<Profile/>}/>
             <Route path='/settings' element={<Settings/>}/>
           </Route>
-        <Route path='/login' element={<Landing/>}/>
+
+          {/* Admin Routes */}
+          <Route path='/admin-dashboard' element={<AdminDashboard/>}/>
+          <Route path='/admin-users' element={<Users/>}/>
+          <Route path='/admin-analytics' element={<AdminAnalytics/>}/>
+          <Route path='/admin-notifications' element={<AdminNotification/>}/>  
+          <Route path='/admin-feedback' element={<Feedback/>}/>
+          <Route path='/admin-system-status' element={<SystemStatus/>}/>
+        
         </Route>
         
       </Routes>
