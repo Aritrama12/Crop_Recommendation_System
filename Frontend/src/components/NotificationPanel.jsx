@@ -323,7 +323,7 @@ useEffect(() => {
                     {getIcon(notification.type)}
                   </div>
 
-                  <div className="notification-content">
+                  <div className="notification-contentt">
                     <div className="notification-top">
                       <h4>{notification.title}</h4>
 
