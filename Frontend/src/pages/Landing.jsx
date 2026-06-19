@@ -1,5 +1,5 @@
 import '../scss/landing.scss';
-import { useState } from 'react';  
+import { useState, useEffect } from 'react';  
 import Soil from '../assets/Soil.png';
 import weather from '../assets/weather.png';
 import Ai from '../assets/Ai.png';
@@ -8,12 +8,21 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Landing = () => {
   const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState('signin');
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+
+// password visibility states
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+  const [showSignupPassword, setShowSignupPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+
 
   const [loginData, setLoginData] = useState({
   username: '',
@@ -28,29 +37,142 @@ const [signupData, setSignupData] = useState({
 });
 
 
+const [showForgotPassword, setShowForgotPassword] = useState(false);
+
+const [forgotData, setForgotData] = useState({
+  email: '',
+  otp: '',
+  password: ''
+});
+
+
+const handleForgotPassword = async (e) => {
+  e.preventDefault();
+
+  try {
+    const res = await axios.post(
+      'http://127.0.0.1:8000/api/auth/forgot-password',
+      {
+        email: forgotData.email
+      }
+    );
+
+    setError(null);
+    setSuccess(res.data.message);
+
+  } catch (err) {
+    const data = err.response?.data;
+
+    if (data) {
+      const messages = Object.values(data)
+        .flat()
+        .join(' ');
+
+      setError(messages);
+    } else {
+      setError('Something went wrong with forgot password');
+    }
+  }
+};
+
+
+
+
+
+
+const handleResetPassword = async (e) => {
+  e.preventDefault();
+
+  try {
+    const res = await axios.post(
+      'http://127.0.0.1:8000/api/auth/reset-password',
+      forgotData
+    );
+
+    setError(null);
+
+    setSuccess(
+      'Password reset successful. Please sign in.'
+    );
+
+    setShowForgotPassword(false);
+
+    setForgotData({
+      email: '',
+      otp: '',
+      password: ''
+    });
+
+  } catch (err) {
+    const data = err.response?.data;
+
+    if (data) {
+      const messages = Object.values(data)
+        .flat()
+        .join(' ');
+
+      setError(messages);
+    } else {
+      setError('Something went wrong with reset password');
+    }
+  }
+};
+
+
+
   const handleSignup = async (e) => {
     e.preventDefault();
 
     try {
       const res = await axios.post(
-        'http://127.0.0.1:8000/api/auth/register',
+        'http://127.0.0.1:8000/api/auth/register-request',
         signupData
       );
-       console.log(res.data);
+      console.log(res.data);
 
-    setActiveTab('signin');
-    setError(null);
+      setError(null);
+
+      setSuccess(
+        "Verification email sent. Please check your inbox and click the verification button."
+      );
+
+      setSignupData({
+        username: '',
+        email: '',
+        password: '',
+        password2: ''
+      });
 
 
     } catch (err) {
-        if (err.response?.data) {
-          const messages = Object.values(err.response.data).flat().join(' ');
+      const data = err.response?.data;
+        if (data) {
+          const messages = Object.values(data)
+            .flat()
+            .join(' ');
+
           setError(messages);
         } else {
           setError('Something went wrong');
         }
       }
   };
+
+
+
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+
+  if (params.get('verified') === 'true') {
+    setActiveTab('signin');
+
+    setSuccess(
+      'Email verified successfully. Please sign in.'
+    );
+  }
+}, []);
+
+
 
 
   const handleLogin = async (e) => {
@@ -183,6 +305,7 @@ const [signupData, setSignupData] = useState({
               onClick={() => {
                 setActiveTab('signin');
                 setError(null);
+                setSuccess(null);
               }}
             >
               Sign In
@@ -192,6 +315,7 @@ const [signupData, setSignupData] = useState({
               onClick={() => {
                 setActiveTab('signup')
                 setError(null);
+                setSuccess(null);
               }}
             >
               Sign Up
@@ -200,6 +324,99 @@ const [signupData, setSignupData] = useState({
 
           {/* Forms */}
           {activeTab === 'signin' ? (
+
+            showForgotPassword ? (
+
+              <form
+                className="auth-form"
+                onSubmit={handleResetPassword}
+              >
+
+                <label>Email</label>
+
+                <input
+                  type="email"
+                  value={forgotData.email}
+                  onChange={(e) =>
+                    setForgotData({
+                      ...forgotData,
+                      email: e.target.value
+                    })
+                  }
+                  required
+                />
+
+                <button
+                  type="button"
+                  className="btn secondary"
+                  onClick={handleForgotPassword}
+                >
+                  Send OTP
+                </button>
+
+                <label>OTP</label>
+
+                <input
+                  type="text"
+                  value={forgotData.otp}
+                  onChange={(e) =>
+                    setForgotData({
+                      ...forgotData,
+                      otp: e.target.value
+                    })
+                  }
+                  required
+                />
+
+                <label>New Password</label>
+
+                <input
+                  type="password"
+                  value={forgotData.password}
+                  onChange={(e) =>
+                    setForgotData({
+                      ...forgotData,
+                      password: e.target.value
+                    })
+                  }
+                  required
+                />
+
+                {error && (
+                  <p style={{ color: "red" }}>
+                    {error}
+                  </p>
+                )}
+
+                {success && (
+                  <p style={{ color: "green" }}>
+                    {success}
+                  </p>
+                )}
+
+                <button
+                  type="submit"
+                  className="btn primary"
+                >
+                  Reset Password
+                </button>
+
+                <button
+                  type="button"
+                  className="btn secondary"
+                  onClick={() => {
+                    setShowForgotPassword(false);
+                    setError(null);
+                    setSuccess(null);
+                  }}
+                >
+                  Back to Login
+                </button>
+
+              </form>
+
+              ) : (
+
             <form className="auth-form" onSubmit={handleLogin}>
               <label>username</label>
               <input 
@@ -212,19 +429,45 @@ const [signupData, setSignupData] = useState({
               required />
 
               <label>Password</label>
-              <input 
-              type="password" 
-              placeholder="password" 
-              value={loginData.password}
-              onChange={(e) =>
-                setLoginData({ ...loginData, password: e.target.value })
-              }
-              required />
-              {error && <p className="error" style={{ color: "red" }}>{error}</p>}
+              <div className="password-wrapper">
+                <input
+                  type={showLoginPassword ? "text" : "password"}
+                  placeholder="password"
+                  value={loginData.password}
+                  onChange={(e) =>
+                    setLoginData({ ...loginData, password: e.target.value })
+                  }
+                  required
+                />
+
+                <span
+                  className="eye-icon"
+                  onClick={() => setShowLoginPassword(!showLoginPassword)}
+                >
+                  {showLoginPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
+              <p
+                className="forgot-password-link"
+                onClick={() => {
+                  setShowForgotPassword(true);
+                  setError(null);
+                  setSuccess(null);
+                }}
+              >
+                Forgot Password?
+              </p>
+              {error && <p className="errorr" style={{ color: "red" }}>{error}</p>}
+              {success && (
+                <p style={{ color: "green" }}>
+                  {success}
+                </p>
+              )}
               <button type="submit" className="btn primary">Sign In</button>
 
             </form>
-          ) : (
+            )
+            ) : (
             <form className="auth-form" onSubmit={handleSignup}>
               <label>Username</label>
               <input 
@@ -247,25 +490,51 @@ const [signupData, setSignupData] = useState({
               required />
 
               <label>Password</label>
-              <input 
-              type="password" 
-              placeholder="password" 
-              value={signupData.password}
-              onChange={(e) =>
-                setSignupData({ ...signupData, password: e.target.value })
-              }
-              required />
+              <div className="password-wrapper">
+                <input
+                  type={showSignupPassword ? "text" : "password"}
+                  placeholder="password"
+                  value={signupData.password}
+                  onChange={(e) =>
+                    setSignupData({ ...signupData, password: e.target.value })
+                  }
+                  required
+                />
+
+                <span
+                  className="eye-icon"
+                  onClick={() => setShowSignupPassword(!showSignupPassword)}
+                >
+                  {showSignupPassword  ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
 
               <label>Confirm Password</label>
-              <input 
-              type="password" 
-              placeholder="password" 
-              value={signupData.password2}
-              onChange={(e) =>
-                setSignupData({ ...signupData, password2: e.target.value })
-              }
-              required />
-              {error && <p className="error" style={{ color: "red" }}>{error}</p>}
+              <div className="password-wrapper">
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="password"
+                  value={signupData.password2}
+                  onChange={(e) =>
+                    setSignupData({ ...signupData, password2: e.target.value })
+                  }
+                  required
+                />
+
+                <span
+                  className="eye-icon"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  {showConfirmPassword  ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
+
+              {error && <p className="errorr" style={{ color: "red" }}>{error}</p>}
+              {success && (
+                <p style={{ color: "green" }}>
+                  {success}
+                </p>
+              )}
               <button type="submit" className="btn primary">Sign Up</button>
             </form>
           )}
