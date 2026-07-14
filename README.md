@@ -1,5 +1,5 @@
 # 🌾 CropWise — Intelligent Crop Recommendation System
-
+Hosted link :- https://smartfarming-cropwise.netlify.app/
 A full-stack web application that provides AI-powered crop recommendations, farm management tools, weather insights, soil analysis, and comprehensive analytics for modern farmers.
 
 ## Tech Stack
