@@ -613,7 +613,7 @@
 // export default Landing;
 
 import { useTranslation } from "react-i18next";
-import '../scss/landing.scss';
+import '../scss/Landing.scss';
 import { useState, useEffect } from 'react';  
 import Soil from '../assets/Soil.png';
 import weather from '../assets/weather.png';
