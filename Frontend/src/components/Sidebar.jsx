@@ -292,7 +292,7 @@ export default function Sidebar() {
         if (!access) return;
 
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/profiles/profile",
+          "https://cropwise-backend1.onrender.com/api/profiles/profile",
           {
             headers: {
               Authorization: `Bearer ${access}`,
@@ -331,7 +331,7 @@ export default function Sidebar() {
 
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/auth/logout/",
+        "https://cropwise-backend1.onrender.com/api/auth/logout/",
         {
           refresh: localStorage.getItem("refresh"),
         },
@@ -357,7 +357,7 @@ export default function Sidebar() {
   const profileImage = user?.profile_image
     ? user.profile_image.startsWith("http")
       ? user.profile_image
-      : `http://127.0.0.1:8000${user.profile_image}`
+      : `https://cropwise-backend1.onrender.com${user.profile_image}`
     : null;
 
   return (

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://127.0.0.1:8000/api/settings/",
+  baseURL: "https://cropwise-backend1.onrender.com/api/settings/",
 });
 
 /* request interceptor */
@@ -31,7 +31,7 @@ API.interceptors.response.use(
         const refresh = localStorage.getItem("refresh");
 
         const res = await axios.post(
-          "http://127.0.0.1:8000/api/token/refresh/",
+          "https://cropwise-backend1.onrender.com/api/token/refresh/",
           { refresh }
         );
 

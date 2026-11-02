@@ -667,7 +667,7 @@ const handleForgotPassword = async (e) => {
 
   try {
     const res = await axios.post(
-      'http://127.0.0.1:8000/api/auth/forgot-password',
+      'https://cropwise-backend1.onrender.com/api/auth/forgot-password',
       {
         email: forgotData.email
       }
@@ -701,7 +701,7 @@ const handleResetPassword = async (e) => {
 
   try {
     const res = await axios.post(
-      'http://127.0.0.1:8000/api/auth/reset-password',
+      'https://cropwise-backend1.onrender.com/api/auth/reset-password',
       forgotData
     );
 
@@ -783,7 +783,7 @@ const handleSignup = async (e) => {
 
   try {
     const res = await axios.post(
-      'http://127.0.0.1:8000/api/auth/register-request/',
+      'https://cropwise-backend1.onrender.com/api/auth/register-request/',
       {
         username: signupData.username.trim(),
         email: signupData.email.trim(),
@@ -863,7 +863,7 @@ const handleLogin = async (e) => {
 
   try {
     const res = await axios.post(
-      'http://127.0.0.1:8000/api/auth/login/',
+      'https://cropwise-backend1.onrender.com/api/auth/login/',
       loginData
     );
 

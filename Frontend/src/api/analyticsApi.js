@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const AnalyticsAPI = axios.create({
-  baseURL: "http://127.0.0.1:8000/api/analytics/",
+  baseURL: "https://cropwise-backend1.onrender.com/api/analytics/",
 });
 
 // REQUEST INTERCEPTOR
@@ -36,7 +36,7 @@ AnalyticsAPI.interceptors.response.use(
         }
 
         const res = await axios.post(
-          "http://127.0.0.1:8000/api/token/refresh/",
+          "https://cropwise-backend1.onrender.com/api/token/refresh/",
           {
             refresh,
           }

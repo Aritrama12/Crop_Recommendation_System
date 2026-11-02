@@ -21,7 +21,7 @@ const AdminSidebar = () => {
 
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/auth/logout",
+        "https://cropwise-backend1.onrender.com/api/auth/logout",
         {
           refresh: localStorage.getItem("refresh"),
         },

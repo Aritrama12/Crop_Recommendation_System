@@ -186,7 +186,7 @@ const [popupMessage, setPopupMessage] = useState("");
   const getProfileImageUrl = (image) => {
     if (!image) return null;
     if (image instanceof File) return imagePreview;
-    return `http://127.0.0.1:8000${image}`;
+    return `https://cropwise-backend1.onrender.com${image}`;
   };
 
   // Fetch profile data
@@ -194,7 +194,7 @@ const [popupMessage, setPopupMessage] = useState("");
     try {
       const token = localStorage.getItem("access");
       const res = await axios.get(
-        "http://127.0.0.1:8000/api/profiles/profile",
+        "https://cropwise-backend1.onrender.com/api/profiles/profile",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -228,7 +228,7 @@ const [popupMessage, setPopupMessage] = useState("");
       });
 
       const res = await axios.patch(
-        "http://127.0.0.1:8000/api/profiles/profile",
+        "https://cropwise-backend1.onrender.com/api/profiles/profile",
         formData,
         {
           headers: {

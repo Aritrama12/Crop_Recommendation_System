@@ -142,7 +142,7 @@ const saveLocation = async (latitude, longitude) => {
 
   try {
     await axios.patch(
-      "http://127.0.0.1:8000/api/settings/location/",
+      "https://cropwise-backend1.onrender.com/api/settings/location/",
       {
         latitude,
         longitude,
@@ -190,7 +190,7 @@ useEffect(() => {
   const token = localStorage.getItem("access");
 
   axios
-    .get("http://127.0.0.1:8000/api/settings/notifications-settings/", {
+    .get("https://cropwise-backend1.onrender.com/api/settings/notifications-settings/", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -216,7 +216,7 @@ const handleToggle = async (field) => {
 
   try {
     await axios.patch(
-      "http://127.0.0.1:8000/api/settings/notifications-settings/",
+      "https://cropwise-backend1.onrender.com/api/settings/notifications-settings/",
       {
         [field]: updatedValue,
       },

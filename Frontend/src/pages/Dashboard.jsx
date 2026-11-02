@@ -19,7 +19,7 @@ const Dashboard = () => {
 
 const fetchAnalytics = async () => {
   try {
-    const res = await fetch("http://127.0.0.1:8000/api/analytics/", {
+    const res = await fetch("https://cropwise-backend1.onrender.com/api/analytics/", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -45,7 +45,7 @@ useEffect(() => {
 
 const fetchRecentRecommendations = async () => {
   try {
-    const res = await fetch("http://127.0.0.1:8000/api/history/", {
+    const res = await fetch("https://cropwise-backend1.onrender.com/api/history/", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

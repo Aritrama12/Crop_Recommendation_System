@@ -108,7 +108,7 @@ const fetchNotifications = async () => {
 
       // Use the current protocol if your frontend is served over HTTPS.
       const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-      const wsUrl = `${protocol}//127.0.0.1:8000/ws/notifications/?token=${encodeURIComponent(token)}`;
+      const wsUrl = `${protocol}//cropwise-backend1.onrender.com/ws/notifications/?token=${encodeURIComponent(token)}`;
 
       socket = new WebSocket(wsUrl);
 
