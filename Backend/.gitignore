@@ -1,5 +1,13 @@
 venv/
-db.sqlite3
+.venv/
 __pycache__/
-/media/
+*.pyc
 .env
+.env.*
+!.env.example
+node_modules/
+build/
+dist/
+staticfiles/
+db.sqlite3
+media/
