@@ -736,43 +736,108 @@ const handleResetPassword = async (e) => {
 
 
 
-  const handleSignup = async (e) => {
-    e.preventDefault();
+  // const handleSignup = async (e) => {
+  //   e.preventDefault();
 
-    try {
-      const res = await axios.post(
-        'http://127.0.0.1:8000/api/auth/register-request',
-        signupData
-      );
-      console.log(res.data);
+  //   try {
+  //     const res = await axios.post(
+  //       'http://127.0.0.1:8000/api/auth/register-request',
+  //       signupData
+  //     );
+  //     console.log(res.data);
 
-      setError(null);
+  //     setError(null);
 
-      setSuccess(
-        "Verification email sent. Please check your inbox and click the verification button."
-      );
+  //     setSuccess(
+  //       "Verification email sent. Please check your inbox and click the verification button."
+  //     );
 
-      setSignupData({
-        username: '',
-        email: '',
-        password: '',
-        password2: ''
-      });
+  //     setSignupData({
+  //       username: '',
+  //       email: '',
+  //       password: '',
+  //       password2: ''
+  //     });
 
 
-    } catch (err) {
-      const data = err.response?.data;
-        if (data) {
-          const messages = Object.values(data)
-            .flat()
-            .join(' ');
+  //   } catch (err) {
+  //     const data = err.response?.data;
+  //       if (data) {
+  //         const messages = Object.values(data)
+  //           .flat()
+  //           .join(' ');
 
-          setError(messages);
-        } else {
-          setError('Something went wrong');
-        }
+  //         setError(messages);
+  //       } else {
+  //         setError('Something went wrong');
+  //       }
+  //     }
+  // };
+
+  
+const handleSignup = async (e) => {
+  e.preventDefault();
+
+  setError(null);
+  setSuccess(null);
+
+  try {
+    const res = await axios.post(
+      'http://127.0.0.1:8000/api/auth/register-request/',
+      {
+        username: signupData.username.trim(),
+        email: signupData.email.trim(),
+        password: signupData.password,
+        password2: signupData.password2,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
       }
-  };
+    );
+
+    console.log('Registration response:', res.data);
+
+    setSuccess(
+      res.data.message ||
+      'Verification email sent. Please check your inbox.'
+    );
+
+    setSignupData({
+      username: '',
+      email: '',
+      password: '',
+      password2: '',
+    });
+
+  } 
+catch (err) {
+  console.error("Registration error:", err);
+
+  console.log("Status:", err.response?.status);
+  console.log("Response data:", err.response?.data);
+  console.log("Request URL:", err.config?.url);
+
+  const data = err.response?.data;
+
+  if (data && typeof data === "object") {
+    setError(
+      JSON.stringify(data, null, 2)
+    );
+  } else if (typeof data === "string") {
+    setError(
+      `HTTP ${err.response?.status || "Error"}: ${data.slice(0, 200)}`
+    );
+  } else {
+    setError(
+      "Cannot connect to Django. Check the backend terminal."
+    );
+  }
+}
+
+};
 
 
 
@@ -791,42 +856,44 @@ useEffect(() => {
 
 
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post(
-        'http://127.0.0.1:8000/api/auth/login',
-        loginData
-      );
+  
+const handleLogin = async (e) => {
+  e.preventDefault();
+  setError('');
 
-      // store tokens
-      localStorage.setItem('access', res.data.access);
-      localStorage.setItem('refresh', res.data.refresh);
+  try {
+    const res = await axios.post(
+      'http://127.0.0.1:8000/api/auth/login/',
+      loginData
+    );
 
-      const user = res.data.user;
+    // Store tokens
+    localStorage.setItem('access', res.data.access);
+    localStorage.setItem('refresh', res.data.refresh);
 
-      localStorage.setItem(
-          'user',
-          JSON.stringify(res.data.user)
-      );
+    const user = res.data.user;
 
+    localStorage.setItem('user', JSON.stringify(user));
 
-      if (user.is_staff) {
-        navigate('/admin-dashboard');
-      }
-      else {
-        navigate('/dashboard');
-      }
-    }catch (err) {
-      if (err.response?.data) {
-        const messages = Object.values(err.response.data).flat().join(' ');
-        setError(messages);
-      } else {
-        setError('Something went wrong');
-        console.log(err)
-      }
+    if (user?.is_staff) {
+      navigate('/admin-dashboard');
+    } else {
+      navigate('/dashboard');
     }
-  };
+  } catch (err) {
+    if (err.response?.data) {
+      const messages = Object.values(err.response.data)
+        .flat()
+        .join(' ');
+
+      setError(messages);
+    } else {
+      setError('Something went wrong');
+      console.error('Login error:', err);
+    }
+  }
+};
+
 
 
 

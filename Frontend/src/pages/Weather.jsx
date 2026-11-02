@@ -592,7 +592,7 @@ if (loading)
         </header>
 
 
-      <div style={{ margin: "1rem 0" }}>
+      {/* <div style={{ margin: "1rem 0" }}>
   <button onClick={() => setTestMode("clear")}>
     {t("test_clear")}
   </button>
@@ -620,7 +620,7 @@ if (loading)
   <button onClick={() => setTestMode(null)}>
     {t("real_data")}
   </button>
-</div>
+</div> */}
 
 
 

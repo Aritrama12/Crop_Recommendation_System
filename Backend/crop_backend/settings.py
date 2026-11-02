@@ -28,12 +28,18 @@ load_dotenv(BASE_DIR / ".env")
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY",  "django-insecure-cropwise-local-dev-key-change-before-production")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False") == "True"
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.getenv(
+        "ALLOWED_HOSTS", "127.0.0.1,localhost"
+    ).split(",")
+    if host.strip()
+]
 
 # Application definition
 
@@ -63,16 +69,42 @@ INSTALLED_APPS = [
     "admin_notifications",
 ]
 
+# ASGI_APPLICATION = "crop_backend.asgi.application"
+
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [
+#                 {
+#                     "address": "redis://127.0.0.1:6379/0",
+#                     "socket_connect_timeout": 5,
+#                     "socket_timeout": 10,
+#                 }
+#             ],
+#         },
+#     },
+# }
+
+
+
 ASGI_APPLICATION = "crop_backend.asgi.application"
+
+# Local development uses 127.0.0.1.
+# Docker Compose sets REDIS_HOST=redis.
+REDIS_HOST = os.getenv("REDIS_HOST", "127.0.0.1")
+REDIS_PORT = int(os.getenv("REDIS_PORT", "6379"))
 
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND":
-        "channels_redis.core.RedisChannelLayer",
-
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
             "hosts": [
-                ("127.0.0.1", 6379)
+                {
+                    "address": f"redis://{REDIS_HOST}:{REDIS_PORT}/0",
+                    "socket_connect_timeout": 5,
+                    "socket_timeout": 10,
+                }
             ],
         },
     },
@@ -160,14 +192,19 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# Email configuration
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "").strip()
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "").strip()
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/

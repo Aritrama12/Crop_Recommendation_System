@@ -86,107 +86,100 @@ const fetchNotifications = async () => {
 
 
 
-// WebSocket for real-time updates
-useEffect(() => {
 
-  const token = localStorage.getItem("access");
 
-  if (!token) {
-    console.log("No token found");
-    return;
-  }
 
-  let socket = null;
-  let reconnectTimeout = null;
-  let isUnmounted = false;
+  // WebSocket for real-time updates
+  useEffect(() => {
+    const token = localStorage.getItem("access");
 
-  const connectWebSocket = () => {
+    if (!token) {
+      console.warn("No access token found; WebSocket not connected.");
+      return;
+    }
 
-    socket = new WebSocket(
-      `ws://127.0.0.1:8000/ws/notifications/?token=${token}`
-    );
+    let socket = null;
+    let reconnectTimeout = null;
+    let isUnmounted = false;
+    let reconnectDelay = 2000;
 
-    socket.onopen = () => {
-      console.log("WS Connected");
-    };
+    const connectWebSocket = () => {
+      if (isUnmounted) return;
 
-    socket.onmessage = (event) => {
+      // Use the current protocol if your frontend is served over HTTPS.
+      const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+      const wsUrl = `${protocol}//127.0.0.1:8000/ws/notifications/?token=${encodeURIComponent(token)}`;
 
-      console.log("MESSAGE RECEIVED");
+      socket = new WebSocket(wsUrl);
 
-      const data = JSON.parse(event.data);
-
-      const newNotification = {
-        id: data.id,
-        title: data.title,
-        message: data.message,
-        type: data.notification_type,
-        read: false,
-        timestamp: new Date(data.created_at),
+      socket.onopen = () => {
+        console.log("WS Connected");
+        reconnectDelay = 2000;
       };
 
-      setNotifications((prev) => {
+      socket.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
 
-        const exists = prev.some(
-          (n) => n.id === newNotification.id
-        );
+          if (!data || !data.id) {
+            console.warn("Notification payload is missing an ID:", data);
+            // Ignore test or malformed messages instead of adding invalid entries.
+            return;
+          }
 
-        if (exists) {
-          return prev;
+          const newNotification = {
+            id: data.id,
+            title: data.title || "Notification",
+            message: data.message || "",
+            type: data.notification_type || data.type || "system",
+            read: false,
+            timestamp: data.created_at
+              ? new Date(data.created_at)
+              : new Date(),
+          };
+
+          setNotifications((prev) => {
+            if (prev.some((n) => n.id === newNotification.id)) {
+              return prev;
+            }
+
+            setUnreadCount((count) => count + 1);
+            return [newNotification, ...prev];
+          });
+        } catch (error) {
+          console.error("Failed to parse WebSocket notification:", error);
         }
+      };
 
-        return [
-          newNotification,
-          ...prev,
-        ];
-      });
+      socket.onerror = (error) => {
+        console.error("WebSocket error. Check the backend terminal for details.", error);
+      };
 
-      setUnreadCount((prev) => prev + 1);
+      socket.onclose = (event) => {
+        console.log("WS Closed:", event.code, event.reason);
+
+        if (isUnmounted) return;
+
+        reconnectTimeout = setTimeout(() => {
+          reconnectDelay = Math.min(reconnectDelay * 2, 30000);
+          connectWebSocket();
+        }, reconnectDelay);
+      };
     };
 
-    socket.onerror = (error) => {
-      console.error(
-        "WebSocket Error:",
-        error
-      );
-    };
+    connectWebSocket();
 
-    socket.onclose = () => {
+    return () => {
+      isUnmounted = true;
+      if (reconnectTimeout) clearTimeout(reconnectTimeout);
 
-      console.log("WS Closed");
-
-      if (!isUnmounted) {
-
-        console.log(
-          "Reconnecting in 2 seconds..."
-        );
-
-        reconnectTimeout = setTimeout(
-          () => {
-            connectWebSocket();
-          },
-          2000
-        );
+      if (socket) {
+        // Prevent cleanup-triggered closes from scheduling a reconnect.
+        socket.onclose = null;
+        socket.close();
       }
     };
-  };
-
-  connectWebSocket();
-
-  return () => {
-
-    isUnmounted = true;
-
-    if (reconnectTimeout) {
-      clearTimeout(reconnectTimeout);
-    }
-
-    if (socket) {
-      socket.close();
-    }
-  };
-
-}, []);
+  }, []);
 
 
 // Mark a single notification as read
