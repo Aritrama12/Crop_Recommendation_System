@@ -612,638 +612,1591 @@
 
 // export default Landing;
 
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
+// import '../scss/Landing.scss';
+// import { useState, useEffect } from 'react';  
+// import Soil from '../assets/Soil.png';
+// import weather from '../assets/weather.png';
+// import Ai from '../assets/Ai.png';
+// import market from '../assets/market.png';
+// import Navbar from '../components/Navbar';
+// import Footer from '../components/Footer';
+// import axios from 'axios';
+// import { useNavigate } from 'react-router-dom';
+// import { FaEye, FaEyeSlash } from "react-icons/fa";
+
+// const Landing = () => {
+//   const { t } = useTranslation();
+//   const navigate = useNavigate();
+
+//   const [activeTab, setActiveTab] = useState('signin');
+//   const [error, setError] = useState(null);
+//   const [success, setSuccess] = useState(null);
+
+// // password visibility states
+//   const [showLoginPassword, setShowLoginPassword] = useState(false);
+//   const [showSignupPassword, setShowSignupPassword] = useState(false);
+//   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+
+
+//   const [loginData, setLoginData] = useState({
+//   username: '',
+//   password: ''
+// });
+
+// const [signupData, setSignupData] = useState({
+//   username: '',
+//   email: '',
+//   password: '',
+//   password2: ''
+// });
+
+
+// const [showForgotPassword, setShowForgotPassword] = useState(false);
+
+// const [forgotData, setForgotData] = useState({
+//   email: '',
+//   otp: '',
+//   password: ''
+// });
+
+
+// const handleForgotPassword = async (e) => {
+//   e.preventDefault();
+
+//   try {
+//     const res = await axios.post(
+//       'https://cropwise-backend1.onrender.com/api/auth/forgot-password',
+//       {
+//         email: forgotData.email
+//       }
+//     );
+
+//     setError(null);
+//     setSuccess(res.data.message);
+
+//   } catch (err) {
+//     const data = err.response?.data;
+
+//     if (data) {
+//       const messages = Object.values(data)
+//         .flat()
+//         .join(' ');
+
+//       setError(messages);
+//     } else {
+//       setError('Something went wrong with forgot password');
+//     }
+//   }
+// };
+
+
+
+
+
+
+// const handleResetPassword = async (e) => {
+//   e.preventDefault();
+
+//   try {
+//     const res = await axios.post(
+//       'https://cropwise-backend1.onrender.com/api/auth/reset-password',
+//       forgotData
+//     );
+
+//     setError(null);
+
+//     setSuccess(
+//       'Password reset successful. Please sign in.'
+//     );
+
+//     setShowForgotPassword(false);
+
+//     setForgotData({
+//       email: '',
+//       otp: '',
+//       password: ''
+//     });
+
+//   } catch (err) {
+//     const data = err.response?.data;
+
+//     if (data) {
+//       const messages = Object.values(data)
+//         .flat()
+//         .join(' ');
+
+//       setError(messages);
+//     } else {
+//       setError('Something went wrong with reset password');
+//     }
+//   }
+// };
+
+
+
+//   // const handleSignup = async (e) => {
+//   //   e.preventDefault();
+
+//   //   try {
+//   //     const res = await axios.post(
+//   //       'http://127.0.0.1:8000/api/auth/register-request',
+//   //       signupData
+//   //     );
+//   //     console.log(res.data);
+
+//   //     setError(null);
+
+//   //     setSuccess(
+//   //       "Verification email sent. Please check your inbox and click the verification button."
+//   //     );
+
+//   //     setSignupData({
+//   //       username: '',
+//   //       email: '',
+//   //       password: '',
+//   //       password2: ''
+//   //     });
+
+
+//   //   } catch (err) {
+//   //     const data = err.response?.data;
+//   //       if (data) {
+//   //         const messages = Object.values(data)
+//   //           .flat()
+//   //           .join(' ');
+
+//   //         setError(messages);
+//   //       } else {
+//   //         setError('Something went wrong');
+//   //       }
+//   //     }
+//   // };
+
+  
+// const handleSignup = async (e) => {
+//   e.preventDefault();
+
+//   setError(null);
+//   setSuccess(null);
+
+//   try {
+//     const res = await axios.post(
+//       'https://cropwise-backend1.onrender.com/api/auth/register-request/',
+//       {
+//         username: signupData.username.trim(),
+//         email: signupData.email.trim(),
+//         password: signupData.password,
+//         password2: signupData.password2,
+//       },
+//       {
+//         headers: {
+//           'Content-Type': 'application/json',
+//           Accept: 'application/json',
+//         },
+//       }
+//     );
+
+//     console.log('Registration response:', res.data);
+
+//     setSuccess(
+//       res.data.message ||
+//       'Verification email sent. Please check your inbox.'
+//     );
+
+//     setSignupData({
+//       username: '',
+//       email: '',
+//       password: '',
+//       password2: '',
+//     });
+
+//   } 
+// catch (err) {
+//   console.error("Registration error:", err);
+
+//   console.log("Status:", err.response?.status);
+//   console.log("Response data:", err.response?.data);
+//   console.log("Request URL:", err.config?.url);
+
+//   const data = err.response?.data;
+
+//   if (data && typeof data === "object") {
+//     setError(
+//       JSON.stringify(data, null, 2)
+//     );
+//   } else if (typeof data === "string") {
+//     setError(
+//       `HTTP ${err.response?.status || "Error"}: ${data.slice(0, 200)}`
+//     );
+//   } else {
+//     setError(
+//       "Cannot connect to Django. Check the backend terminal."
+//     );
+//   }
+// }
+
+// };
+
+
+
+// useEffect(() => {
+//   const params = new URLSearchParams(window.location.search);
+
+//   if (params.get('verified') === 'true') {
+//     setActiveTab('signin');
+
+//     setSuccess(
+//       'Email verified successfully. Please sign in.'
+//     );
+//   }
+// }, []);
+
+
+
+
+  
+// const handleLogin = async (e) => {
+//   e.preventDefault();
+//   setError('');
+
+//   try {
+//     const res = await axios.post(
+//       'https://cropwise-backend1.onrender.com/api/auth/login/',
+//       loginData
+//     );
+
+//     // Store tokens
+//     localStorage.setItem('access', res.data.access);
+//     localStorage.setItem('refresh', res.data.refresh);
+
+//     const user = res.data.user;
+
+//     localStorage.setItem('user', JSON.stringify(user));
+
+//     if (user?.is_staff) {
+//       navigate('/admin-dashboard');
+//     } else {
+//       navigate('/dashboard');
+//     }
+//   } catch (err) {
+//     if (err.response?.data) {
+//       const messages = Object.values(err.response.data)
+//         .flat()
+//         .join(' ');
+
+//       setError(messages);
+//     } else {
+//       setError('Something went wrong');
+//       console.error('Login error:', err);
+//     }
+//   }
+// };
+
+
+
+
+//   return (
+//     <>
+//     <div className="landing-page">
+//       <Navbar />
+//      <header className="tagline">
+//   {t("landing_tagline")}
+// </header>
+
+//       {/* Hero Section */}
+
+//       <section className="hero">
+//        <h1>
+// {t("landing_title_1")} <br />
+// {t("landing_title_2")}
+// </h1>
+//         <p>{t("landing_description")}</p>
+//         <div className="hero-buttons">
+//           <a href="/#contact" className="btn primary">{t("get_started")}</a>
+//           <a href="#" className="btn secondary">{t("watch_demo")}</a>
+//         </div>
+//       </section>
+
+//       {/* Stats */}
+//       <div className="stats">
+//         {/* <div className="stat"><h2>500+</h2><span>{t("farmers")}</span></div> */}
+//         <div className="stat"><h2>20+</h2><span>{t("crops")}</span></div>
+//         <div className="stat"><h2>95%</h2><span>{t("success_rate")}</span></div>
+//         <div className="stat"><h2>24/7</h2><span>{t("support")}</span></div>
+//       </div>
+
+//       {/* Features */}
+//       <section className="features" id="features">
+//         <h1>{t("everything_you_need")}</h1>
+//         <p>
+//           {t("everything_you_need_desc")}
+//         </p>
+//         <div className="feature-cards">
+//           {[
+//             {
+// Image: Ai,
+// title: t("feature_ai_title"),
+// desc: t("feature_ai_desc")
+// },
+// {
+// Image: weather,
+// title: t("feature_weather_title"),
+// desc: t("feature_weather_desc")
+// },
+// {
+// Image: Soil,
+// title: t("feature_soil_title"),
+// desc: t("feature_soil_desc")
+// },
+// {
+// Image: market,
+// title: t("feature_market_title"),
+// desc: t("feature_market_desc")
+// }
+//           ].map((feature, i) => (
+//             <div className="feature-card" key={i}>
+//               <img src={feature.Image} alt={feature.title} />
+//               <h2>{feature.title}</h2>
+//               <p>{feature.desc}</p>
+//             </div>
+//           ))}
+//         </div>
+//       </section>
+
+//       {/* Testimonials */}
+//       <section className="testimonials" id="testimonials">
+//         <h1>{t("testimonials_title")}</h1>
+//         <div className="testimonial-cards">
+//           {[
+//             {
+// text:t("testimonial1"),
+// name:t("testimonial1_name")
+// },
+// {
+// text:t("testimonial2"),
+// name:t("testimonial2_name")
+// },
+// {
+// text:t("testimonial3"),
+// name:t("testimonial3_name")
+// }
+//           ].map((t, i) => (
+//             <div className="testimonial-card" key={i}>
+//               <p>{t.text}</p>
+//               <h3>{t.name}</h3>
+//             </div>
+//           ))}
+//         </div>
+//       </section>
+
+//       {/* Auth Section */}
+//       <section className="landing-auth" id='contact'>
+//         <div className="auth-card">
+//           <h2>{t("welcome")}</h2>
+//           <p>{t("auth_subtitle")}</p>
+
+//           {/* Tabs */}
+//           <div className="auth-tabs">
+//             <button
+//               className={activeTab === 'signin' ? 'active' : ''}
+//               onClick={() => {
+//                 setActiveTab('signin');
+//                 setError(null);
+//                 setSuccess(null);
+//               }}
+//             >
+//              {t("sign_in")}
+//             </button>
+//             <button
+//               className={activeTab === 'signup' ? 'active' : ''}
+//               onClick={() => {
+//                 setActiveTab('signup')
+//                 setError(null);
+//                 setSuccess(null);
+//               }}
+//             >
+//             {t("sign_up")}
+//             </button>
+//           </div>
+
+//           {/* Forms */}
+//           {activeTab === 'signin' ? (
+
+//             showForgotPassword ? (
+
+//               <form
+//                 className="auth-form"
+//                 onSubmit={handleResetPassword}
+//               >
+
+//                 <label>{t("email")}</label>
+
+//                 <input
+//                   type="email"
+//                   value={forgotData.email}
+//                   onChange={(e) =>
+//                     setForgotData({
+//                       ...forgotData,
+//                       email: e.target.value
+//                     })
+//                   }
+//                   required
+//                 />
+
+//                 <button
+//                   type="button"
+//                   className="btn secondary"
+//                   onClick={handleForgotPassword}
+//                 >
+//                   {t("send_otp")}
+//                 </button>
+
+//                 <label>{t("otp")}</label>
+
+//                 <input
+//                   type="text"
+//                   value={forgotData.otp}
+//                   onChange={(e) =>
+//                     setForgotData({
+//                       ...forgotData,
+//                       otp: e.target.value
+//                     })
+//                   }
+//                   required
+//                 />
+
+//                 <label>{t("new_password")}</label>
+
+//                 <input
+//                   type="password"
+//                   value={forgotData.password}
+//                   onChange={(e) =>
+//                     setForgotData({
+//                       ...forgotData,
+//                       password: e.target.value
+//                     })
+//                   }
+//                   required
+//                 />
+
+//                 {error && (
+//                   <p style={{ color: "red" }}>
+//                     {error}
+//                   </p>
+//                 )}
+
+//                 {success && (
+//                   <p style={{ color: "green" }}>
+//                     {success}
+//                   </p>
+//                 )}
+
+//                 <button
+//                   type="submit"
+//                   className="btn primary"
+//                 >
+//                   {t("reset_password")}
+//                 </button>
+
+//                 <button
+//                   type="button"
+//                   className="btn secondary"
+//                   onClick={() => {
+//                     setShowForgotPassword(false);
+//                     setError(null);
+//                     setSuccess(null);
+//                   }}
+//                 >
+//                  {t("back_to_login")}
+//                 </button>
+
+//               </form>
+
+//               ) : (
+
+//             <form className="auth-form" onSubmit={handleLogin}>
+//               <label>{t("username")}</label>
+//               <input 
+//               type="text" 
+//              placeholder={t("username_placeholder")}
+//               value={loginData.username}
+//               onChange={(e) =>
+//                 setLoginData({ ...loginData, username: e.target.value })
+//               }
+//               required />
+
+//               <label>{t("password")}</label>
+//               <div className="password-wrapper">
+//                 <input
+//                   type={showLoginPassword ? "text" : "password"}
+//                   placeholder={t("password")}
+//                   value={loginData.password}
+//                   onChange={(e) =>
+//                     setLoginData({ ...loginData, password: e.target.value })
+//                   }
+//                   required
+//                 />
+
+//                 <span
+//                   className="eye-icon"
+//                   onClick={() => setShowLoginPassword(!showLoginPassword)}
+//                 >
+//                   {showLoginPassword ? <FaEyeSlash /> : <FaEye />}
+//                 </span>
+//               </div>
+//               <p
+//                 className="forgot-password-link"
+//                 onClick={() => {
+//                   setShowForgotPassword(true);
+//                   setError(null);
+//                   setSuccess(null);
+//                 }}
+//               >
+//                 {t("forgot_password")}
+//               </p>
+//               {error && <p className="errorr" style={{ color: "red" }}>{error}</p>}
+//               {success && (
+//                 <p style={{ color: "green" }}>
+//                   {success}
+//                 </p>
+//               )}
+//               <button type="submit" className="btn primary">{t("sign_in")}</button>
+
+//             </form>
+//             )
+//             ) : (
+//             <form className="auth-form" onSubmit={handleSignup}>
+//               <label>{t("username")}
+// </label>
+//               <input 
+//               type="text" 
+//               placeholder="John_Doe12" 
+//               value={signupData.username}
+//               onChange={(e) =>
+//                 setSignupData({ ...signupData, username: e.target.value })
+//               }
+//               required />
+
+//               <label>{t("email")}</label>
+//               <input 
+//               type="email" 
+//               placeholder="name@example.com" 
+//               value={signupData.email}
+//               onChange={(e) =>
+//                 setSignupData({ ...signupData, email: e.target.value })
+//               }
+//               required />
+
+//               <label>{t("password")}</label>
+//               <div className="password-wrapper">
+//                 <input
+//                   type={showSignupPassword ? "text" : "password"}
+//                   placeholder="password"
+//                   value={signupData.password}
+//                   onChange={(e) =>
+//                     setSignupData({ ...signupData, password: e.target.value })
+//                   }
+//                   required
+//                 />
+
+//                 <span
+//                   className="eye-icon"
+//                   onClick={() => setShowSignupPassword(!showSignupPassword)}
+//                 >
+//                   {showSignupPassword  ? <FaEyeSlash /> : <FaEye />}
+//                 </span>
+//               </div>
+
+//               <label>{t("confirm_password")}</label>
+//               <div className="password-wrapper">
+//                 <input
+//                   type={showConfirmPassword ? "text" : "password"}
+//                   placeholder="password"
+//                   value={signupData.password2}
+//                   onChange={(e) =>
+//                     setSignupData({ ...signupData, password2: e.target.value })
+//                   }
+//                   required
+//                 />
+
+//                 <span
+//                   className="eye-icon"
+//                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+//                 >
+//                   {showConfirmPassword  ? <FaEyeSlash /> : <FaEye />}
+//                 </span>
+//               </div>
+
+//               {error && <p className="errorr" style={{ color: "red" }}>{error}</p>}
+//               {success && (
+//                 <p style={{ color: "green" }}>
+//                   {success}
+//                 </p>
+//               )}
+//               <button type="submit" className="btn primary">{t("sign_up")}</button>
+//             </form>
+//           )}
+//         </div>
+//       </section>
+//     </div>
+//     <Footer/>
+//     </>
+//   );
+// };
+
+// export default Landing;
+
+
+import { useTranslation } from 'react-i18next';
 import '../scss/Landing.scss';
-import { useState, useEffect } from 'react';  
+
+import { useState } from 'react';
+
 import Soil from '../assets/Soil.png';
 import weather from '../assets/weather.png';
 import Ai from '../assets/Ai.png';
 import market from '../assets/market.png';
+
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
+const API_BASE_URL = 'https://cropwise-backend1.onrender.com/api/auth';
 
 const Landing = () => {
+
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  // =====================================================
+  // AUTHENTICATION STATE
+  // =====================================================
+
   const [activeTab, setActiveTab] = useState('signin');
+
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-// password visibility states
+  // Password visibility
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [showSignupPassword, setShowSignupPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-
-
+  // Login form
   const [loginData, setLoginData] = useState({
-  username: '',
-  password: ''
-});
+    username: '',
+    password: ''
+  });
 
-const [signupData, setSignupData] = useState({
-  username: '',
-  email: '',
-  password: '',
-  password2: ''
-});
+  // Signup form
+  const [signupData, setSignupData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    password2: ''
+  });
 
+  // Forgot password
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
-const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [forgotData, setForgotData] = useState({
+    email: '',
+    otp: '',
+    password: ''
+  });
 
-const [forgotData, setForgotData] = useState({
-  email: '',
-  otp: '',
-  password: ''
-});
+  // =====================================================
+  // ERROR HANDLER
+  // =====================================================
 
+  const getErrorMessage = (err, fallbackMessage) => {
 
-const handleForgotPassword = async (e) => {
-  e.preventDefault();
-
-  try {
-    const res = await axios.post(
-      'https://cropwise-backend1.onrender.com/api/auth/forgot-password',
-      {
-        email: forgotData.email
-      }
-    );
-
-    setError(null);
-    setSuccess(res.data.message);
-
-  } catch (err) {
     const data = err.response?.data;
 
-    if (data) {
-      const messages = Object.values(data)
-        .flat()
+    if (data && typeof data === 'object') {
+
+      return Object.entries(data)
+        .map(([field, messages]) => {
+          const message = Array.isArray(messages)
+            ? messages.join(' ')
+            : typeof messages === 'string'
+              ? messages
+              : JSON.stringify(messages);
+
+          return `${field}: ${message}`;
+        })
         .join(' ');
 
-      setError(messages);
-    } else {
-      setError('Something went wrong with forgot password');
     }
-  }
-};
+
+    if (typeof data === 'string') {
+      return `HTTP ${err.response?.status || 'Error'}: ${data.slice(0, 200)}`;
+    }
+
+    return fallbackMessage;
+  };
 
 
+  // =====================================================
+  // NORMAL REGISTRATION
+  // NO EMAIL VERIFICATION OR SIGNUP OTP
+  // =====================================================
 
+  const handleSignup = async (e) => {
 
-
-
-const handleResetPassword = async (e) => {
-  e.preventDefault();
-
-  try {
-    const res = await axios.post(
-      'https://cropwise-backend1.onrender.com/api/auth/reset-password',
-      forgotData
-    );
+    e.preventDefault();
 
     setError(null);
+    setSuccess(null);
 
-    setSuccess(
-      'Password reset successful. Please sign in.'
-    );
-
-    setShowForgotPassword(false);
-
-    setForgotData({
-      email: '',
-      otp: '',
-      password: ''
-    });
-
-  } catch (err) {
-    const data = err.response?.data;
-
-    if (data) {
-      const messages = Object.values(data)
-        .flat()
-        .join(' ');
-
-      setError(messages);
-    } else {
-      setError('Something went wrong with reset password');
+    // Basic frontend password confirmation
+    if (signupData.password !== signupData.password2) {
+      setError("Passwords do not match.");
+      return;
     }
-  }
-};
 
+    try {
 
-
-  // const handleSignup = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const res = await axios.post(
-  //       'http://127.0.0.1:8000/api/auth/register-request',
-  //       signupData
-  //     );
-  //     console.log(res.data);
-
-  //     setError(null);
-
-  //     setSuccess(
-  //       "Verification email sent. Please check your inbox and click the verification button."
-  //     );
-
-  //     setSignupData({
-  //       username: '',
-  //       email: '',
-  //       password: '',
-  //       password2: ''
-  //     });
-
-
-  //   } catch (err) {
-  //     const data = err.response?.data;
-  //       if (data) {
-  //         const messages = Object.values(data)
-  //           .flat()
-  //           .join(' ');
-
-  //         setError(messages);
-  //       } else {
-  //         setError('Something went wrong');
-  //       }
-  //     }
-  // };
-
-  
-const handleSignup = async (e) => {
-  e.preventDefault();
-
-  setError(null);
-  setSuccess(null);
-
-  try {
-    const res = await axios.post(
-      'https://cropwise-backend1.onrender.com/api/auth/register-request/',
-      {
-        username: signupData.username.trim(),
-        email: signupData.email.trim(),
-        password: signupData.password,
-        password2: signupData.password2,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
+      const res = await axios.post(
+        `${API_BASE_URL}/register/`,
+        {
+          username: signupData.username.trim(),
+          email: signupData.email.trim().toLowerCase(),
+          password: signupData.password,
+          password2: signupData.password2
         },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+          }
+        }
+      );
+
+      console.log('Registration successful:', res.data);
+
+      // Clear signup form
+      setSignupData({
+        username: '',
+        email: '',
+        password: '',
+        password2: ''
+      });
+
+      // Switch to login tab
+      setActiveTab('signin');
+
+      setShowForgotPassword(false);
+
+      // Show success message
+      setSuccess(
+        res.data.message ||
+        'Registration successful! Please sign in.'
+      );
+
+      setError(null);
+
+    } catch (err) {
+
+      console.error('Registration error:', err);
+
+      setError(
+        getErrorMessage(
+          err,
+          'Unable to connect to the server. Please try again.'
+        )
+      );
+
+    }
+
+  };
+
+
+  // =====================================================
+  // LOGIN
+  // =====================================================
+
+  const handleLogin = async (e) => {
+
+    e.preventDefault();
+
+    setError(null);
+    setSuccess(null);
+
+    try {
+
+      const res = await axios.post(
+        `${API_BASE_URL}/login/`,
+        {
+          username: loginData.username.trim(),
+          password: loginData.password
+        }
+      );
+
+      // Store JWT tokens
+      localStorage.setItem('access', res.data.access);
+      localStorage.setItem('refresh', res.data.refresh);
+
+      // Store user information
+      const user = res.data.user;
+
+      localStorage.setItem('user', JSON.stringify(user));
+
+      // Navigate according to user role
+      if (user?.is_staff || user?.is_superuser) {
+        navigate('/admin-dashboard');
+      } else {
+        navigate('/dashboard');
       }
-    );
 
-    console.log('Registration response:', res.data);
+    } catch (err) {
 
-    setSuccess(
-      res.data.message ||
-      'Verification email sent. Please check your inbox.'
-    );
-
-    setSignupData({
-      username: '',
-      email: '',
-      password: '',
-      password2: '',
-    });
-
-  } 
-catch (err) {
-  console.error("Registration error:", err);
-
-  console.log("Status:", err.response?.status);
-  console.log("Response data:", err.response?.data);
-  console.log("Request URL:", err.config?.url);
-
-  const data = err.response?.data;
-
-  if (data && typeof data === "object") {
-    setError(
-      JSON.stringify(data, null, 2)
-    );
-  } else if (typeof data === "string") {
-    setError(
-      `HTTP ${err.response?.status || "Error"}: ${data.slice(0, 200)}`
-    );
-  } else {
-    setError(
-      "Cannot connect to Django. Check the backend terminal."
-    );
-  }
-}
-
-};
-
-
-
-useEffect(() => {
-  const params = new URLSearchParams(window.location.search);
-
-  if (params.get('verified') === 'true') {
-    setActiveTab('signin');
-
-    setSuccess(
-      'Email verified successfully. Please sign in.'
-    );
-  }
-}, []);
-
-
-
-
-  
-const handleLogin = async (e) => {
-  e.preventDefault();
-  setError('');
-
-  try {
-    const res = await axios.post(
-      'https://cropwise-backend1.onrender.com/api/auth/login/',
-      loginData
-    );
-
-    // Store tokens
-    localStorage.setItem('access', res.data.access);
-    localStorage.setItem('refresh', res.data.refresh);
-
-    const user = res.data.user;
-
-    localStorage.setItem('user', JSON.stringify(user));
-
-    if (user?.is_staff) {
-      navigate('/admin-dashboard');
-    } else {
-      navigate('/dashboard');
-    }
-  } catch (err) {
-    if (err.response?.data) {
-      const messages = Object.values(err.response.data)
-        .flat()
-        .join(' ');
-
-      setError(messages);
-    } else {
-      setError('Something went wrong');
       console.error('Login error:', err);
+
+      setError(
+        getErrorMessage(
+          err,
+          'Something went wrong. Please try again.'
+        )
+      );
+
     }
-  }
-};
+
+  };
 
 
+  // =====================================================
+  // FORGOT PASSWORD - SEND OTP
+  // =====================================================
 
+  const handleForgotPassword = async (e) => {
+
+    e.preventDefault();
+
+    setError(null);
+    setSuccess(null);
+
+    try {
+
+      const res = await axios.post(
+        `${API_BASE_URL}/forgot-password/`,
+        {
+          email: forgotData.email.trim().toLowerCase()
+        }
+      );
+
+      setSuccess(
+        res.data.message || 'OTP sent successfully. Please check your email.'
+      );
+
+      setError(null);
+
+    } catch (err) {
+
+      console.error('Forgot password error:', err);
+
+      setError(
+        getErrorMessage(
+          err,
+          'Something went wrong with forgot password.'
+        )
+      );
+
+    }
+
+  };
+
+
+  // =====================================================
+  // RESET PASSWORD - VERIFY OTP
+  // =====================================================
+
+  const handleResetPassword = async (e) => {
+
+    e.preventDefault();
+
+    setError(null);
+    setSuccess(null);
+
+    try {
+
+      const res = await axios.post(
+        `${API_BASE_URL}/reset-password/`,
+        {
+          email: forgotData.email.trim().toLowerCase(),
+          otp: forgotData.otp.trim(),
+          password: forgotData.password
+        }
+      );
+
+      setSuccess(
+        res.data.message ||
+        'Password reset successful. Please sign in.'
+      );
+
+      setError(null);
+
+      setShowForgotPassword(false);
+
+      setForgotData({
+        email: '',
+        otp: '',
+        password: ''
+      });
+
+    } catch (err) {
+
+      console.error('Reset password error:', err);
+
+      setError(
+        getErrorMessage(
+          err,
+          'Something went wrong with password reset.'
+        )
+      );
+
+    }
+
+  };
+
+
+  // =====================================================
+  // FEATURE DATA
+  // =====================================================
+
+  const features = [
+    {
+      Image: Ai,
+      title: t('feature_ai_title'),
+      desc: t('feature_ai_desc')
+    },
+    {
+      Image: weather,
+      title: t('feature_weather_title'),
+      desc: t('feature_weather_desc')
+    },
+    {
+      Image: Soil,
+      title: t('feature_soil_title'),
+      desc: t('feature_soil_desc')
+    },
+    {
+      Image: market,
+      title: t('feature_market_title'),
+      desc: t('feature_market_desc')
+    }
+  ];
+
+
+  // =====================================================
+  // TESTIMONIAL DATA
+  // =====================================================
+
+  const testimonials = [
+    {
+      text: t('testimonial1'),
+      name: t('testimonial1_name')
+    },
+    {
+      text: t('testimonial2'),
+      name: t('testimonial2_name')
+    },
+    {
+      text: t('testimonial3'),
+      name: t('testimonial3_name')
+    }
+  ];
+
+
+  // =====================================================
+  // MAIN UI
+  // =====================================================
 
   return (
     <>
-    <div className="landing-page">
-      <Navbar />
-     <header className="tagline">
-  {t("landing_tagline")}
-</header>
 
-      {/* Hero Section */}
+      <div className="landing-page">
 
-      <section className="hero">
-       <h1>
-{t("landing_title_1")} <br />
-{t("landing_title_2")}
-</h1>
-        <p>{t("landing_description")}</p>
-        <div className="hero-buttons">
-          <a href="/#contact" className="btn primary">{t("get_started")}</a>
-          <a href="#" className="btn secondary">{t("watch_demo")}</a>
-        </div>
-      </section>
+        <Navbar />
 
-      {/* Stats */}
-      <div className="stats">
-        {/* <div className="stat"><h2>500+</h2><span>{t("farmers")}</span></div> */}
-        <div className="stat"><h2>20+</h2><span>{t("crops")}</span></div>
-        <div className="stat"><h2>95%</h2><span>{t("success_rate")}</span></div>
-        <div className="stat"><h2>24/7</h2><span>{t("support")}</span></div>
-      </div>
+        {/* Tagline */}
 
-      {/* Features */}
-      <section className="features" id="features">
-        <h1>{t("everything_you_need")}</h1>
-        <p>
-          {t("everything_you_need_desc")}
-        </p>
-        <div className="feature-cards">
-          {[
-            {
-Image: Ai,
-title: t("feature_ai_title"),
-desc: t("feature_ai_desc")
-},
-{
-Image: weather,
-title: t("feature_weather_title"),
-desc: t("feature_weather_desc")
-},
-{
-Image: Soil,
-title: t("feature_soil_title"),
-desc: t("feature_soil_desc")
-},
-{
-Image: market,
-title: t("feature_market_title"),
-desc: t("feature_market_desc")
-}
-          ].map((feature, i) => (
-            <div className="feature-card" key={i}>
-              <img src={feature.Image} alt={feature.title} />
-              <h2>{feature.title}</h2>
-              <p>{feature.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+        <header className="tagline">
+          {t('landing_tagline')}
+        </header>
 
-      {/* Testimonials */}
-      <section className="testimonials" id="testimonials">
-        <h1>{t("testimonials_title")}</h1>
-        <div className="testimonial-cards">
-          {[
-            {
-text:t("testimonial1"),
-name:t("testimonial1_name")
-},
-{
-text:t("testimonial2"),
-name:t("testimonial2_name")
-},
-{
-text:t("testimonial3"),
-name:t("testimonial3_name")
-}
-          ].map((t, i) => (
-            <div className="testimonial-card" key={i}>
-              <p>{t.text}</p>
-              <h3>{t.name}</h3>
-            </div>
-          ))}
-        </div>
-      </section>
 
-      {/* Auth Section */}
-      <section className="landing-auth" id='contact'>
-        <div className="auth-card">
-          <h2>{t("welcome")}</h2>
-          <p>{t("auth_subtitle")}</p>
+        {/* Hero Section */}
 
-          {/* Tabs */}
-          <div className="auth-tabs">
-            <button
-              className={activeTab === 'signin' ? 'active' : ''}
-              onClick={() => {
-                setActiveTab('signin');
-                setError(null);
-                setSuccess(null);
-              }}
-            >
-             {t("sign_in")}
-            </button>
-            <button
-              className={activeTab === 'signup' ? 'active' : ''}
-              onClick={() => {
-                setActiveTab('signup')
-                setError(null);
-                setSuccess(null);
-              }}
-            >
-            {t("sign_up")}
-            </button>
+        <section className="hero">
+
+          <h1>
+            {t('landing_title_1')}
+            <br />
+            {t('landing_title_2')}
+          </h1>
+
+          <p>
+            {t('landing_description')}
+          </p>
+
+          <div className="hero-buttons">
+
+            <a href="/#contact" className="btn primary">
+              {t('get_started')}
+            </a>
+
+            <a href="#" className="btn secondary">
+              {t('watch_demo')}
+            </a>
+
           </div>
 
-          {/* Forms */}
-          {activeTab === 'signin' ? (
+        </section>
 
-            showForgotPassword ? (
+
+        {/* Statistics */}
+
+        <div className="stats">
+
+          <div className="stat">
+            <h2>20+</h2>
+            <span>{t('crops')}</span>
+          </div>
+
+          <div className="stat">
+            <h2>95%</h2>
+            <span>{t('success_rate')}</span>
+          </div>
+
+          <div className="stat">
+            <h2>24/7</h2>
+            <span>{t('support')}</span>
+          </div>
+
+        </div>
+
+
+        {/* Features Section */}
+
+        <section className="features" id="features">
+
+          <h1>
+            {t('everything_you_need')}
+          </h1>
+
+          <p>
+            {t('everything_you_need_desc')}
+          </p>
+
+          <div className="feature-cards">
+
+            {features.map((feature, i) => (
+
+              <div className="feature-card" key={i}>
+
+                <img
+                  src={feature.Image}
+                  alt={feature.title}
+                />
+
+                <h2>
+                  {feature.title}
+                </h2>
+
+                <p>
+                  {feature.desc}
+                </p>
+
+              </div>
+
+            ))}
+
+          </div>
+
+        </section>
+
+
+        {/* Testimonials Section */}
+
+        <section className="testimonials" id="testimonials">
+
+          <h1>
+            {t('testimonials_title')}
+          </h1>
+
+          <div className="testimonial-cards">
+
+            {testimonials.map((testimonial, i) => (
+
+              <div className="testimonial-card" key={i}>
+
+                <p>
+                  {testimonial.text}
+                </p>
+
+                <h3>
+                  {testimonial.name}
+                </h3>
+
+              </div>
+
+            ))}
+
+          </div>
+
+        </section>
+
+
+        {/* Authentication Section */}
+
+        <section className="landing-auth" id="contact">
+
+          <div className="auth-card">
+
+            <h2>
+              {t('welcome')}
+            </h2>
+
+            <p>
+              {t('auth_subtitle')}
+            </p>
+
+
+            {/* Authentication Tabs */}
+
+            <div className="auth-tabs">
+
+              <button
+                type="button"
+                className={activeTab === 'signin' ? 'active' : ''}
+                onClick={() => {
+
+                  setActiveTab('signin');
+
+                  setError(null);
+                  setSuccess(null);
+
+                  setShowForgotPassword(false);
+
+                }}
+              >
+                {t('sign_in')}
+              </button>
+
+
+              <button
+                type="button"
+                className={activeTab === 'signup' ? 'active' : ''}
+                onClick={() => {
+
+                  setActiveTab('signup');
+
+                  setError(null);
+                  setSuccess(null);
+
+                  setShowForgotPassword(false);
+
+                }}
+              >
+                {t('sign_up')}
+              </button>
+
+            </div>
+
+
+            {/* =================================================
+                SIGN IN SECTION
+            ================================================= */}
+
+            {activeTab === 'signin' ? (
+
+              showForgotPassword ? (
+
+                /* FORGOT PASSWORD FORM */
+
+                <form
+                  className="auth-form"
+                  onSubmit={handleResetPassword}
+                >
+
+                  <label>
+                    {t('email')}
+                  </label>
+
+                  <input
+                    type="email"
+                    placeholder="name@example.com"
+                    value={forgotData.email}
+                    onChange={(e) => {
+
+                      setForgotData({
+                        ...forgotData,
+                        email: e.target.value
+                      });
+
+                    }}
+                    required
+                  />
+
+
+                  <button
+                    type="button"
+                    className="btn secondary"
+                    onClick={handleForgotPassword}
+                  >
+                    {t('send_otp')}
+                  </button>
+
+
+                  <label>
+                    {t('otp')}
+                  </label>
+
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    maxLength="6"
+                    placeholder="Enter 6-digit OTP"
+                    value={forgotData.otp}
+                    onChange={(e) => {
+
+                      setForgotData({
+                        ...forgotData,
+                        otp: e.target.value.replace(/\D/g, '')
+                      });
+
+                    }}
+                    required
+                  />
+
+
+                  <label>
+                    {t('new_password')}
+                  </label>
+
+                  <input
+                    type="password"
+                    placeholder={t('new_password')}
+                    value={forgotData.password}
+                    onChange={(e) => {
+
+                      setForgotData({
+                        ...forgotData,
+                        password: e.target.value
+                      });
+
+                    }}
+                    required
+                  />
+
+
+                  {error && (
+                    <p className="errorr" style={{ color: 'red' }}>
+                      {error}
+                    </p>
+                  )}
+
+                  {success && (
+                    <p style={{ color: 'green' }}>
+                      {success}
+                    </p>
+                  )}
+
+
+                  <button
+                    type="submit"
+                    className="btn primary"
+                  >
+                    {t('reset_password')}
+                  </button>
+
+
+                  <button
+                    type="button"
+                    className="btn secondary"
+                    onClick={() => {
+
+                      setShowForgotPassword(false);
+
+                      setError(null);
+                      setSuccess(null);
+
+                    }}
+                  >
+                    {t('back_to_login')}
+                  </button>
+
+                </form>
+
+              ) : (
+
+                /* LOGIN FORM */
+
+                <form
+                  className="auth-form"
+                  onSubmit={handleLogin}
+                >
+
+                  <label>
+                    {t('username')}
+                  </label>
+
+                  <input
+                    type="text"
+                    placeholder={t('username_placeholder')}
+                    value={loginData.username}
+                    onChange={(e) => {
+
+                      setLoginData({
+                        ...loginData,
+                        username: e.target.value
+                      });
+
+                    }}
+                    required
+                  />
+
+
+                  <label>
+                    {t('password')}
+                  </label>
+
+                  <div className="password-wrapper">
+
+                    <input
+                      type={showLoginPassword ? 'text' : 'password'}
+                      placeholder={t('password')}
+                      value={loginData.password}
+                      onChange={(e) => {
+
+                        setLoginData({
+                          ...loginData,
+                          password: e.target.value
+                        });
+
+                      }}
+                      required
+                    />
+
+                    <span
+                      className="eye-icon"
+                      onClick={() => {
+                        setShowLoginPassword(!showLoginPassword);
+                      }}
+                    >
+                      {showLoginPassword
+                        ? <FaEyeSlash />
+                        : <FaEye />
+                      }
+                    </span>
+
+                  </div>
+
+
+                  <p
+                    className="forgot-password-link"
+                    onClick={() => {
+
+                      setShowForgotPassword(true);
+
+                      setError(null);
+                      setSuccess(null);
+
+                    }}
+                  >
+                    {t('forgot_password')}
+                  </p>
+
+
+                  {error && (
+                    <p className="errorr" style={{ color: 'red' }}>
+                      {error}
+                    </p>
+                  )}
+
+                  {success && (
+                    <p style={{ color: 'green' }}>
+                      {success}
+                    </p>
+                  )}
+
+
+                  <button
+                    type="submit"
+                    className="btn primary"
+                  >
+                    {t('sign_in')}
+                  </button>
+
+                </form>
+
+              )
+
+            ) : (
+
+              /* =================================================
+                  NORMAL SIGNUP FORM - NO OTP
+              ================================================= */
 
               <form
                 className="auth-form"
-                onSubmit={handleResetPassword}
+                onSubmit={handleSignup}
               >
 
-                <label>{t("email")}</label>
-
-                <input
-                  type="email"
-                  value={forgotData.email}
-                  onChange={(e) =>
-                    setForgotData({
-                      ...forgotData,
-                      email: e.target.value
-                    })
-                  }
-                  required
-                />
-
-                <button
-                  type="button"
-                  className="btn secondary"
-                  onClick={handleForgotPassword}
-                >
-                  {t("send_otp")}
-                </button>
-
-                <label>{t("otp")}</label>
+                <label>
+                  {t('username')}
+                </label>
 
                 <input
                   type="text"
-                  value={forgotData.otp}
-                  onChange={(e) =>
-                    setForgotData({
-                      ...forgotData,
-                      otp: e.target.value
-                    })
-                  }
+                  placeholder="John_Doe12"
+                  value={signupData.username}
+                  onChange={(e) => {
+
+                    setSignupData({
+                      ...signupData,
+                      username: e.target.value
+                    });
+
+                  }}
                   required
                 />
 
-                <label>{t("new_password")}</label>
+
+                <label>
+                  {t('email')}
+                </label>
 
                 <input
-                  type="password"
-                  value={forgotData.password}
-                  onChange={(e) =>
-                    setForgotData({
-                      ...forgotData,
-                      password: e.target.value
-                    })
-                  }
+                  type="email"
+                  placeholder="name@example.com"
+                  value={signupData.email}
+                  onChange={(e) => {
+
+                    setSignupData({
+                      ...signupData,
+                      email: e.target.value
+                    });
+
+                  }}
                   required
                 />
 
+
+                <label>
+                  {t('password')}
+                </label>
+
+                <div className="password-wrapper">
+
+                  <input
+                    type={showSignupPassword ? 'text' : 'password'}
+                    placeholder={t('password')}
+                    value={signupData.password}
+                    onChange={(e) => {
+
+                      setSignupData({
+                        ...signupData,
+                        password: e.target.value
+                      });
+
+                    }}
+                    required
+                  />
+
+                  <span
+                    className="eye-icon"
+                    onClick={() => {
+                      setShowSignupPassword(!showSignupPassword);
+                    }}
+                  >
+                    {showSignupPassword
+                      ? <FaEyeSlash />
+                      : <FaEye />
+                    }
+                  </span>
+
+                </div>
+
+
+                <label>
+                  {t('confirm_password')}
+                </label>
+
+                <div className="password-wrapper">
+
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    placeholder={t('confirm_password')}
+                    value={signupData.password2}
+                    onChange={(e) => {
+
+                      setSignupData({
+                        ...signupData,
+                        password2: e.target.value
+                      });
+
+                    }}
+                    required
+                  />
+
+                  <span
+                    className="eye-icon"
+                    onClick={() => {
+                      setShowConfirmPassword(!showConfirmPassword);
+                    }}
+                  >
+                    {showConfirmPassword
+                      ? <FaEyeSlash />
+                      : <FaEye />
+                    }
+                  </span>
+
+                </div>
+
+
                 {error && (
-                  <p style={{ color: "red" }}>
+                  <p className="errorr" style={{ color: 'red' }}>
                     {error}
                   </p>
                 )}
 
                 {success && (
-                  <p style={{ color: "green" }}>
+                  <p style={{ color: 'green' }}>
                     {success}
                   </p>
                 )}
+
 
                 <button
                   type="submit"
                   className="btn primary"
                 >
-                  {t("reset_password")}
-                </button>
-
-                <button
-                  type="button"
-                  className="btn secondary"
-                  onClick={() => {
-                    setShowForgotPassword(false);
-                    setError(null);
-                    setSuccess(null);
-                  }}
-                >
-                 {t("back_to_login")}
+                  {t('sign_up')}
                 </button>
 
               </form>
 
-              ) : (
+            )}
 
-            <form className="auth-form" onSubmit={handleLogin}>
-              <label>{t("username")}</label>
-              <input 
-              type="text" 
-             placeholder={t("username_placeholder")}
-              value={loginData.username}
-              onChange={(e) =>
-                setLoginData({ ...loginData, username: e.target.value })
-              }
-              required />
+          </div>
 
-              <label>{t("password")}</label>
-              <div className="password-wrapper">
-                <input
-                  type={showLoginPassword ? "text" : "password"}
-                  placeholder={t("password")}
-                  value={loginData.password}
-                  onChange={(e) =>
-                    setLoginData({ ...loginData, password: e.target.value })
-                  }
-                  required
-                />
+        </section>
 
-                <span
-                  className="eye-icon"
-                  onClick={() => setShowLoginPassword(!showLoginPassword)}
-                >
-                  {showLoginPassword ? <FaEyeSlash /> : <FaEye />}
-                </span>
-              </div>
-              <p
-                className="forgot-password-link"
-                onClick={() => {
-                  setShowForgotPassword(true);
-                  setError(null);
-                  setSuccess(null);
-                }}
-              >
-                {t("forgot_password")}
-              </p>
-              {error && <p className="errorr" style={{ color: "red" }}>{error}</p>}
-              {success && (
-                <p style={{ color: "green" }}>
-                  {success}
-                </p>
-              )}
-              <button type="submit" className="btn primary">{t("sign_in")}</button>
+      </div>
 
-            </form>
-            )
-            ) : (
-            <form className="auth-form" onSubmit={handleSignup}>
-              <label>{t("username")}
-</label>
-              <input 
-              type="text" 
-              placeholder="John_Doe12" 
-              value={signupData.username}
-              onChange={(e) =>
-                setSignupData({ ...signupData, username: e.target.value })
-              }
-              required />
+      <Footer />
 
-              <label>{t("email")}</label>
-              <input 
-              type="email" 
-              placeholder="name@example.com" 
-              value={signupData.email}
-              onChange={(e) =>
-                setSignupData({ ...signupData, email: e.target.value })
-              }
-              required />
-
-              <label>{t("password")}</label>
-              <div className="password-wrapper">
-                <input
-                  type={showSignupPassword ? "text" : "password"}
-                  placeholder="password"
-                  value={signupData.password}
-                  onChange={(e) =>
-                    setSignupData({ ...signupData, password: e.target.value })
-                  }
-                  required
-                />
-
-                <span
-                  className="eye-icon"
-                  onClick={() => setShowSignupPassword(!showSignupPassword)}
-                >
-                  {showSignupPassword  ? <FaEyeSlash /> : <FaEye />}
-                </span>
-              </div>
-
-              <label>{t("confirm_password")}</label>
-              <div className="password-wrapper">
-                <input
-                  type={showConfirmPassword ? "text" : "password"}
-                  placeholder="password"
-                  value={signupData.password2}
-                  onChange={(e) =>
-                    setSignupData({ ...signupData, password2: e.target.value })
-                  }
-                  required
-                />
-
-                <span
-                  className="eye-icon"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                >
-                  {showConfirmPassword  ? <FaEyeSlash /> : <FaEye />}
-                </span>
-              </div>
-
-              {error && <p className="errorr" style={{ color: "red" }}>{error}</p>}
-              {success && (
-                <p style={{ color: "green" }}>
-                  {success}
-                </p>
-              )}
-              <button type="submit" className="btn primary">{t("sign_up")}</button>
-            </form>
-          )}
-        </div>
-      </section>
-    </div>
-    <Footer/>
     </>
   );
+
 };
 
 export default Landing;
